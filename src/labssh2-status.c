@@ -40,9 +40,9 @@ static const char* UNKNOWN_STATUS = "Unknown status";
 int
 labssh2_status_code(labssh2_status_t status) {
     switch (status) {
-        case LABPACK_STATUS_OK: return 0;
-        case LABPACK_STATUS_ERROR_OUT_OF_MEMORY: return -1;
-        case LABPACK_STATUS_ERROR_NULL_VALUE: return -2;                                     
+        case LABSSH2_STATUS_OK: return 0;
+        case LABSSH2_STATUS_ERROR_OUT_OF_MEMORY: return -1;
+        case LABSSH2_STATUS_ERROR_NULL_VALUE: return -2;                                     
         default: assert(UNKNOWN_STATUS);
     }
     return 1;
@@ -51,9 +51,9 @@ labssh2_status_code(labssh2_status_t status) {
 const char*
 labssh2_status_string(labssh2_status_t status) {
     switch (status) {
-        case LABPACK_STATUS_OK: return "No Error";
-        case LABPACK_STATUS_ERROR_OUT_OF_MEMORY: return "Out of Memory Error";
-        case LABPACK_STATUS_ERROR_NULL_VALUE: return "Null Value Error";
+        case LABSSH2_STATUS_OK: return "No Error";
+        case LABSSH2_STATUS_ERROR_OUT_OF_MEMORY: return "Out of Memory Error";
+        case LABSSH2_STATUS_ERROR_NULL_VALUE: return "Null Value Error";
         default: assert(UNKNOWN_STATUS);
     }
     return UNKNOWN_STATUS;
