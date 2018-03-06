@@ -1,4 +1,5 @@
 set(SOURCES
+    global.c
     status.c
     version.c
 )

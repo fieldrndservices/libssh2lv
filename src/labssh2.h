@@ -73,6 +73,18 @@ typedef enum _labssh2_status {
 } labssh2_status_t;
 
 /**
+ * @defgroup global Global API
+ *
+ * Initialize and shutdown the library.
+ *
+ * @{
+ */
+
+LABSSH2_API int labssh2_init();
+
+LABSSH2_API void labssh2_exit();
+
+/**
  * @defgroup utility Utility API
  *
  * Obtain library-specific and error/status information.

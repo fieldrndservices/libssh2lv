@@ -32,10 +32,9 @@
  */
 
 #include <assert.h>
+#include <libssh2.h>
 
 #include "labssh2-private.h"
-
-static const char* UNKNOWN_TYPE = "Unknown type";
 
 const char*
 labssh2_version()
@@ -59,5 +58,17 @@ unsigned int
 labssh2_version_patch()
 {
     return VERSION_PATCH;
+}
+
+int
+labssh2_init()
+{
+    return libssh2_init(0);
+}
+
+void
+labssh2_exit()
+{
+    libssh2_exit();
 }
 

@@ -31,31 +31,26 @@
  *   Christopher R. Field <chris@fieldrndservices.com>
  */
 
-#include <assert.h>
-
+#include "minunit.h"
 #include "labssh2.h"
 
-static const char* UNKNOWN_STATUS = "Unknown status";
-
-int
-labssh2_status_code(labssh2_status_t status) {
-    switch (status) {
-        case LABSSH2_STATUS_OK: return 0;
-        case LABSSH2_STATUS_ERROR_OUT_OF_MEMORY: return -1;
-        case LABSSH2_STATUS_ERROR_NULL_VALUE: return -2;
-        default: assert(UNKNOWN_STATUS);
-    }
-    return 1;
+MU_TEST(test_init_exit_works)
+{
+    int result = labssh2_init();
+    labssh2_exit();
+    mu_assert(result == 0, "Not expected value");
 }
 
-const char*
-labssh2_status_string(labssh2_status_t status) {
-    switch (status) {
-        case LABSSH2_STATUS_OK: return "No Error";
-        case LABSSH2_STATUS_ERROR_OUT_OF_MEMORY: return "Out of Memory Error";
-        case LABSSH2_STATUS_ERROR_NULL_VALUE: return "Null Value Error";
-        default: assert(UNKNOWN_STATUS);
-    }
-    return UNKNOWN_STATUS;
+MU_TEST_SUITE(status)
+{
+   MU_RUN_TEST(test_init_exit_works);
+}
+
+int 
+main(int argc, char* argv[]) 
+{
+   MU_RUN_SUITE(status);
+   MU_REPORT();
+   return minunit_fail;
 }
 
