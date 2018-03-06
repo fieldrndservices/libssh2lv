@@ -36,13 +36,13 @@
 
 MU_TEST(test_status_code_works)
 {
-    int code = labssh2_status_code(LABPACK_STATUS_OK);
+    int code = labssh2_status_code(LABSSH2_STATUS_OK);
     mu_assert(code == 0, "Not expected value");
 }
 
 MU_TEST(test_status_string_works)
 {
-    const char* text = labssh2_status_string(LABPACK_STATUS_OK);
+    const char* text = labssh2_status_string(LABSSH2_STATUS_OK);
     mu_assert_string_eq("No Error", text);
 }
 

@@ -3,7 +3,7 @@ set(SOURCES
     version.c
 )
 
-include_directories(${LabSSH2_SOURCE_DIR}/src)
+include_directories(${labssh2_SOURCE_DIR}/src)
 link_directories(${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
 foreach(SOURCE ${SOURCES})
