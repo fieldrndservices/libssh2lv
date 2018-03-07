@@ -34,6 +34,17 @@
 #include <assert.h>
 #include <libssh2.h>
 
+#ifdef _WIN32
+#include <windows.h>
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#else
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <sys/time.h>
+#endif
+
 #include "labssh2-private.h"
 
 const char*
@@ -70,5 +81,47 @@ void
 labssh2_exit()
 {
     libssh2_exit();
+}
+
+int
+labssh2_connect(char* server_ip)
+{
+    struct sockaddr_in sin;
+    socklen_t sinlen;
+#ifdef WIN32
+    char sockopt;
+    SOCKET sock = INVALID_SOCKET;
+    SOCKET listensock = INVALID_SOCKET, forwardsock = INVALID_SOCKET;
+    WSADATA wsadata;
+    int err;
+ 
+    err = WSAStartup(MAKEWORD(2,0), &wsadata);
+    if (err != 0) {
+        return err;
+    }
+#else
+    int sockopt, sock = -1;
+    int listensock = -1, forwardsock = -1;
+#endif    
+    sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
+#ifdef WIN32
+    if (sock == INVALID_SOCKET) {
+        return -1;
+    }
+#else
+    if (sock == -1) {
+        perror("socket");
+        return -1;
+    }
+#endif
+    sin.sin_family = AF_INET;
+    if (INADDR_NONE == (sin.sin_addr.s_addr = inet_addr(server_ip))) {
+        perror("inet_addr");
+        return -1;
+    }
+    sin.sin_port = htons(22);
+    if (connect(sock, (struct sockaddr*)(&sin), sizeof(struct sockaddr_in)) != 0) {
+        return -1;
+    }
 }
 

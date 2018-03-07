@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.9)
 project(labssh2 VERSION 0.1.0 LANGUAGES C)
 
 set(CMAKE_C_VISIBILITY_PRESET hidden)
+set(MACOS_OPENSSL_PATH /usr/local/opt/openssl/lib)
 
 # First for the generic no-config case (e.g. with mingw)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
