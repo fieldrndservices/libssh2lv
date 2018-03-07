@@ -31,6 +31,8 @@ Ensure all of the following dependencies are installed and up-to-date before pro
 - [Git](https://git-scm.com/)
 - [C/C++ Development Tools for NI Linux Real-Time, Eclipse Edition 2017](http://www.ni.com/download/labview-real-time-module-2017/6731/en/), NI Linux RT only
 - [Doxygen](http://www.doxygen.org), Documentation only
+- [OpenSSL](https://github.com/openssl/openssl)
+- [libssh2](https://github.com/libssh2/libssh2)
 
 ### Windows
 
@@ -44,7 +46,34 @@ The DLLs will be available in the `build32\bin` and `build64\bin` folders.
 
 ### macOS
 
-Ensure the command-line tools for [XCode](https://developer.apple.com/xcode/) have been installed along with [git](https://git-scm.com/) before proceeding. Start the Terminal.app. Run the following commands to obtain a copy of the source code from the repository and build the dynamic library (dylib):
+Ensure the command-line tools for [XCode](https://developer.apple.com/xcode/) have been installed along with [git](https://git-scm.com/) before proceeding. Start the Terminal.app. If OpenSSL is _not_ installed, use the following two options:
+
+```bash
+$ brew install openssl
+```
+
+or
+
+```bash
+$ git clone https://github.com/openssl/openssl.git
+$ cd openssl
+$ ./config
+$ make
+$ make install
+```
+
+OpenSSL is "deprecated" on macOS since Apple has developed their own cryptographic libraries, but Apple's libraries are currently not supported by libssh2. The Homebrew option does not automatically link the OpenSSL libraries and headers to the typical `/usr/local` path, which is included in the search path for cmake. Instead, use the `OPENSSL_ROOT_DIR` environment variable to specify the `/usr/local/opt/openssl` folder as part of the search path. A similar process can be used for the libssh2 library. For example,
+
+    $ git clone https://github.com/fieldrndservices/labssh2-c.git LabSSH2-C
+    $ cd LabSSH2-C
+    $ mkdir build && cd build
+    $ cmake -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl ..
+    $ cd ..
+    $ cmake --build build --config Release
+
+If compiling from the source without Homebrew, the OpenSSL libraries will be installed in the usual UNIX locations, i.e. `/usr/local` and the `OPENSSL_ROOT_DIR` does _not_ need to be used. The `make install` step can be skipped if OpenSSL is _not_ to be installed system wide. 
+
+Note, the static libraries are prioritized during the build of this library regardless of the procedure that is used to build and install the dependencies. The following commands will create a dynamic library (dylib) with OpenSSL and libssh2 statically linked:
 
     $ git clone https://github.com/fieldrndservices/labssh2-c.git LabSSH2-C
     $ cd LabSSH2-C
