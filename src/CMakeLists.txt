@@ -5,9 +5,9 @@ set(SOURCE
 )
 
 # Shared library build
-find_library(LIBSSH2 libssh2.a)
-find_library(LIBSSL libssl.a PATHS ${MACOS_OPENSSL_PATH})
-find_library(LIBCRYPTO libcrypto.a PATHS ${MACOS_OPENSSL_PATH})
+find_static_library(ssh2 LIBSSH2 ${LIBSSH2_ROOT_DIR}/bin)
+find_static_library(ssl LIBSSL ${OPENSSL_ROOT_DIR}/lib)
+find_static_library(crypto LIBCRYPTO ${OPENSSL_ROOT_DIR}/lib)
 add_library(shared SHARED ${SOURCE})
 set_target_properties(shared PROPERTIES OUTPUT_NAME ${OUTPUT_NAME})
 target_compile_definitions(shared PRIVATE LABSSH2_BUILD_SHARED)
