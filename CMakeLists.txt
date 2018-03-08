@@ -5,6 +5,40 @@ include(ExternalProject)
 
 set(CMAKE_C_VISIBILITY_PRESET hidden)
 
+ExternalProject_Add(OPENSSL
+    PREFIX openssl
+    GIT_REPOSITORY https://github.com/openssl/openssl.git
+    GIT_TAG OpenSSL_1_1_0g
+    UPDATE_DISCONNECTED YES
+    UPDATE_COMMAND ""
+    CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/openssl/src/OPENSSL/config no-shared
+    BUILD_IN_SOURCE YES
+    INSTALL_COMMAND ""
+)
+
+ExternalProject_Get_Property(OPENSSL BINARY_DIR)
+set(OPENSSL_ROOT_DIR ${BINARY_DIR})
+
+ExternalProject_Add(LIBSSH2
+    PREFIX libssh2
+    DEPENDS OPENSSL
+    GIT_REPOSITORY https://github.com/libssh2/libssh2.git
+    GIT_TAG libssh2-1.8.0
+    UPDATE_DISCONNECTED YES
+    UPDATE_COMMAND ""
+    CMAKE_ARGS -DCRYPTO_BACKEND=OpenSSL -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR}
+    INSTALL_COMMAND ""
+)
+
+ExternalProject_Get_Property(LIBSSH2 BINARY_DIR)
+set(LIBSSH2_ROOT_DIR ${BINARY_DIR}/src)
+
+if (WIN32 OR MSVC) 
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".lib")
+elseif (UNIX)
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+endif()
+
 # First for the generic no-config case (e.g. with mingw)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -30,21 +64,6 @@ add_definitions(
     -DVERSION_MINOR=${PROJECT_VERSION_MINOR}
     -DVERSION_PATCH=${PROJECT_VERSION_PATCH}
 )
-
-function(find_static_library LIB_NAME OUT)
-    if (WIN32 OR MSVC) 
-        set(CMAKE_FIND_LIBRARY_SUFFIXES ".lib")
-    elseif (UNIX)
-        set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
-    endif()
-    find_library(FOUND_${LIB_NAME}_STATIC ${LIB_NAME} PATHS ${ARGV2})
-    if (FOUND_${LIB_NAME}_STATIC)
-        get_filename_component(ABS_FILE ${FOUND_${LIB_NAME}_STATIC} ABSOLUTE)
-    else()
-        message(SEND_ERROR "Unable to find library ${LIB_NAME}, even at ${ARGV2}")
-    endif()
-    set(${OUT} ${ABS_FILE} PARENT_SCOPE)
-endfunction()
 
 add_subdirectory(src)
 enable_testing()
