@@ -4,36 +4,53 @@ project(labssh2 VERSION 0.1.0 LANGUAGES C)
 include(ExternalProject)
 
 set(CMAKE_C_VISIBILITY_PRESET hidden)
-set(OPENSSL_PREFIX "openssl")
-set(LIBSSH2_PREFIX "libssh2")
+set(EXTERNALS_PREFIX "externals")
+set(OPENSSL "openssl")
+set(LIBSSH2 "libssh2")
 
-ExternalProject_Add(OPENSSL
-    PREFIX ${OPENSSL_PREFIX}
+if(WIN32)
+    if("${CMAKE_GENERATOR}" MATCHES "(Win64|IA64)")
+        set(OPENSSL_CONFIGURE_COMMAND 
+            ${CMAKE_CURRENT_BINARY_DIR}/${EXTERNALS_PREFIX}/src/${OPENSSL}/perl Configure VC-WIN64A
+        ) 
+    else()
+        set(OPENSSL_CONFIGURE_COMMAND 
+            ${CMAKE_CURRENT_BINARY_DIR}/${EXTERNALS_PREFIX}/src/${OPENSSL}/perl Configure VC-WIN32
+        )
+    endif()
+else()
+    set(OPENSSL_CONFIGURE_COMMAND 
+        ${CMAKE_CURRENT_BINARY_DIR}/${EXTERNALS_PREFIX}/src/${OPENSSL}/config no-shared
+    )
+endif()
+
+ExternalProject_Add(${OPENSSL}
+    PREFIX ${EXTERNALS_PREFIX}
     GIT_REPOSITORY https://github.com/openssl/openssl.git
     GIT_TAG OpenSSL_1_1_0g
     UPDATE_DISCONNECTED YES
     UPDATE_COMMAND ""
-    CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${OPENSSL_PREFIX}/src/OPENSSL/config no-shared
+    CONFIGURE_COMMAND ${OPENSSL_CONFIGURE_COMMAND}
     BUILD_IN_SOURCE YES
     INSTALL_COMMAND ""
 )
 
-ExternalProject_Get_Property(OPENSSL BINARY_DIR)
-set(OPENSSL_ROOT_DIR ${BINARY_DIR})
+ExternalProject_Get_Property(${OPENSSL} BINARY_DIR)
+set(OPENSSL_BINARY_DIR ${BINARY_DIR})
 
-ExternalProject_Add(SSH2
-    PREFIX ${LIBSSH2_PREFIX}
-    DEPENDS OPENSSL
+ExternalProject_Add(${LIBSSH2}
+    PREFIX ${EXTERNALS_PREFIX}
+    DEPENDS ${OPENSSL}
     GIT_REPOSITORY https://github.com/libssh2/libssh2.git
     GIT_TAG libssh2-1.8.0
     UPDATE_DISCONNECTED YES
     UPDATE_COMMAND ""
-    CMAKE_ARGS -DCRYPTO_BACKEND=OpenSSL -DOPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR}
+    CMAKE_ARGS -DCRYPTO_BACKEND=OpenSSL -DOPENSSL_ROOT_DIR=${OPENSSL_BINARY_DIR}
     INSTALL_COMMAND ""
 )
 
-ExternalProject_Get_Property(SSH2 BINARY_DIR)
-set(LIBSSH2_ROOT_DIR ${BINARY_DIR}/src)
+ExternalProject_Get_Property(${LIBSSH2} BINARY_DIR)
+set(LIBSSH2_BINARY_DIR ${BINARY_DIR}/src)
 
 # First for the generic no-config case (e.g. with mingw)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
