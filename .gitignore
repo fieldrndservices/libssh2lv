@@ -4,3 +4,5 @@ build
 build*
 !build.bat
 .DS_Store
+openssl
+libssh2
