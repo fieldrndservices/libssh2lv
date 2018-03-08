@@ -5,11 +5,10 @@ set(SOURCE
 )
 
 # Shared library build
-find_library(LIBSSH2 NAMES libssh2.a ssh2 PATHS ${LIBSSH2_ROOT_DIR})
-find_library(LIBSSL NAMES libssl.a ssl PATHS ${OPENSSL_ROOT_DIR})
-find_library(LIBCRYPTO NAMES libcrypto.a crypto PATHS ${OPENSSL_ROOT_DIR})
+link_directories(${LIBSSH2_ROOT_DIR} ${OPENSSL_ROOT_DIR})
 add_library(shared SHARED ${SOURCE})
 set_target_properties(shared PROPERTIES OUTPUT_NAME ${OUTPUT_NAME})
 target_compile_definitions(shared PRIVATE LABSSH2_BUILD_SHARED)
-target_link_libraries(shared ${LIBSSH2} ${LIBSSL} ${LIBCRYPTO})
+target_link_libraries(shared ssh2 ssl crypto)
+add_dependencies(shared SSH2 OPENSSL)
 
