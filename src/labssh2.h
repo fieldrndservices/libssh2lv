@@ -40,6 +40,8 @@
 #ifndef LABSSH2_H
 #define LABSSH2_H
 
+#include <stdbool.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -94,6 +96,8 @@ LABSSH2_API labssh2_t* labssh2_create();
 LABSSH2_API void labssh2_destroy(labssh2_t* ctx);
 LABSSH2_API labssh2_status_t labssh2_status(labssh2_t* ctx);
 LABSSH2_API const char* labssh2_status_message(labssh2_t* ctx);
+LABSSH2_API int labssh2_status_cause(labssh2_t* ctx);
+LABSSH2_API bool labssh2_is_ok(labssh2_t* ctx);
 
 /**
  * @defgroup utility Utility API

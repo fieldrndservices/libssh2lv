@@ -47,7 +47,7 @@ labssh2_status_code(labssh2_status_t status) {
         case LABSSH2_STATUS_ERROR_LIBSSH2_INITIALIZATION: return -4;
         case LABSSH2_STATUS_ERROR_CONNECTION: return -5;
         case LABSSH2_STATUS_ERROR_SESSION_INITIALIZATION: return -6;
-        case LABSSH2_STATUS_ERROR_SESSION_ESTABLISHMEN: return -7;
+        case LABSSH2_STATUS_ERROR_SESSION_ESTABLISHMENT: return -7;
         default: assert(UNKNOWN_STATUS);
     }
     return 1;
@@ -63,7 +63,7 @@ labssh2_status_string(labssh2_status_t status) {
         case LABSSH2_STATUS_ERROR_LIBSSH2_INITIALIZATION: "libssh2 Inititalization Error";
         case LABSSH2_STATUS_ERROR_CONNECTION: return "Connection Error";
         case LABSSH2_STATUS_ERROR_SESSION_INITIALIZATION: return "Session Initialization Error";
-        case LABSSH2_STATUS_ERROR_SESSION_ESTABLISHMEN: return "Session Establishment Error";
+        case LABSSH2_STATUS_ERROR_SESSION_ESTABLISHMENT: return "Session Establishment Error";
         default: assert(UNKNOWN_STATUS);
     }
     return UNKNOWN_STATUS;
