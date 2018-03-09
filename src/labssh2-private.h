@@ -36,5 +36,15 @@
 
 #include "labssh2.h"
 
+struct _labssh2 {
+    char* hostname;
+    size_t hostname_len;
+    char* username;
+    size_t username_len;
+    labssh2_status_t status;
+    const char* status_message;
+    int status_cause;
+}
+
 #endif
 

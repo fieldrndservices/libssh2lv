@@ -43,6 +43,11 @@ labssh2_status_code(labssh2_status_t status) {
         case LABSSH2_STATUS_OK: return 0;
         case LABSSH2_STATUS_ERROR_OUT_OF_MEMORY: return -1;
         case LABSSH2_STATUS_ERROR_NULL_VALUE: return -2;
+        case LABSSH2_STATUS_ERROR_WSASTARTUP: return -3;                                     
+        case LABSSH2_STATUS_ERROR_LIBSSH2_INITIALIZATION: return -4;
+        case LABSSH2_STATUS_ERROR_CONNECTION: return -5;
+        case LABSSH2_STATUS_ERROR_SESSION_INITIALIZATION: return -6;
+        case LABSSH2_STATUS_ERROR_SESSION_ESTABLISHMEN: return -7;
         default: assert(UNKNOWN_STATUS);
     }
     return 1;
@@ -54,6 +59,11 @@ labssh2_status_string(labssh2_status_t status) {
         case LABSSH2_STATUS_OK: return "No Error";
         case LABSSH2_STATUS_ERROR_OUT_OF_MEMORY: return "Out of Memory Error";
         case LABSSH2_STATUS_ERROR_NULL_VALUE: return "Null Value Error";
+        case LABSSH2_STATUS_ERROR_WSASTARTUP: return "WSAStartup Error";
+        case LABSSH2_STATUS_ERROR_LIBSSH2_INITIALIZATION: "libssh2 Inititalization Error";
+        case LABSSH2_STATUS_ERROR_CONNECTION: return "Connection Error";
+        case LABSSH2_STATUS_ERROR_SESSION_INITIALIZATION: return "Session Initialization Error";
+        case LABSSH2_STATUS_ERROR_SESSION_ESTABLISHMEN: return "Session Establishment Error";
         default: assert(UNKNOWN_STATUS);
     }
     return UNKNOWN_STATUS;
