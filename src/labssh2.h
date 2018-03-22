@@ -82,10 +82,16 @@ typedef enum _labssh2_session_blocking {
     LABSSH2_SESSION_BLOCKING = 1
 } labssh2_session_blocking_t;
 
-typedef enum _labssh2_hash_type {
-    LABSSH2_HASH_TYPE_MD5 = 0,
-    LABSSH2_HASH_TYPE_SHA1 = 1
-} labssh2_hash_type_t;
+typedef enum _labssh2_hostkey_hash_type {
+    LABSSH2_HOSTKEY_HASH_TYPE_MD5 = 0,
+    LABSSH2_HOSTKEY_HASH_TYPE_SHA1 = 1
+} labssh2_hostkey_hash_type_t;
+
+typedef enum _labssh2_hostkey_type {
+    LABSSH2_HOSTKEY_TYPE_RSA = 0,
+    LABSSH2_HOSTKEY_TYPE_DSS = 1,
+    LABSSH2_HOSTKEY_TYPE_UNKNOWN = 2
+} labssh2_hostkey_type_t;
 
 /**
  * The context
@@ -123,31 +129,49 @@ LABSSH2_API bool labssh2_is_err(labssh2_t* ctx);
  * @{
  */
 
-LABSSH2_API labssh2_session_t* labssh2_session_create(
+LABSSH2_API labssh2_session_t* 
+labssh2_session_create(
     labssh2_t* ctx
 );
-LABSSH2_API void labssh2_session_destroy(
+LABSSH2_API void 
+labssh2_session_destroy(
     labssh2_t* ctx, 
     labssh2_session_t* session
 );
-LABSSH2_API void labssh2_session_connect(
+LABSSH2_API void 
+labssh2_session_connect(
     labssh2_t* ctx, 
     labssh2_session_t* session, 
     uintptr_t socket
 );
-LABSSH2_API void labssh2_session_disconnect(
+LABSSH2_API void 
+labssh2_session_disconnect(
     labssh2_t* ctx, 
     labssh2_session_t* session, 
     const char* description
 );
-LABSSH2_API size_t labssh2_session_hostkey_hash_len(
-    labssh2_hash_type_t type
+LABSSH2_API size_t 
+labssh2_session_hostkey_hash_len(
+    labssh2_hostkey_hash_type_t type
 );
-LABSSH2_API void labssh2_session_hostkey_hash(
+LABSSH2_API void 
+labssh2_session_hostkey_hash(
     labssh2_t* ctx, 
     labssh2_session_t* session, 
-    labssh2_hash_type_t type,
+    labssh2_hostkey_hash_type_t type,
     uint8_t* buffer
+);
+LABSSH2_API size_t
+labssh2_session_hostkey_len(
+    labssh2_t* ctx,
+    labssh2_session_t* session
+);
+LABSSH2_API void
+labssh2_session_hostkey(
+    labssh2_t* ctx,
+    labssh2_session_t* session,
+    uint8_t* buffer,
+    labssh2_hostkey_type_t* type
 );
 
 /**

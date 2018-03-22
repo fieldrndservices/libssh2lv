@@ -45,8 +45,9 @@
 static const char* NULL_SESSION = "The session cannot be NULL";
 
 labssh2_session_t*
-labssh2_session_create(labssh2_t* ctx)
-{
+labssh2_session_create(
+    labssh2_t* ctx
+) {
     assert(ctx);
     LIBSSH2_SESSION* inner = libssh2_session_init_ex(NULL, NULL, NULL, NULL);
     if (inner != NULL) {
@@ -70,8 +71,10 @@ labssh2_session_create(labssh2_t* ctx)
 }
 
 void
-labssh2_session_destroy(labssh2_t* ctx, labssh2_session_t* session)
-{
+labssh2_session_destroy(
+    labssh2_t* ctx, 
+    labssh2_session_t* session
+) {
     int result = 0;
     libssh2_session_set_blocking(session->inner, LABSSH2_SESSION_BLOCKING);
     result = libssh2_session_free(session->inner);
@@ -85,8 +88,11 @@ labssh2_session_destroy(labssh2_t* ctx, labssh2_session_t* session)
 }
 
 void 
-labssh2_session_connect(labssh2_t* ctx, labssh2_session_t* session, uintptr_t socket)
-{
+labssh2_session_connect(
+    labssh2_t* ctx, 
+    labssh2_session_t* session, 
+    uintptr_t socket
+) {
     assert(ctx);
     if (labssh2_is_err(ctx)) {
         return;
@@ -106,8 +112,11 @@ labssh2_session_connect(labssh2_t* ctx, labssh2_session_t* session, uintptr_t so
 }
 
 void 
-labssh2_session_disconnect(labssh2_t* ctx, labssh2_session_t* session, const char* description)
-{
+labssh2_session_disconnect(
+    labssh2_t* ctx, 
+    labssh2_session_t* session, 
+    const char* description
+) {
     assert(ctx);
     if (labssh2_is_err(ctx)) {
         return;
@@ -123,26 +132,31 @@ labssh2_session_disconnect(labssh2_t* ctx, labssh2_session_t* session, const cha
 }
 
 size_t
-labssh2_session_hostkey_hash_len(labssh2_hash_type_t type)
-{
+labssh2_session_hostkey_hash_len(
+    labssh2_hostkey_hash_type_t type
+) {
     switch (type) {
-        case LABSSH2_HASH_TYPE_MD5: return 16;
-        case LABSSH2_HASH_TYPE_SHA1: return 20;
+        case LABSSH2_HOSTKEY_HASH_TYPE_MD5: return 16;
+        case LABSSH2_HOSTKEY_HASH_TYPE_SHA1: return 20;
         default:
           assert("Unknown host key hash algorithm");
     }
 }
 
 void 
-labssh2_session_hostkey_hash(labssh2_t* ctx, labssh2_session_t* session, labssh2_hash_type_t type, uint8_t* buffer)
-{
+labssh2_session_hostkey_hash(
+    labssh2_t* ctx, 
+    labssh2_session_t* session, 
+    labssh2_hostkey_hash_type_t type, 
+    uint8_t* buffer
+) {
     assert(ctx);
     if (labssh2_is_err(ctx)) {
         return;
     }
     if (session == NULL) {
         ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
-        ctx->source = "labssh2_session_disconnect";
+        ctx->source = "labssh2_session_hostkey_hash";
         ctx->message = NULL_SESSION;
     } else {
         const char* hash = libssh2_hostkey_hash(session->inner, type);
@@ -152,6 +166,62 @@ labssh2_session_hostkey_hash(labssh2_t* ctx, labssh2_session_t* session, labssh2
             ctx->message = "Either the session has not yet been started up, or the requested hash algorithm was not available";
         } else {
             memcpy(buffer, hash, labssh2_session_hostkey_hash_len(type));
+        }
+    }
+}
+
+size_t
+labssh2_session_hostkey_len(
+    labssh2_t* ctx, 
+    labssh2_session_t* session
+) {
+    assert(ctx);
+    if (labssh2_is_err(ctx)) {
+        return 0;
+    }
+    if (session == NULL) {
+        ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
+        ctx->source = "labssh2_session_hostkey_len";
+        ctx->message = NULL_SESSION;
+        return 0;
+    } else {
+        size_t len = 0;
+        int type = 0;
+        libssh2_session_hostkey(session->inner, &len, &type);
+        return len;
+    }
+}
+
+void
+labssh2_session_hostkey(
+    labssh2_t* ctx, 
+    labssh2_session_t* session, 
+    uint8_t* buffer, 
+    labssh2_hostkey_type_t* type
+) {
+    assert(ctx);
+    if (labssh2_is_err(ctx)) {
+        return;
+    }
+    if (session == NULL) {
+        ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
+        ctx->source = "labssh2_session_hostkey";
+        ctx->message = NULL_SESSION;
+    } else {
+        size_t len = 0;
+        int libssh2_type = 0;
+        const char* hostkey = libssh2_session_hostkey(session->inner, &len, &libssh2_type);
+        if (hostkey == NULL) {
+            ctx->status = LABSSH2_STATUS_ERROR_SESSION;
+            ctx->source = "labssh2_session_hostkey";
+            ctx->message = "Something went wrong";
+        } else {
+            memcpy(buffer, hostkey, len);
+            switch (libssh2_type) {
+                case LIBSSH2_HOSTKEY_TYPE_RSA: *type = LABSSH2_HOSTKEY_TYPE_RSA; break;
+                case LIBSSH2_HOSTKEY_TYPE_DSS: *type = LABSSH2_HOSTKEY_TYPE_DSS; break;
+                default: *type = LABSSH2_HOSTKEY_TYPE_UNKNOWN;
+            }
         }
     }
 }
