@@ -38,6 +38,11 @@
 
 struct _labssh2_knownhosts {
     LIBSSH2_KNOWNHOSTS* inner;
+    labssh2_knownhost_t* prev;
+};
+
+struct _labssh2_knownhost {
+    struct libssh2_knownhost* inner;
 };
 
 #endif

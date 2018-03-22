@@ -95,7 +95,7 @@ void
 labssh2_knownhosts_next(
     labssh2_t* ctx,
     labssh2_knownhosts_t* knownhosts,
-    labssh2_knownhost_t* knownhost,
+    labssh2_knownhost_t* knownhost
 ) {
     assert(ctx);
     if (labssh2_is_err(ctx)) {

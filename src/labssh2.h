@@ -109,6 +109,7 @@ typedef struct _labssh2_session labssh2_session_t;
  */
 typedef struct _labssh2_knownhosts labssh2_knownhosts_t;
 
+typedef struct _labssh2_knownhost labssh2_knownhost_t;
 
 /**
  * @defgroup global Global API
