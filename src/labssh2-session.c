@@ -33,6 +33,7 @@
 
 #include <assert.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 #include "libssh2.h"
 

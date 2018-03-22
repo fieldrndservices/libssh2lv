@@ -70,6 +70,10 @@ ExternalProject_Add(${LIBSSH2}
 
 ExternalProject_Get_Property(${LIBSSH2} BINARY_DIR)
 set(LIBSSH2_BINARY_DIR ${BINARY_DIR})
+ExternalProject_Get_Property(${LIBSSH2} SOURCE_DIR)
+set(LIBSSH2_SOURCE_DIR ${SOURCE_DIR})
+set(LIBSSH2_ARCHIVE_DIR ${LIBSSH2_BINARY_DIR}/src)
+set(LIBSSH2_INCLUDE_DIR ${LIBSSH2_SOURCE_DIR}/${LIBSSH2}/include)
 
 add_definitions(
     -DVERSION="${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}"
@@ -79,6 +83,6 @@ add_definitions(
 )
 
 add_subdirectory(src)
-enable_testing()
-add_subdirectory(tests)
+#enable_testing()
+#add_subdirectory(tests)
 
