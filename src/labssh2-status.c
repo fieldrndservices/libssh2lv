@@ -44,9 +44,10 @@ int
 labssh2_status_code(labssh2_status_t status) {
     switch (status) {
         case LABSSH2_STATUS_OK: return 0;
-        case LABSSH2_STATUS_ERROR_OUT_OF_MEMORY: return -1;
+        case LABSSH2_STATUS_ERROR_MEMORY: return -1;
         case LABSSH2_STATUS_ERROR_NULL_VALUE: return -2;
         case LABSSH2_STATUS_ERROR_SESSION: return -3;
+        case LABSSH2_STATUS_ERROR_KNOWNHOSTS: return -4;
         default: assert(UNKNOWN_STATUS);
     }
     return 1;
@@ -56,9 +57,10 @@ const char*
 labssh2_status_string(labssh2_status_t status) {
     switch (status) {
         case LABSSH2_STATUS_OK: return "No Error";
-        case LABSSH2_STATUS_ERROR_OUT_OF_MEMORY: return "Out of Memory Error";
+        case LABSSH2_STATUS_ERROR_MEMORY: return "Out of Memory Error";
         case LABSSH2_STATUS_ERROR_NULL_VALUE: return "Null Value Error";
         case LABSSH2_STATUS_ERROR_SESSION: return "Session Error";
+        case LABSSH2_STATUS_ERROR_KNOWNHOSTS: return "Known Hosts Error";
         default: assert(UNKNOWN_STATUS);
     }
     return UNKNOWN_STATUS;

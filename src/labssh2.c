@@ -41,7 +41,7 @@
 #include "labssh2-private.h"
 
 static labssh2_t OUT_OF_MEMORY_CONTEXT = {
-    LABSSH2_STATUS_ERROR_OUT_OF_MEMORY,              // Status
+    LABSSH2_STATUS_ERROR_MEMORY,                     // Status
     "labssh2_create",                                // Source
     "Not enough memory available to create context", // Message
 };

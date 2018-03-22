@@ -1,8 +1,9 @@
 set(SOURCE 
     labssh2.c
     labssh2.h
-    labssh2-status.c
+    labssh2-knownhosts.c
     labssh2-session.c
+    labssh2-status.c
 )
 
 add_library(shared SHARED ${SOURCE})

@@ -49,6 +49,9 @@ labssh2_session_create(
     labssh2_t* ctx
 ) {
     assert(ctx);
+    if (labssh2_is_err(ctx)) {
+        return NULL;
+    }
     LIBSSH2_SESSION* inner = libssh2_session_init_ex(NULL, NULL, NULL, NULL);
     if (inner != NULL) {
         labssh2_session_t* session = malloc(sizeof(labssh2_session_t));
@@ -57,7 +60,7 @@ labssh2_session_create(
             return session;
         } else {
             libssh2_session_free(inner);
-            ctx->status = LABSSH2_STATUS_ERROR_SESSION;
+            ctx->status = LABSSH2_STATUS_ERROR_MEMORY;
             ctx->source = "malloc";
             ctx->message = "Could not allocate memory to create session";
             return NULL;
@@ -75,9 +78,8 @@ labssh2_session_destroy(
     labssh2_t* ctx, 
     labssh2_session_t* session
 ) {
-    int result = 0;
     libssh2_session_set_blocking(session->inner, LABSSH2_SESSION_BLOCKING);
-    result = libssh2_session_free(session->inner);
+    int result = libssh2_session_free(session->inner);
     if (result != 0) {
         ctx->status = LABSSH2_STATUS_ERROR_SESSION;
         ctx->source = "libssh2_session_free";

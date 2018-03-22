@@ -72,9 +72,10 @@ extern "C" {
 typedef enum _labssh2_status {
     LABSSH2_STATUS_OK = 0,
 
-    LABSSH2_STATUS_ERROR_OUT_OF_MEMORY,
+    LABSSH2_STATUS_ERROR_MEMORY,
     LABSSH2_STATUS_ERROR_NULL_VALUE,
-    LABSSH2_STATUS_ERROR_SESSION
+    LABSSH2_STATUS_ERROR_SESSION,
+    LABSSH2_STATUS_ERROR_KNOWNHOSTS,
 } labssh2_status_t;
 
 typedef enum _labssh2_session_blocking {
@@ -102,6 +103,12 @@ typedef struct _labssh2 labssh2_t;
  * The session
  */
 typedef struct _labssh2_session labssh2_session_t;
+
+/**
+ * The known hosts
+ */
+typedef struct _labssh2_knownhosts labssh2_knownhosts_t;
+
 
 /**
  * @defgroup global Global API
@@ -172,6 +179,27 @@ labssh2_session_hostkey(
     labssh2_session_t* session,
     uint8_t* buffer,
     labssh2_hostkey_type_t* type
+);
+
+/**
+ * @}
+ */
+
+/**
+ * @defgroup global Known Hosts API
+ *
+ * @{
+ */
+
+LABSSH2_API labssh2_knownhosts_t* 
+labssh2_knownhosts_create(
+    labssh2_t* ctx,
+    labssh2_session_t* session
+);
+LABSSH2_API void 
+labssh2_knownhosts_destroy(
+    labssh2_t* ctx, 
+    labssh2_knownhosts_t* knownhosts
 );
 
 /**
