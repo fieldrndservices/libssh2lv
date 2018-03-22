@@ -31,14 +31,13 @@
  *   Christopher R. Field <chris@fieldrndservices.com>
  */
 
-#ifndef LABSSH2_KNOWNHOSTS_PRIVATE_H
-#define LABSSH2_KNOWNHOSTS_PRIVATE_H
+#ifndef LABSSH2_KNOWNHOST_PRIVATE_H
+#define LABSSH2_KNOWNHOST_PRIVATE_H
 
 #include "labssh2.h"
 
-struct _labssh2_knownhosts {
-    LIBSSH2_KNOWNHOSTS* inner;
-    labssh2_knownhost_t* prev;
+struct _labssh2_knownhost {
+    struct libssh2_knownhost* inner;
 };
 
 #endif

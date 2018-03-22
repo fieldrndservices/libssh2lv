@@ -109,6 +109,9 @@ typedef struct _labssh2_session labssh2_session_t;
  */
 typedef struct _labssh2_knownhosts labssh2_knownhosts_t;
 
+/**
+ * The known hosts
+ */
 typedef struct _labssh2_knownhost labssh2_knownhost_t;
 
 /**
@@ -199,13 +202,39 @@ labssh2_knownhosts_create(
 );
 LABSSH2_API void 
 labssh2_knownhosts_destroy(
-    labssh2_t* ctx, 
     labssh2_knownhosts_t* knownhosts
 );
 
 /**
  * @}
  */
+
+/**
+ * @defgroup global Known Host API
+ *
+ * @{
+ */
+
+LABSSH2_API labssh2_knownhost_t* 
+labssh2_knownhost_create(
+    labssh2_t* ctx
+);
+LABSSH2_API void 
+labssh2_knownhost_destroy(
+    labssh2_knownhost_t* knownhosts
+);
+LABSSH2_API void
+labssh2_knownhosts_get(
+    labssh2_t* ctx,
+    labssh2_knownhosts_t* knownhosts,
+    labssh2_knownhost_t* knownhost,
+    bool* done
+);
+ 
+/**
+ * @}
+ */
+
 
 /**
  * @defgroup utility Utility API

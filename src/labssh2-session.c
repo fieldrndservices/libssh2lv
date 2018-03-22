@@ -78,6 +78,8 @@ labssh2_session_destroy(
     labssh2_t* ctx, 
     labssh2_session_t* session
 ) {
+    assert(ctx);
+    assert(session);
     libssh2_session_set_blocking(session->inner, LABSSH2_SESSION_BLOCKING);
     int result = libssh2_session_free(session->inner);
     if (result != 0) {

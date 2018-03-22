@@ -41,6 +41,7 @@
 #include "labssh2-private.h"
 #include "labssh2-session-private.h"
 #include "labssh2-status-private.h"
+#include "labssh2-knownhost-private.h"
 #include "labssh2-knownhosts-private.h"
 
 static const char* NULL_KNOWNHOSTS = "The known hosts cannot be NULL";
@@ -65,6 +66,7 @@ labssh2_knownhosts_create(
         labssh2_knownhosts_t* knownhosts = malloc(sizeof(labssh2_knownhosts_t));
         if (knownhosts != NULL) {
             knownhosts->inner = inner;
+            knownhosts->prev = NULL;
             return knownhosts;
         } else {
             libssh2_knownhost_free(inner);
@@ -83,19 +85,21 @@ labssh2_knownhosts_create(
 
 void
 labssh2_knownhosts_destroy(
-    labssh2_t* ctx, 
     labssh2_knownhosts_t* knownhosts
 ) {
+    assert(knownhosts);
     libssh2_knownhost_free(knownhosts->inner);
     knownhosts->inner = NULL;
+    knownhosts->prev = NULL;
     free(knownhosts);
 }
 
 void
-labssh2_knownhosts_next(
+labssh2_knownhosts_get(
     labssh2_t* ctx,
     labssh2_knownhosts_t* knownhosts,
-    labssh2_knownhost_t* knownhost
+    labssh2_knownhost_t* knownhost,
+    bool* done
 ) {
     assert(ctx);
     if (labssh2_is_err(ctx)) {
@@ -106,6 +110,15 @@ labssh2_knownhosts_next(
         ctx->source = "labssh2_knownhosts_next";
         ctx->message = NULL_KNOWNHOSTS;
         return; 
+    }
+    int result = libssh2_knownhost_get(knownhosts->inner, &knownhost->inner, knownhosts->prev->inner);
+    switch (result) {
+        case 0: *done = false; break;
+        case 1: *done = true; break;
+        default:
+            ctx->status = LABSSH2_STATUS_ERROR_KNOWNHOSTS;
+            ctx->source = "libssh2_knownhost_get";
+            ctx->message = "Error";
     }
 }
 

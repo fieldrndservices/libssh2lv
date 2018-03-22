@@ -31,15 +31,55 @@
  *   Christopher R. Field <chris@fieldrndservices.com>
  */
 
-#ifndef LABSSH2_KNOWNHOSTS_PRIVATE_H
-#define LABSSH2_KNOWNHOSTS_PRIVATE_H
+#include <assert.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
+#include "libssh2.h"
 
 #include "labssh2.h"
+#include "labssh2-private.h"
+#include "labssh2-status-private.h"
+#include "labssh2-knownhost-private.h"
 
-struct _labssh2_knownhosts {
-    LIBSSH2_KNOWNHOSTS* inner;
-    labssh2_knownhost_t* prev;
-};
+static const char* NULL_KNOWNHOST = "The known host cannot be NULL";
 
-#endif
+labssh2_knownhost_t*
+labssh2_knownhost_create(
+    labssh2_t* ctx
+) {
+    assert(ctx);
+    if (labssh2_is_err(ctx)) {
+        return NULL;
+    }
+    struct libssh2_knownhost* inner = malloc(sizeof(struct libssh2_knownhost));
+    if (inner != NULL) {
+        labssh2_knownhost_t* knownhost = malloc(sizeof(labssh2_knownhost_t));
+        if (knownhost != NULL) {
+            knownhost->inner = inner;
+            return knownhost;
+        } else {
+            free(inner);
+            ctx->status = LABSSH2_STATUS_ERROR_MEMORY;
+            ctx->source = "malloc";
+            ctx->message = "Could not allocate memory to create a known host";
+            return NULL;
+        }
+    } else {
+        ctx->status = LABSSH2_STATUS_ERROR_MEMORY;
+        ctx->source = "malloc";
+        ctx->message = "Could not allocate memory to create a libssh2_knownhost struct";
+        return NULL;
+    }
+}
+
+void
+labssh2_knownhost_destroy(
+    labssh2_knownhost_t* knownhost
+) {
+    assert(knownhost);
+    free(knownhost->inner);
+    knownhost->inner = NULL;
+    free(knownhost);
+}
 
