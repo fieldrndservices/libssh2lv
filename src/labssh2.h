@@ -111,8 +111,34 @@ LABSSH2_API bool labssh2_is_err(labssh2_t* ctx);
  * @{
  */
 
-LABSSH2_API labssh2_session_t* labssh2_session_create(labssh2_t* ctx);
-LABSSH2_API void labssh2_session_destroy(labssh2_t* ctx, labssh2_session_t* session);
+LABSSH2_API labssh2_session_t* labssh2_session_create(
+    labssh2_t* ctx
+);
+LABSSH2_API void labssh2_session_destroy(
+    labssh2_t* ctx, 
+    labssh2_session_t* session
+);
+LABSSH2_API void labssh2_session_connect(
+    labssh2_t* ctx, 
+    labssh2_session_t* session, 
+    uintptr_t socket
+);
+LABSSH2_API void labssh2_session_disconnect(
+    labssh2_t* ctx, 
+    labssh2_session_t* session, 
+    const char* description, 
+    size_t description_len
+);
+LABSSH2_API size_t labssh2_session_hostkey_hash_len(
+    labssh2_t* ctx,
+    int hash_type
+);
+LABSSH2_API void labssh2_session_hostkey_hash(
+    labssh2_t* ctx, 
+    labssh2_session_t* session, 
+    int hash_type,
+    uint8_t* buffer
+);
 
 /**
  * @}
