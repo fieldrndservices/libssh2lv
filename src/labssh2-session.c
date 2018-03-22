@@ -32,32 +32,51 @@
  */
 
 #include <assert.h>
+#include <stdbool.h>
+
+#include "libssh2.h"
 
 #include "labssh2.h"
+#include "labssh2-private.h"
+#include "labssh2-session-private.h"
 
-static const char* UNKNOWN_STATUS = "Unknown status";
-
-int
-labssh2_status_code(labssh2_status_t status) {
-    switch (status) {
-        case LABSSH2_STATUS_OK: return 0;
-        case LABSSH2_STATUS_ERROR_OUT_OF_MEMORY: return -1;
-        case LABSSH2_STATUS_ERROR_NULL_VALUE: return -2;
-        case LABSSH2_STATUS_ERROR_SESSION: return -3;
-        default: assert(UNKNOWN_STATUS);
+labssh2_session_t*
+labssh2_session_create(labssh2_t* ctx)
+{
+    assert(ctx);
+    LIBSSH2_SESSION* inner = libssh2_session_init_ex(NULL, NULL, NULL, NULL);
+    if (inner != NULL) {
+        labssh2_session_t* session = malloc(sizeof(labssh2_session_t));
+        if (session != NULL) {
+            session->inner = inner;
+            return session;
+        } else {
+            libssh2_session_free(inner);
+            ctx->status = LABSSH2_STATUS_ERROR_SESSION;
+            ctx->source = "malloc";
+            ctx->message = "Could not allocate memory to create session";
+            return NULL;
+        }
+    } else {
+        ctx->status = LABSSH2_STATUS_ERROR_SESSION;
+        ctx->source = "libssh2_session_init_ex";
+        ctx->message = "Errors occurred during creation of a new session";
+        return NULL;
     }
-    return 1;
 }
 
-const char*
-labssh2_status_string(labssh2_status_t status) {
-    switch (status) {
-        case LABSSH2_STATUS_OK: return "No Error";
-        case LABSSH2_STATUS_ERROR_OUT_OF_MEMORY: return "Out of Memory Error";
-        case LABSSH2_STATUS_ERROR_NULL_VALUE: return "Null Value Error";
-        case LABSSH2_STATUS_ERROR_SESSION: return "Session Error";
-        default: assert(UNKNOWN_STATUS);
+void
+labssh2_session_destroy(labssh2_t* ctx, labssh2_session_t* session)
+{
+    int result = 0;
+    libssh2_session_set_blocking(session->inner, LABSSH2_SESSION_BLOCKING);
+    result = libssh2_session_free(session->inner);
+    if (result != 0) {
+        ctx->status = LABSSH2_STATUS_ERROR_SESSION;
+        ctx->source = "libssh2_session_free";
+        ctx->message = "Errors occurred during destruction of a session";
     }
-    return UNKNOWN_STATUS;
+    session->inner = NULL;
+    free(session);
 }
 

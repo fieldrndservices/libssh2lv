@@ -46,7 +46,7 @@ static labssh2_t OUT_OF_MEMORY_CONTEXT = {
 };
 
 static void
-labssh2_init(labssh2_t* ctx)
+init(labssh2_t* ctx)
 {
     assert(ctx);
     ctx->status = LABSSH2_STATUS_OK;
@@ -86,7 +86,7 @@ labssh2_create()
     if (context == NULL) {
         return &OUT_OF_MEMORY_CONTEXT;
     }
-    labssh2_init(context);
+    init(context);
     return context;
 }
 

@@ -31,33 +31,17 @@
  *   Christopher R. Field <chris@fieldrndservices.com>
  */
 
-#include <assert.h>
+#ifndef LABSSH2_SESSION_PRIVATE_H
+#define LABSSH2_SESSION_PRIVATE_H
 
 #include "labssh2.h"
 
-static const char* UNKNOWN_STATUS = "Unknown status";
+#define LABSSH2_SESSION_BLOCKING    1
+#define LABSSH2_SESSION_NONBLOCKING 2
 
-int
-labssh2_status_code(labssh2_status_t status) {
-    switch (status) {
-        case LABSSH2_STATUS_OK: return 0;
-        case LABSSH2_STATUS_ERROR_OUT_OF_MEMORY: return -1;
-        case LABSSH2_STATUS_ERROR_NULL_VALUE: return -2;
-        case LABSSH2_STATUS_ERROR_SESSION: return -3;
-        default: assert(UNKNOWN_STATUS);
-    }
-    return 1;
-}
+struct _labssh2_session {
+    LIBSSH2_SESSION* inner;
+};
 
-const char*
-labssh2_status_string(labssh2_status_t status) {
-    switch (status) {
-        case LABSSH2_STATUS_OK: return "No Error";
-        case LABSSH2_STATUS_ERROR_OUT_OF_MEMORY: return "Out of Memory Error";
-        case LABSSH2_STATUS_ERROR_NULL_VALUE: return "Null Value Error";
-        case LABSSH2_STATUS_ERROR_SESSION: return "Session Error";
-        default: assert(UNKNOWN_STATUS);
-    }
-    return UNKNOWN_STATUS;
-}
+#endif
 

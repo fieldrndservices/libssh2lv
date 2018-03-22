@@ -72,17 +72,18 @@ typedef enum _labssh2_status {
 
     LABSSH2_STATUS_ERROR_OUT_OF_MEMORY,
     LABSSH2_STATUS_ERROR_NULL_VALUE,
-    LABSSH2_STATUS_ERROR_WSASTARTUP,
-    LABSSH2_STATUS_ERROR_LIBSSH2_INITIALIZATION,
-    LABSSH2_STATUS_ERROR_CONNECTION,
-    LABSSH2_STATUS_ERROR_SESSION_INITIALIZATION,
-    LABSSH2_STATUS_ERROR_SESSION_ESTABLISHMENT,
+    LABSSH2_STATUS_ERROR_SESSION,
 } labssh2_status_t;
 
 /**
  * The context
  */
 typedef struct _labssh2 labssh2_t;
+
+/**
+ * The session
+ */
+typedef struct _labssh2_session labssh2_session_t;
 
 /**
  * @defgroup global Global API
@@ -99,6 +100,23 @@ LABSSH2_API const char* labssh2_source(labssh2_t* ctx);
 LABSSH2_API const char* labssh2_message(labssh2_t* ctx);
 LABSSH2_API bool labssh2_is_ok(labssh2_t* ctx);
 LABSSH2_API bool labssh2_is_err(labssh2_t* ctx);
+
+/**
+ * @}
+ */
+
+/**
+ * @defgroup global Session API
+ *
+ * @{
+ */
+
+LABSSH2_API labssh2_session_t* labssh2_session_create(labssh2_t* ctx);
+LABSSH2_API void labssh2_session_destroy(labssh2_t* ctx, labssh2_session_t* session);
+
+/**
+ * @}
+ */
 
 /**
  * @defgroup utility Utility API
