@@ -38,8 +38,8 @@
 
 struct _labssh2 {
     labssh2_status_t status;
-    const char* status_message;
-    int status_cause;
+    const char* source;
+    const char* message;
 };
 
 #endif

@@ -41,8 +41,8 @@
 
 static labssh2_t OUT_OF_MEMORY_CONTEXT = {
     LABSSH2_STATUS_ERROR_OUT_OF_MEMORY,              // Status
-    "Not enough memory available to create context", // Status message
-    -1                                               // Status cause
+    "labssh2_create",                                // Source
+    "Not enough memory available to create context", // Message
 };
 
 static void
@@ -50,8 +50,9 @@ labssh2_init(labssh2_t* ctx)
 {
     assert(ctx);
     ctx->status = LABSSH2_STATUS_OK;
-    ctx->status_message = labssh2_status_string(ctx->status);
-    ctx->status_cause = 0;
+    ctx->source = "";
+    ctx->message = "";
+    libssh2_init(0);
 }
 
 const char*
@@ -93,6 +94,7 @@ void
 labssh2_destroy(labssh2_t* ctx)
 {
     free(ctx);
+    libssh2_exit();
 }
 
 labssh2_status_t
@@ -103,17 +105,17 @@ labssh2_status(labssh2_t* ctx)
 }
 
 const char*
-labssh2_status_message(labssh2_t* ctx)
+labssh2_source(labssh2_t* ctx)
 {
     assert(ctx);
-    return ctx->status_message;
+    return ctx->source;
 }
 
-int
-labssh2_status_cause(labssh2_t* ctx)
+const char*
+labssh2_message(labssh2_t* ctx)
 {
     assert(ctx);
-    return ctx->status_cause;
+    return ctx->message;
 }
 
 bool
@@ -121,5 +123,12 @@ labssh2_is_ok(labssh2_t* ctx)
 {
     assert(ctx);
     return labssh2_status(ctx) == LABSSH2_STATUS_OK;
+}
+
+bool
+labssh2_is_err(labssh2_t* ctx)
+{
+    assert(ctx);
+    return labssh2_status(ctx) != LABSSH2_STATUS_OK;
 }
 
