@@ -31,14 +31,16 @@
  *   Christopher R. Field <chris@fieldrndservices.com>
  */
 
-#ifndef LABSSH2_SESSION_PRIVATE_H
-#define LABSSH2_SESSION_PRIVATE_H
+/** 
+ * @file
+ *
+ * Includes the full LabSSH2 API.
+ */
 
-#include "labssh2.h"
+#ifndef LABSSH2_STATUS_PRIVATE_H
+#define LABSSH2_STATUS_PRIVATE_H
 
-struct _labssh2_session {
-    LIBSSH2_SESSION* inner;
-};
+const char* labssh2_status_error_to_message(int libssh2_error_code);
 
 #endif
 

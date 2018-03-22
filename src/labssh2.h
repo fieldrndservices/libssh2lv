@@ -70,12 +70,22 @@ extern "C" {
  * Status
  */
 typedef enum _labssh2_status {
-    LABSSH2_STATUS_OK,
+    LABSSH2_STATUS_OK = 0,
 
     LABSSH2_STATUS_ERROR_OUT_OF_MEMORY,
     LABSSH2_STATUS_ERROR_NULL_VALUE,
-    LABSSH2_STATUS_ERROR_SESSION,
+    LABSSH2_STATUS_ERROR_SESSION
 } labssh2_status_t;
+
+typedef enum _labssh2_session_blocking {
+    LABSSH2_SESSION_NONBLOCKING = 0,
+    LABSSH2_SESSION_BLOCKING = 1
+} labssh2_session_blocking_t;
+
+typedef enum _labssh2_hash_type {
+    LABSSH2_HASH_TYPE_MD5 = 0,
+    LABSSH2_HASH_TYPE_SHA1 = 1
+} labssh2_hash_type_t;
 
 /**
  * The context
@@ -128,17 +138,15 @@ LABSSH2_API void labssh2_session_connect(
 LABSSH2_API void labssh2_session_disconnect(
     labssh2_t* ctx, 
     labssh2_session_t* session, 
-    const char* description, 
-    size_t description_len
+    const char* description
 );
 LABSSH2_API size_t labssh2_session_hostkey_hash_len(
-    labssh2_t* ctx,
-    int hash_type
+    labssh2_hash_type_t type
 );
 LABSSH2_API void labssh2_session_hostkey_hash(
     labssh2_t* ctx, 
     labssh2_session_t* session, 
-    int hash_type,
+    labssh2_hash_type_t type,
     uint8_t* buffer
 );
 

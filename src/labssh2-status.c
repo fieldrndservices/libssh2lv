@@ -33,9 +33,12 @@
 
 #include <assert.h>
 
+#include "libssh2.h"
+
 #include "labssh2.h"
 
 static const char* UNKNOWN_STATUS = "Unknown status";
+static const char* UNKNOWN_LIBSSH2_ERROR = "Unknown libssh2 error code";
 
 int
 labssh2_status_code(labssh2_status_t status) {
@@ -59,5 +62,33 @@ labssh2_status_string(labssh2_status_t status) {
         default: assert(UNKNOWN_STATUS);
     }
     return UNKNOWN_STATUS;
+}
+
+const char*
+labssh2_status_error_to_message(int libssh2_error_code) 
+{
+    switch (libssh2_error_code) {
+        case LIBSSH2_ERROR_NONE:
+            return "Success";
+        case LIBSSH2_ERROR_SOCKET_NONE:
+            return "The socket is invalid";
+        case LIBSSH2_ERROR_BANNER_RECV:
+            return "Unable to receive banner from remote host";
+        case LIBSSH2_ERROR_BANNER_SEND:
+            return "Unable to send banner to remote host";
+        case LIBSSH2_ERROR_KEX_FAILURE:
+            return "Encryption key exchange with the remote host faield";
+        case LIBSSH2_ERROR_SOCKET_SEND:
+            return "Unable to send data on socket";
+        case LIBSSH2_ERROR_SOCKET_DISCONNECT:
+            return "The socket was disconnected";
+        case LIBSSH2_ERROR_PROTO:
+            return "An invalid SSH protocol response was received on the socket";
+        case LIBSSH2_ERROR_EAGAIN:
+            return "Marked for non-blocking I/O but the call would block";
+        default:
+            assert(UNKNOWN_LIBSSH2_ERROR);
+    }
+    return UNKNOWN_LIBSSH2_ERROR;
 }
 
