@@ -3,4 +3,7 @@ builds*
 build
 build*
 !build.bat
+bin
+bin*
+.deps
 .DS_Store
