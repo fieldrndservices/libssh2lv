@@ -78,21 +78,38 @@ typedef enum _labssh2_status {
     LABSSH2_STATUS_ERROR_KNOWNHOSTS,
 } labssh2_status_t;
 
-typedef enum _labssh2_session_blocking {
-    LABSSH2_SESSION_NONBLOCKING = 0,
-    LABSSH2_SESSION_BLOCKING = 1
-} labssh2_session_blocking_t;
+typedef enum _labssh2_session_modes {
+    LABSSH2_SESSION_MODE_NONBLOCKING = 0,
+    LABSSH2_SESSION_MODE_BLOCKING = 1
+} labssh2_session_modes_t;
 
-typedef enum _labssh2_hostkey_hash_type {
+typedef enum _labssh2_hostkey_hash_types {
     LABSSH2_HOSTKEY_HASH_TYPE_MD5 = 0,
     LABSSH2_HOSTKEY_HASH_TYPE_SHA1 = 1
-} labssh2_hostkey_hash_type_t;
+} labssh2_hostkey_hash_types_t;
 
-typedef enum _labssh2_hostkey_type {
+typedef enum _labssh2_hostkey_types {
     LABSSH2_HOSTKEY_TYPE_RSA = 0,
     LABSSH2_HOSTKEY_TYPE_DSS = 1,
     LABSSH2_HOSTKEY_TYPE_UNKNOWN = 2
-} labssh2_hostkey_type_t;
+} labssh2_hostkey_types_t;
+
+typedef enum _labssh2_knownhost_types {
+    LABSSH2_KNOWNHOST_TYPE_PLAIN = 0,
+    LABSSH2_KNOWNHOST_TYPE_SHA1 = 1,
+    LABSSH2_KNOWNHOST_TYPE_CUSTOM = 2,
+} labssh2_knownhost_types_t;
+
+typedef enum _labssh2_knownhost_key_encodings {
+    LABSSH2_KNOWNHOST_KEY_ENCODING_RAW = 0,
+    LABSSH2_KNOWNHOST_KEY_ENCODING_BASE64 = 1,
+} labssh2_knownhost_key_encodings_t;
+
+typedef enum _labssh2_knownhost_key_algorithms {
+    LABSSH2_KNOWNHOST_KEY_ALGORITHM_RSA1 = 0,
+    LABSSH2_KNOWNHOST_KEY_ALGORITHM_SSHRSA = 1,
+    LABSSH2_KNOWNHOST_KEY_ALGORITHM_SSHDSS = 2,
+} labssh2_knownhost_key_algorithms_t;
 
 /**
  * The context
@@ -192,14 +209,14 @@ labssh2_session_disconnect(
 
 LABSSH2_API size_t 
 labssh2_session_hostkey_hash_len(
-    labssh2_hostkey_hash_type_t type
+    labssh2_hostkey_hash_types_t type
 );
 
 LABSSH2_API void 
 labssh2_session_hostkey_hash(
     labssh2_t* ctx, 
     labssh2_session_t* session, 
-    labssh2_hostkey_hash_type_t type,
+    labssh2_hostkey_hash_types_t type,
     uint8_t* buffer
 );
 
@@ -214,7 +231,7 @@ labssh2_session_hostkey(
     labssh2_t* ctx,
     labssh2_session_t* session,
     uint8_t* buffer,
-    labssh2_hostkey_type_t* type
+    labssh2_hostkey_types_t* type
 );
 
 /**
@@ -238,6 +255,26 @@ labssh2_knownhosts_destroy(
     labssh2_knownhosts_t* knownhosts
 );
 
+LABSSH2_API bool
+labssh2_knownhosts_get(
+    labssh2_t* ctx,
+    labssh2_knownhosts_t* knownhosts,
+    labssh2_knownhost_t* knownhost
+);
+
+LABSSH2_API void
+labssh2_knownhosts_add(
+    labssh2_t* ctx,
+    labssh2_knownhosts_t* knownhosts,
+    const char* name,
+    const char* salt,
+    const char* key,
+    const size_t key_len,
+    const char* comment,
+    const size_t comment_len,
+    int type_mask
+);
+ 
 /**
  * @}
  */
@@ -258,17 +295,9 @@ labssh2_knownhost_destroy(
     labssh2_knownhost_t* knownhosts
 );
 
-LABSSH2_API bool
-labssh2_knownhosts_get(
-    labssh2_t* ctx,
-    labssh2_knownhosts_t* knownhosts,
-    labssh2_knownhost_t* knownhost,
-);
- 
 /**
  * @}
  */
-
 
 /**
  * @defgroup utility Utility API

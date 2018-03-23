@@ -78,7 +78,7 @@ labssh2_knownhosts_create(
     } else {
         ctx->status = LABSSH2_STATUS_ERROR_KNOWNHOSTS;
         ctx->source = "libssh2_knownhost_init";
-        ctx->message = "Something went wrong";
+        ctx->message = "Errors occurred during the creation of a new known hosts";
         return NULL;
     }
 }
@@ -102,13 +102,13 @@ labssh2_knownhosts_get(
 ) {
     assert(ctx);
     if (labssh2_is_err(ctx)) {
-        return;
+        return true;
     }
     if (knownhosts == NULL) {
         ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
-        ctx->source = "labssh2_knownhosts_next";
+        ctx->source = "labssh2_knownhosts_get";
         ctx->message = NULL_KNOWNHOSTS;
-        return; 
+        return true; 
     }
     int result = libssh2_knownhost_get(knownhosts->inner, &knownhost->inner, knownhosts->prev->inner);
     switch (result) {
@@ -117,8 +117,48 @@ labssh2_knownhosts_get(
         default:
             ctx->status = LABSSH2_STATUS_ERROR_KNOWNHOSTS;
             ctx->source = "libssh2_knownhost_get";
-            ctx->message = "Error";
+            ctx->message = labssh2_status_error_to_message(result);
             return true;
+    }
+}
+
+void
+labssh2_knownhosts_add(
+    labssh2_t* ctx,
+    labssh2_knownhosts_t* knownhosts,
+    const char* name,
+    const char* salt,
+    const char* key,
+    const size_t key_len,
+    const char* comment,
+    const size_t comment_len,
+    int type_mask
+) {
+    assert(ctx);
+    if (labssh2_is_err(ctx)) {
+        return;
+    }
+    if (knownhosts == NULL) {
+        ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
+        ctx->source = "labssh2_knownhosts_add";
+        ctx->message = NULL_KNOWNHOSTS;
+        return; 
+    }
+    int result = libssh2_knownhost_addc(
+        knownhosts->inner, 
+        name, 
+        salt, 
+        key, 
+        key_len, 
+        comment, 
+        comment_len, 
+        type_mask, 
+        NULL
+    );
+    if (result != 0) {
+        ctx->status = LABSSH2_STATUS_ERROR_KNOWNHOSTS;
+        ctx->source = "libssh2_knownhost_add";
+        ctx->message = labssh2_status_error_to_message(result);
     }
 }
 

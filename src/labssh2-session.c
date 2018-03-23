@@ -68,7 +68,7 @@ labssh2_session_create(
     } else {
         ctx->status = LABSSH2_STATUS_ERROR_SESSION;
         ctx->source = "libssh2_session_init_ex";
-        ctx->message = "Errors occurred during creation of a new session";
+        ctx->message = "Errors occurred during the creation of a new session";
         return NULL;
     }
 }
@@ -80,12 +80,12 @@ labssh2_session_destroy(
 ) {
     assert(ctx);
     assert(session);
-    libssh2_session_set_blocking(session->inner, LABSSH2_SESSION_BLOCKING);
+    libssh2_session_set_blocking(session->inner, LABSSH2_SESSION_MODE_BLOCKING);
     int result = libssh2_session_free(session->inner);
     if (result != 0) {
         ctx->status = LABSSH2_STATUS_ERROR_SESSION;
         ctx->source = "libssh2_session_free";
-        ctx->message = "Errors occurred during destruction of a session";
+        ctx->message = "Errors occurred during the destruction of a session";
     }
     session->inner = NULL;
     free(session);
@@ -131,13 +131,13 @@ labssh2_session_disconnect(
         ctx->message = NULL_SESSION;
         return;
     } 
-    libssh2_session_set_blocking(session->inner, LABSSH2_SESSION_BLOCKING);
+    libssh2_session_set_blocking(session->inner, LABSSH2_SESSION_MODE_BLOCKING);
     libssh2_session_disconnect_ex(session->inner, SSH_DISCONNECT_BY_APPLICATION, description, "");
 }
 
 size_t
 labssh2_session_hostkey_hash_len(
-    labssh2_hostkey_hash_type_t type
+    labssh2_hostkey_hash_types_t type
 ) {
     switch (type) {
         case LABSSH2_HOSTKEY_HASH_TYPE_MD5: return 16;
@@ -151,7 +151,7 @@ void
 labssh2_session_hostkey_hash(
     labssh2_t* ctx, 
     labssh2_session_t* session, 
-    labssh2_hostkey_hash_type_t type, 
+    labssh2_hostkey_hash_types_t type, 
     uint8_t* buffer
 ) {
     assert(ctx);
@@ -200,7 +200,7 @@ labssh2_session_hostkey(
     labssh2_t* ctx, 
     labssh2_session_t* session, 
     uint8_t* buffer, 
-    labssh2_hostkey_type_t* type
+    labssh2_hostkey_types_t* type
 ) {
     assert(ctx);
     if (labssh2_is_err(ctx)) {
