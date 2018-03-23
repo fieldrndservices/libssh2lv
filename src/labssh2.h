@@ -110,7 +110,7 @@ typedef struct _labssh2_session labssh2_session_t;
 typedef struct _labssh2_knownhosts labssh2_knownhosts_t;
 
 /**
- * The known hosts
+ * The known host
  */
 typedef struct _labssh2_knownhost labssh2_knownhost_t;
 
@@ -122,13 +122,38 @@ typedef struct _labssh2_knownhost labssh2_knownhost_t;
  * @{
  */
 
-LABSSH2_API labssh2_t* labssh2_create();
-LABSSH2_API void labssh2_destroy(labssh2_t* ctx);
-LABSSH2_API labssh2_status_t labssh2_status(labssh2_t* ctx);
-LABSSH2_API const char* labssh2_source(labssh2_t* ctx);
-LABSSH2_API const char* labssh2_message(labssh2_t* ctx);
-LABSSH2_API bool labssh2_is_ok(labssh2_t* ctx);
-LABSSH2_API bool labssh2_is_err(labssh2_t* ctx);
+LABSSH2_API labssh2_t* 
+labssh2_create();
+
+LABSSH2_API void 
+labssh2_destroy(
+    labssh2_t* ctx
+);
+
+LABSSH2_API labssh2_status_t 
+labssh2_status(
+    labssh2_t* ctx
+);
+
+LABSSH2_API const char* 
+labssh2_source(
+    labssh2_t* ctx
+);
+
+LABSSH2_API const char* 
+labssh2_message(
+    labssh2_t* ctx
+);
+
+LABSSH2_API bool 
+labssh2_is_ok(
+    labssh2_t* ctx
+);
+
+LABSSH2_API bool 
+labssh2_is_err(
+    labssh2_t* ctx
+);
 
 /**
  * @}
@@ -144,27 +169,32 @@ LABSSH2_API labssh2_session_t*
 labssh2_session_create(
     labssh2_t* ctx
 );
+
 LABSSH2_API void 
 labssh2_session_destroy(
     labssh2_t* ctx, 
     labssh2_session_t* session
 );
+
 LABSSH2_API void 
 labssh2_session_connect(
     labssh2_t* ctx, 
     labssh2_session_t* session, 
     uintptr_t socket
 );
+
 LABSSH2_API void 
 labssh2_session_disconnect(
     labssh2_t* ctx, 
     labssh2_session_t* session, 
     const char* description
 );
+
 LABSSH2_API size_t 
 labssh2_session_hostkey_hash_len(
     labssh2_hostkey_hash_type_t type
 );
+
 LABSSH2_API void 
 labssh2_session_hostkey_hash(
     labssh2_t* ctx, 
@@ -172,11 +202,13 @@ labssh2_session_hostkey_hash(
     labssh2_hostkey_hash_type_t type,
     uint8_t* buffer
 );
+
 LABSSH2_API size_t
 labssh2_session_hostkey_len(
     labssh2_t* ctx,
     labssh2_session_t* session
 );
+
 LABSSH2_API void
 labssh2_session_hostkey(
     labssh2_t* ctx,
@@ -200,6 +232,7 @@ labssh2_knownhosts_create(
     labssh2_t* ctx,
     labssh2_session_t* session
 );
+
 LABSSH2_API void 
 labssh2_knownhosts_destroy(
     labssh2_knownhosts_t* knownhosts
@@ -219,16 +252,17 @@ LABSSH2_API labssh2_knownhost_t*
 labssh2_knownhost_create(
     labssh2_t* ctx
 );
+
 LABSSH2_API void 
 labssh2_knownhost_destroy(
     labssh2_knownhost_t* knownhosts
 );
-LABSSH2_API void
+
+LABSSH2_API bool
 labssh2_knownhosts_get(
     labssh2_t* ctx,
     labssh2_knownhosts_t* knownhosts,
     labssh2_knownhost_t* knownhost,
-    bool* done
 );
  
 /**
@@ -247,22 +281,26 @@ labssh2_knownhosts_get(
 /**
  * Gets the library version number in Major.Minor.Patch notation.
  */
-LABSSH2_API const char* labssh2_version();
+LABSSH2_API const char* 
+labssh2_version();
 
 /**
  * Gets the library major version number as an integer.
  */
-LABSSH2_API unsigned int labssh2_version_major();
+LABSSH2_API unsigned int 
+labssh2_version_major();
 
 /**
  * Gets the library minor version number as an integer.
  */
-LABSSH2_API unsigned int labssh2_version_minor();
+LABSSH2_API unsigned int 
+labssh2_version_minor();
 
 /**
  * Gets the library patch version number as an integer.
  */
-LABSSH2_API unsigned int labssh2_version_patch();
+LABSSH2_API unsigned int 
+labssh2_version_patch();
 
 /**
  * Gets an integer representation of the status. 
@@ -270,12 +308,18 @@ LABSSH2_API unsigned int labssh2_version_patch();
  * Errors are negative values, warnings are positive values, and zero (0) is no
  * error or warning, i.e. "OK".
  */
-LABSSH2_API int labssh2_status_code(labssh2_status_t status);
+LABSSH2_API int 
+labssh2_status_code(
+    labssh2_status_t status
+);
 
 /**
  * Gets a string representation of the status.
  */
-LABSSH2_API const char* labssh2_status_string(labssh2_status_t status);
+LABSSH2_API const char* 
+labssh2_status_string(
+    labssh2_status_t status
+);
 
 /**
  * @}

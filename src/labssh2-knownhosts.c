@@ -94,12 +94,11 @@ labssh2_knownhosts_destroy(
     free(knownhosts);
 }
 
-void
+bool
 labssh2_knownhosts_get(
     labssh2_t* ctx,
     labssh2_knownhosts_t* knownhosts,
-    labssh2_knownhost_t* knownhost,
-    bool* done
+    labssh2_knownhost_t* knownhost
 ) {
     assert(ctx);
     if (labssh2_is_err(ctx)) {
@@ -113,12 +112,13 @@ labssh2_knownhosts_get(
     }
     int result = libssh2_knownhost_get(knownhosts->inner, &knownhost->inner, knownhosts->prev->inner);
     switch (result) {
-        case 0: *done = false; break;
-        case 1: *done = true; break;
+        case 0: return false;
+        case 1: return true;
         default:
             ctx->status = LABSSH2_STATUS_ERROR_KNOWNHOSTS;
             ctx->source = "libssh2_knownhost_get";
             ctx->message = "Error";
+            return true;
     }
 }
 
