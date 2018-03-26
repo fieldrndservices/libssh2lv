@@ -308,6 +308,21 @@ labssh2_knownhosts_delete(
     labssh2_knownhosts_t* knownhosts,
     labssh2_knownhost_t* knownhost
 );
+
+LABSSH2_API int
+labssh2_knownhosts_read_file(
+    labssh2_t* ctx,
+    labssh2_knownhosts_t* knownhosts,
+    const char* file
+);
+
+LABSSH2_API void
+labssh2_knownhosts_read_line(
+    labssh2_t* ctx,
+    labssh2_knownhosts_t* knownhosts,
+    const char* line,
+    const size_t line_len
+);
  
 /**
  * @}

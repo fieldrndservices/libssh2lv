@@ -247,13 +247,13 @@ labssh2_knownhosts_delete(
     }
     if (knownhosts == NULL) {
         ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
-        ctx->source = "labssh2_knownhosts_del";
+        ctx->source = "labssh2_knownhosts_delete";
         ctx->message = NULL_KNOWNHOSTS;
         return;
     }
     if (knownhost == NULL) {
         ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
-        ctx->source = "labssh2_knownhosts_del";
+        ctx->source = "labssh2_knownhosts_delete";
         ctx->message = NULL_KNOWNHOST;
         return;
     }
@@ -263,7 +263,78 @@ labssh2_knownhosts_delete(
     );
     if (result != 0) {
         ctx->status = LABSSH2_STATUS_ERROR_KNOWNHOSTS;
-        ctx->source = "libssh2_knownhost_checkp";
+        ctx->source = "libssh2_knownhost_del";
+        ctx->message = labssh2_status_error_to_message(result);
+    }
+}
+
+int
+labssh2_knownhosts_read_file(
+    labssh2_t* ctx,
+    labssh2_knownhosts_t* knownhosts,
+    const char* file
+) {
+    assert(ctx);
+    if (labssh2_is_err(ctx)) {
+        return 0;
+    }
+    if (knownhosts == NULL) {
+        ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
+        ctx->source = "labssh2_knownhosts_read_file";
+        ctx->message = NULL_KNOWNHOSTS;
+        return 0;
+    }
+    if (file == NULL) {
+        ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
+        ctx->source = "labssh2_knownhosts_read_file";
+        ctx->message = "The file cannot be NULL";
+        return 0;
+    }
+    int result = libssh2_knownhost_readfile(
+        knownhosts->inner, 
+        file,
+        LIBSSH2_KNOWNHOST_FILE_OPENSSH
+    );
+    if (result < 0) {
+        ctx->status = LABSSH2_STATUS_ERROR_KNOWNHOSTS;
+        ctx->source = "libssh2_knownhost_readfile";
+        ctx->message = labssh2_status_error_to_message(result);
+    }
+    return result;
+}
+
+void
+labssh2_knownhosts_read_line(
+    labssh2_t* ctx,
+    labssh2_knownhosts_t* knownhosts,
+    const char* line,
+    const size_t line_len
+) {
+    assert(ctx);
+    if (labssh2_is_err(ctx)) {
+        return;
+    }
+    if (knownhosts == NULL) {
+        ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
+        ctx->source = "labssh2_knownhosts_read_line";
+        ctx->message = NULL_KNOWNHOSTS;
+        return;
+    }
+    if (line == NULL) {
+        ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
+        ctx->source = "labssh2_knownhosts_read_line";
+        ctx->message = "The line cannot be NULL";
+        return;
+    }
+    int result = libssh2_knownhost_readline(
+        knownhosts->inner, 
+        line,
+        line_len,
+        LIBSSH2_KNOWNHOST_FILE_OPENSSH
+    );
+    if (result != 0) {
+        ctx->status = LABSSH2_STATUS_ERROR_KNOWNHOSTS;
+        ctx->source = "libssh2_knownhost_readfile";
         ctx->message = labssh2_status_error_to_message(result);
     }
 }
