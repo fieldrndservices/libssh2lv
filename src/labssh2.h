@@ -323,7 +323,23 @@ labssh2_knownhosts_read_line(
     const char* line,
     const size_t line_len
 );
- 
+
+LABSSH2_API void
+labssh2_knownhosts_write_file(
+    labssh2_t* ctx,
+    labssh2_knownhosts_t* knownhosts,
+    const char* file
+);
+
+LABSSH2_API size_t
+labssh2_knownhosts_write_line(
+    labssh2_t* ctx,
+    labssh2_knownhosts_t* knownhosts,
+    labssh2_knownhost_t* knownhost,
+    char* buffer,
+    size_t buffer_len
+);
+
 /**
  * @}
  */
