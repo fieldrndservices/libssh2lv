@@ -130,7 +130,7 @@ labssh2_knownhosts_add(
     const size_t key_len,
     const char* comment,
     const size_t comment_len,
-    int type_mask
+    const int type_mask
 ) {
     assert(ctx);
     if (labssh2_is_err(ctx)) {
@@ -164,9 +164,42 @@ int
 labssh2_knownhosts_type_mask(
     labssh2_knownhost_types_t type,
     labssh2_knownhost_key_encodings_t encoding,
-    labssh2_knownhost_key_algorithms_t algorithm,
+    labssh2_knownhost_key_algorithms_t algorithm
 ) {
-    // TODO: Add implementation for creating the type mask
-    return 1;
+    return type | encoding | algorithm;
+}
+
+labssh2_knownhosts_check_result_t
+labssh2_knownhosts_check(
+    labssh2_t* ctx,
+    labssh2_knownhosts_t* knownhosts,
+    const char* host,
+    const int port,
+    const char* key,
+    const size_t key_len,
+    const int type_mask,
+    labssh2_knownhost_t* knownhost
+) {
+    assert(ctx);
+    if (labssh2_is_err(ctx)) {
+        return LABSSH2_KNOWNHOSTS_CHECK_RESULT_FAILURE;
+    }
+    if (knownhosts == NULL) {
+        ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
+        ctx->source = "labssh2_knownhosts_check";
+        ctx->message = NULL_KNOWNHOSTS;
+        return LABSSH2_KNOWNHOSTS_CHECK_RESULT_FAILURE;
+    }
+    int result = libssh2_knownhost_checkp(knownhosts->inner, host, port, key, key_len, type_mask, &knownhost->inner);
+    switch (result) {
+        case LIBSSH2_KNOWNHOST_CHECK_NOTFOUND: return LABSSH2_KNOWNHOSTS_CHECK_RESULT_NOT_FOUND;
+        case LIBSSH2_KNOWNHOST_CHECK_MATCH: return LABSSH2_KNOWNHOSTS_CHECK_RESULT_MATCH;
+        case LIBSSH2_KNOWNHOST_CHECK_MISMATCH: return LABSSH2_KNOWNHOSTS_CHECK_RESULT_MISMATCH;
+        default:
+            ctx->status = LABSSH2_STATUS_ERROR_KNOWNHOSTS;
+            ctx->source = "libssh2_knownhost_checkp";
+            ctx->message = labssh2_status_error_to_message(LIBSSH2_KNOWNHOST_CHECK_FAILURE);
+            return LABSSH2_KNOWNHOSTS_CHECK_RESULT_FAILURE;
+    }
 }
 

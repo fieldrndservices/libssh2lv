@@ -111,6 +111,13 @@ typedef enum _labssh2_knownhost_key_algorithms {
     LABSSH2_KNOWNHOST_KEY_ALGORITHM_SSHDSS = 2,
 } labssh2_knownhost_key_algorithms_t;
 
+typedef enum _labsh2_knownhosts_check_result {
+    LABSSH2_KNOWNHOSTS_CHECK_RESULT_FAILURE = 0,
+    LABSSH2_KNOWNHOSTS_CHECK_RESULT_NOT_FOUND = 1,
+    LABSSH2_KNOWNHOSTS_CHECK_RESULT_MATCH = 2,
+    LABSSH2_KNOWNHOSTS_CHECK_RESULT_MISMATCH = 3,
+} labssh2_knownhosts_check_result_t;
+
 /**
  * The context
  */
@@ -272,14 +279,26 @@ labssh2_knownhosts_add(
     const size_t key_len,
     const char* comment,
     const size_t comment_len,
-    int type_mask
+    const int type_mask
 );
 
 LABSSH2_API int
 labssh2_knownhosts_type_mask(
     labssh2_knownhost_types_t type,
     labssh2_knownhost_key_encodings_t encoding,
-    labssh2_knownhost_key_algorithms_t algorithm,
+    labssh2_knownhost_key_algorithms_t algorithm
+);
+
+LABSSH2_API labssh2_knownhosts_check_result_t
+labssh2_knownhosts_check(
+    labssh2_t* ctx,
+    labssh2_knownhosts_t* knownhosts,
+    const char* host,
+    const int port,
+    const char* key,
+    const size_t key_len,
+    const int type_mask,
+    labssh2_knownhost_t* knownhost
 );
  
 /**
