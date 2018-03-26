@@ -279,7 +279,8 @@ labssh2_knownhosts_add(
     const size_t key_len,
     const char* comment,
     const size_t comment_len,
-    const int type_mask
+    const int type_mask,
+    labssh2_knownhost_t* knownhost
 );
 
 LABSSH2_API int
@@ -298,6 +299,13 @@ labssh2_knownhosts_check(
     const char* key,
     const size_t key_len,
     const int type_mask,
+    labssh2_knownhost_t* knownhost
+);
+
+LABSSH2_API void
+labssh2_knownhosts_delete(
+    labssh2_t* ctx,
+    labssh2_knownhosts_t* knownhosts,
     labssh2_knownhost_t* knownhost
 );
  

@@ -45,6 +45,7 @@
 #include "labssh2-knownhosts-private.h"
 
 static const char* NULL_KNOWNHOSTS = "The known hosts cannot be NULL";
+static const char* NULL_KNOWNHOST = "The known host cannot be NULL";
 
 labssh2_knownhosts_t*
 labssh2_knownhosts_create(
@@ -108,7 +109,17 @@ labssh2_knownhosts_get(
         ctx->message = NULL_KNOWNHOSTS;
         return true; 
     }
-    int result = libssh2_knownhost_get(knownhosts->inner, &knownhost->inner, knownhosts->prev->inner);
+    if (knownhost == NULL) {
+        ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
+        ctx->source = "labssh2_knownhosts_get";
+        ctx->message = NULL_KNOWNHOST;
+        return true; 
+    }
+    int result = libssh2_knownhost_get(
+        knownhosts->inner, 
+        &knownhost->inner, 
+        knownhosts->prev->inner
+    );
     switch (result) {
         case 0: return false;
         case 1: return true;
@@ -130,7 +141,8 @@ labssh2_knownhosts_add(
     const size_t key_len,
     const char* comment,
     const size_t comment_len,
-    const int type_mask
+    const int type_mask,
+    labssh2_knownhost_t* knownhost
 ) {
     assert(ctx);
     if (labssh2_is_err(ctx)) {
@@ -142,6 +154,12 @@ labssh2_knownhosts_add(
         ctx->message = NULL_KNOWNHOSTS;
         return; 
     }
+    if (knownhost == NULL) {
+        ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
+        ctx->source = "labssh2_knownhosts_add";
+        ctx->message = NULL_KNOWNHOST;
+        return; 
+    }
     int result = libssh2_knownhost_addc(
         knownhosts->inner, 
         name, 
@@ -151,7 +169,7 @@ labssh2_knownhosts_add(
         comment, 
         comment_len, 
         type_mask, 
-        NULL
+        &knownhost->inner
     );
     if (result != 0) {
         ctx->status = LABSSH2_STATUS_ERROR_KNOWNHOSTS;
@@ -190,7 +208,21 @@ labssh2_knownhosts_check(
         ctx->message = NULL_KNOWNHOSTS;
         return LABSSH2_KNOWNHOSTS_CHECK_RESULT_FAILURE;
     }
-    int result = libssh2_knownhost_checkp(knownhosts->inner, host, port, key, key_len, type_mask, &knownhost->inner);
+    if (knownhost == NULL) {
+        ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
+        ctx->source = "labssh2_knownhosts_check";
+        ctx->message = NULL_KNOWNHOST;
+        return LABSSH2_KNOWNHOSTS_CHECK_RESULT_FAILURE;
+    }
+    int result = libssh2_knownhost_checkp(
+        knownhosts->inner, 
+        host, 
+        port, 
+        key, 
+        key_len, 
+        type_mask, 
+        &knownhost->inner
+    );
     switch (result) {
         case LIBSSH2_KNOWNHOST_CHECK_NOTFOUND: return LABSSH2_KNOWNHOSTS_CHECK_RESULT_NOT_FOUND;
         case LIBSSH2_KNOWNHOST_CHECK_MATCH: return LABSSH2_KNOWNHOSTS_CHECK_RESULT_MATCH;
@@ -200,6 +232,39 @@ labssh2_knownhosts_check(
             ctx->source = "libssh2_knownhost_checkp";
             ctx->message = labssh2_status_error_to_message(LIBSSH2_KNOWNHOST_CHECK_FAILURE);
             return LABSSH2_KNOWNHOSTS_CHECK_RESULT_FAILURE;
+    }
+}
+
+void
+labssh2_knownhosts_delete(
+    labssh2_t* ctx,
+    labssh2_knownhosts_t* knownhosts,
+    labssh2_knownhost_t* knownhost
+) {
+    assert(ctx);
+    if (labssh2_is_err(ctx)) {
+        return;
+    }
+    if (knownhosts == NULL) {
+        ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
+        ctx->source = "labssh2_knownhosts_del";
+        ctx->message = NULL_KNOWNHOSTS;
+        return;
+    }
+    if (knownhost == NULL) {
+        ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
+        ctx->source = "labssh2_knownhosts_del";
+        ctx->message = NULL_KNOWNHOST;
+        return;
+    }
+    int result = libssh2_knownhost_del(
+        knownhosts->inner, 
+        knownhost->inner
+    );
+    if (result != 0) {
+        ctx->status = LABSSH2_STATUS_ERROR_KNOWNHOSTS;
+        ctx->source = "libssh2_knownhost_checkp";
+        ctx->message = labssh2_status_error_to_message(result);
     }
 }
 
