@@ -62,25 +62,23 @@ labssh2_knownhosts_create(
         return NULL;
     }
     LIBSSH2_KNOWNHOSTS* inner = libssh2_knownhost_init(session->inner);
-    if (inner != NULL) {
-        labssh2_knownhosts_t* knownhosts = malloc(sizeof(labssh2_knownhosts_t));
-        if (knownhosts != NULL) {
-            knownhosts->inner = inner;
-            knownhosts->prev = NULL;
-            return knownhosts;
-        } else {
-            libssh2_knownhost_free(inner);
-            ctx->status = LABSSH2_STATUS_ERROR_MEMORY;
-            ctx->source = "malloc";
-            ctx->message = "Could not allocate memory to create a known hosts";
-            return NULL;
-        }
-    } else {
+    if (inner == NULL) {
         ctx->status = LABSSH2_STATUS_ERROR_KNOWNHOSTS;
         ctx->source = "libssh2_knownhost_init";
         ctx->message = "Errors occurred during the creation of a new known hosts";
         return NULL;
     }
+    labssh2_knownhosts_t* knownhosts = malloc(sizeof(labssh2_knownhosts_t));
+    if (knownhosts == NULL) {
+        libssh2_knownhost_free(inner);
+        ctx->status = LABSSH2_STATUS_ERROR_MEMORY;
+        ctx->source = "malloc";
+        ctx->message = "Could not allocate memory to create a known hosts";
+        return NULL;
+    }
+    knownhosts->inner = inner;
+    knownhosts->prev = NULL;
+    return knownhosts;
 }
 
 void
@@ -160,5 +158,15 @@ labssh2_knownhosts_add(
         ctx->source = "libssh2_knownhost_add";
         ctx->message = labssh2_status_error_to_message(result);
     }
+}
+
+int
+labssh2_knownhosts_type_mask(
+    labssh2_knownhost_types_t type,
+    labssh2_knownhost_key_encodings_t encoding,
+    labssh2_knownhost_key_algorithms_t algorithm,
+) {
+    // TODO: Add implementation for creating the type mask
+    return 1;
 }
 

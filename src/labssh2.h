@@ -274,6 +274,13 @@ labssh2_knownhosts_add(
     const size_t comment_len,
     int type_mask
 );
+
+LABSSH2_API int
+labssh2_knownhosts_type_mask(
+    labssh2_knownhost_types_t type,
+    labssh2_knownhost_key_encodings_t encoding,
+    labssh2_knownhost_key_algorithms_t algorithm,
+);
  
 /**
  * @}
