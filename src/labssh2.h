@@ -360,6 +360,48 @@ labssh2_knownhost_destroy(
     labssh2_knownhost_t* knownhosts
 );
 
+LABSSH2_API void
+labssh2_knownhost_magic(
+    labssh2_t* ctx,
+    labssh2_knownhost_t* knownhost,
+    int* magic
+);
+
+LABSSH2_API void
+labssh2_knownhost_name_len(
+    labssh2_t* ctx,
+    labssh2_knownhost_t* knownhost,
+    size_t* len
+);
+
+LABSSH2_API void
+labssh2_knownhost_name(
+    labssh2_t* ctx,
+    labssh2_knownhost_t* knownhost,
+    char* buffer
+);
+
+LABSSH2_API void
+labssh2_knownhost_key_len(
+    labssh2_t* ctx,
+    labssh2_knownhost_t* knownhost,
+    size_t* len
+);
+
+LABSSH2_API void
+labssh2_knownhost_key(
+    labssh2_t* ctx,
+    labssh2_knownhost_t* knownhost,
+    char* buffer
+);
+
+LABSSH2_API void
+labssh2_knownhost_type_mask(
+    labssh2_t* ctx,
+    labssh2_knownhost_t* knownhost,
+    int* type_mask
+);
+
 /**
  * @}
  */

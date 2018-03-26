@@ -53,24 +53,22 @@ labssh2_knownhost_create(
         return NULL;
     }
     struct libssh2_knownhost* inner = malloc(sizeof(struct libssh2_knownhost));
-    if (inner != NULL) {
-        labssh2_knownhost_t* knownhost = malloc(sizeof(labssh2_knownhost_t));
-        if (knownhost != NULL) {
-            knownhost->inner = inner;
-            return knownhost;
-        } else {
-            free(inner);
-            ctx->status = LABSSH2_STATUS_ERROR_MEMORY;
-            ctx->source = "malloc";
-            ctx->message = "Could not allocate memory to create a known host";
-            return NULL;
-        }
-    } else {
+    if (inner == NULL) {
         ctx->status = LABSSH2_STATUS_ERROR_MEMORY;
         ctx->source = "malloc";
         ctx->message = "Could not allocate memory to create a libssh2_knownhost struct";
         return NULL;
     }
+    labssh2_knownhost_t* knownhost = malloc(sizeof(labssh2_knownhost_t));
+    if (knownhost == NULL) {
+        free(inner);
+        ctx->status = LABSSH2_STATUS_ERROR_MEMORY;
+        ctx->source = "malloc";
+        ctx->message = "Could not allocate memory to create a known host";
+        return NULL;
+    }
+    knownhost->inner = inner;
+    return knownhost;
 }
 
 void
@@ -81,5 +79,132 @@ labssh2_knownhost_destroy(
     free(knownhost->inner);
     knownhost->inner = NULL;
     free(knownhost);
+}
+
+void
+labssh2_knownhost_magic(
+    labssh2_t* ctx,
+    labssh2_knownhost_t* knownhost,
+    int* magic
+) {
+    assert(ctx);
+    if (knownhost == NULL) {
+        ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
+        ctx->source = "labssh2_knownhost_magic";
+        ctx->message = NULL_KNOWNHOST;
+        return;
+    }
+    *magic = knownhost->inner->magic;
+}
+
+void
+labssh2_knownhost_name_len(
+    labssh2_t* ctx,
+    labssh2_knownhost_t* knownhost,
+    size_t* len
+) {
+    assert(ctx);
+    if (knownhost == NULL) {
+        ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
+        ctx->source = "labssh2_knownhost_name_len";
+        ctx->message = NULL_KNOWNHOST;
+        return;
+    }
+    if (knownhost->inner->name == NULL) {
+        *len = 0;
+    } else {
+        *len = strlen(knownhost->inner->name);
+    }
+}
+
+void
+labssh2_knownhost_name(
+    labssh2_t* ctx,
+    labssh2_knownhost_t* knownhost,
+    char* buffer
+) {
+    assert(ctx);
+    if (knownhost == NULL) {
+        ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
+        ctx->source = "labssh2_knownhost_name";
+        ctx->message = NULL_KNOWNHOST;
+        return;
+    }
+    if (buffer == NULL) {
+        ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
+        ctx->source = "labssh2_knownhost_name";
+        ctx->message = "The buffer cannot be null";
+        return;
+    }
+    if (knownhost->inner->name == NULL) {
+        return;
+    }
+    memcpy(buffer, knownhost->inner->name, strlen(knownhost->inner->name));
+}
+
+void
+labssh2_knownhost_key_len(
+    labssh2_t* ctx,
+    labssh2_knownhost_t* knownhost,
+    size_t* len
+) {
+    assert(ctx);
+    if (knownhost == NULL) {
+        ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
+        ctx->source = "labssh2_knownhost_key_len";
+        ctx->message = NULL_KNOWNHOST;
+        return;
+    }
+    if (knownhost->inner->key == NULL) {
+        ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
+        ctx->source = "labssh2_knownhost_key";
+        ctx->message = "The key cannot be null";
+        return;
+    }
+    *len = strlen(knownhost->inner->key);
+}
+
+void
+labssh2_knownhost_key(
+    labssh2_t* ctx,
+    labssh2_knownhost_t* knownhost,
+    char* buffer
+) {
+    assert(ctx);
+    if (knownhost == NULL) {
+        ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
+        ctx->source = "labssh2_knownhost_key";
+        ctx->message = NULL_KNOWNHOST;
+        return;
+    }
+    if (knownhost->inner->key == NULL) {
+        ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
+        ctx->source = "labssh2_knownhost_key";
+        ctx->message = "The key cannot be null";
+        return;
+    }
+    if (buffer == NULL) {
+        ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
+        ctx->source = "labssh2_knownhost_key";
+        ctx->message = "The buffer cannot be null";
+        return;
+    }
+    memcpy(buffer, knownhost->inner->key, strlen(knownhost->inner->key));
+}
+
+void
+labssh2_knownhost_type_mask(
+    labssh2_t* ctx,
+    labssh2_knownhost_t* knownhost,
+    int* type_mask
+) {
+    assert(ctx);
+    if (knownhost == NULL) {
+        ctx->status = LABSSH2_STATUS_ERROR_NULL_VALUE;
+        ctx->source = "labssh2_knownhost_key";
+        ctx->message = NULL_KNOWNHOST;
+        return;
+    }
+    *type_mask = knownhost->inner->typemask;
 }
 
