@@ -124,28 +124,28 @@ labssh2_status_message(
     labssh2_status_t status
 ) {
     switch (status) {
-        case LABSSH2_STATUS_MISMATCH: return "Host was found, but the keys did not match";
-        case LABSSH2_STATUS_MATCH: return "Hosts and keys match";
-        case LABSSH2_STATUS_NOT_FOUND: return "No host match was found";
-        case LABSSH2_STATUS_END_OF_HOSTS: return "There are no more hosts";
-        case LABSSH2_STATUS_OK: return "The function completed successfully";
-        case LABSSH2_STATUS_ERROR_GENERIC: return "An unknown or generic error has occurred, good luck";
-        case LABSSH2_STATUS_ERROR_MALLOC: return "Unable to allocate memory, most likely out of memory";
-        case LABSSH2_STATUS_ERROR_FREE: return "Unable to deallocate, or free, memory";
-        case LABSSH2_STATUS_ERROR_NULL_VALUE: return "The function argument/parameter cannot be NULL";
-        case LABSSH2_STATUS_ERROR_SOCKET_NONE: return "The socket is invalid";
+        case LABSSH2_STATUS_MISMATCH: return "A host was found, but the keys did not match.";
+        case LABSSH2_STATUS_MATCH: return "The hosts and keys match.";
+        case LABSSH2_STATUS_NOT_FOUND: return "No match for the host was found.";
+        case LABSSH2_STATUS_END_OF_HOSTS: return "There are no more hosts.";
+        case LABSSH2_STATUS_OK: return "The function completed successfully.";
+        case LABSSH2_STATUS_ERROR_GENERIC: return "An unknown or generic error has occurred, good luck.";
+        case LABSSH2_STATUS_ERROR_MALLOC: return "Unable to allocate memory, most likely the system is out of memory.";
+        case LABSSH2_STATUS_ERROR_FREE: return "Unable to deallocate, or free, memory.";
+        case LABSSH2_STATUS_ERROR_NULL_VALUE: return "The function argument/parameter cannot be NULL.";
+        case LABSSH2_STATUS_ERROR_SOCKET_NONE: return "The socket is invalid.";
         case LABSSH2_STATUS_ERROR_BANNER_RECV: return "";
-        case LABSSH2_STATUS_ERROR_BANNER_SEND: return "Unable to send banner to remote host";
+        case LABSSH2_STATUS_ERROR_BANNER_SEND: return "Unable to send banner to remote host.";
         case LABSSH2_STATUS_ERROR_INVALID_MAC: return "";
-        case LABSSH2_STATUS_ERROR_KEX_FAILURE: return "Encryption key exchange with remote host failed";
-        case LABSSH2_STATUS_ERROR_SOCKET_SEND: return "Unable to send data on socket";
+        case LABSSH2_STATUS_ERROR_KEX_FAILURE: return "The encryption key exchange with the remote host has failed.";
+        case LABSSH2_STATUS_ERROR_SOCKET_SEND: return "Unable to send data on socket.";
         case LABSSH2_STATUS_ERROR_KEY_EXCHANGE_FAILURE: return "";
         case LABSSH2_STATUS_ERROR_TIMEOUT: return "";
         case LABSSH2_STATUS_ERROR_HOST_KEY_INITIALIZE: return "";
         case LABSSH2_STATUS_ERROR_HOST_KEY_SIGNATURE: return "";
         case LABSSH2_STATUS_ERROR_DECRYPTION: return "";
-        case LABSSH2_STATUS_ERROR_SOCKET_DISCONNECT: return "The socket was disconnected";
-        case LABSSH2_STATUS_ERROR_PROTOCOL: return "An invalid SSH protocol response was received on the socket";
+        case LABSSH2_STATUS_ERROR_SOCKET_DISCONNECT: return "The socket was disconnected.";
+        case LABSSH2_STATUS_ERROR_PROTOCOL: return "An invalid SSH protocol response was received on the socket.";
         case LABSSH2_STATUS_ERROR_PASSWORD_EXPIRED: return "";
         case LABSSH2_STATUS_ERROR_FILE: return "";
         case LABSSH2_STATUS_ERROR_NONE: return "";
@@ -168,8 +168,8 @@ labssh2_status_message(
         case LABSSH2_STATUS_ERROR_INVALID: return "";
         case LABSSH2_STATUS_ERROR_INVALID_POLL_TYPE: return "";
         case LABSSH2_STATUS_ERROR_PUBLIC_KEY_PROTOCOL: return "";
-        case LABSSH2_STATUS_ERROR_EXECUTE_AGAIN: return "Marked for non-blocking I/O but the call would block";
-        case LABSSH2_STATUS_ERROR_BUFFER_TOO_SMALL: return "";
+        case LABSSH2_STATUS_ERROR_EXECUTE_AGAIN: return "The operation has been marked for non-blocking I/O but the call would block.";
+        case LABSSH2_STATUS_ERROR_BUFFER_TOO_SMALL: return "The buffer has been deemed too small to fit the data. You are advised to call the function again with a larger buffer.";
         case LABSSH2_STATUS_ERROR_BAD_USE: return "";
         case LABSSH2_STATUS_ERROR_COMMPRESS: return "";
         case LABSSH2_STATUS_ERROR_OUT_OF_BOUNDARY: return "";
@@ -178,11 +178,11 @@ labssh2_status_message(
         case LABSSH2_STATUS_ERROR_ENCRYPTION: return "";
         case LABSSH2_STATUS_ERROR_BAD_SOCKET: return "";
         case LABSSH2_STATUS_ERROR_KNOWN_HOSTS: return ""; 
-case LABSSH2_STATUS_ERROR_UNKNOWN_HASH_ALGORITHM: return "Only the MD5 and SHA1 algorithms are supported";
-        case LABSSH2_STATUS_ERROR_HASH_UNAVAILABLE: return "The session has not been started, or the requested hash algorithm is not available";
-        case LABSSH2_STATUS_ERROR_UNKNOWN_NAME_TYPE: return "Unknown host name type";
-        case LABSSH2_STATUS_ERROR_UNKNOWN_KEY_ENCODING: return "Unknown key encoding";
-        case LABSSH2_STATUS_ERROR_UNKNOWN_KEY_ALGORITHM: return "Unknown key algorithm";
+case LABSSH2_STATUS_ERROR_UNKNOWN_HASH_ALGORITHM: return "Only the MD5 and SHA1 algorithms are supported.";
+        case LABSSH2_STATUS_ERROR_HASH_UNAVAILABLE: return "The session has not been started, or the requested hash algorithm is not available.";
+        case LABSSH2_STATUS_ERROR_UNKNOWN_NAME_TYPE: return "The host name type is unknown.";
+        case LABSSH2_STATUS_ERROR_UNKNOWN_KEY_ENCODING: return "The key encoding is unknown.";
+        case LABSSH2_STATUS_ERROR_UNKNOWN_KEY_ALGORITHM: return "The key algorithm is unknown.";
         default: return UNKNOWN_STATUS;
     }
 }
