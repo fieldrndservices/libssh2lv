@@ -31,29 +31,22 @@
  *   Christopher R. Field <chris@fieldrndservices.com>
  */
 
-#include <assert.h>
-#include <stdbool.h>
-#include <stdlib.h>
-
 #include "libssh2.h"
 
 #include "labssh2.h"
-#include "labssh2-private.h"
 
-static labssh2_t OUT_OF_MEMORY_CONTEXT = {
-    LABSSH2_STATUS_ERROR_MEMORY,                     // Status
-    "labssh2_create",                                // Source
-    "Not enough memory available to create context", // Message
-};
-
-static void
-init(labssh2_t* ctx)
+labssh2_status_t
+labssh2_initialize()
 {
-    assert(ctx);
-    ctx->status = LABSSH2_STATUS_OK;
-    ctx->source = "";
-    ctx->message = "";
     libssh2_init(0);
+    return LABSSH2_STATUS_OK;
+}
+
+labssh2_status_t
+labssh2_shutdown()
+{
+    libssh2_exit();
+    return LABSSH2_STATUS_OK;
 }
 
 const char*
@@ -78,58 +71,5 @@ unsigned int
 labssh2_version_patch()
 {
     return VERSION_PATCH;
-}
-
-labssh2_t*
-labssh2_create()
-{
-    labssh2_t* context = malloc(sizeof(labssh2_t));
-    if (context == NULL) {
-        return &OUT_OF_MEMORY_CONTEXT;
-    }
-    init(context);
-    return context;
-}
-
-void
-labssh2_destroy(labssh2_t* ctx)
-{
-    free(ctx);
-    libssh2_exit();
-}
-
-labssh2_status_t
-labssh2_status(labssh2_t* ctx)
-{
-    assert(ctx);
-    return ctx->status;
-}
-
-const char*
-labssh2_source(labssh2_t* ctx)
-{
-    assert(ctx);
-    return ctx->source;
-}
-
-const char*
-labssh2_message(labssh2_t* ctx)
-{
-    assert(ctx);
-    return ctx->message;
-}
-
-bool
-labssh2_is_ok(labssh2_t* ctx)
-{
-    assert(ctx);
-    return labssh2_status(ctx) == LABSSH2_STATUS_OK;
-}
-
-bool
-labssh2_is_err(labssh2_t* ctx)
-{
-    assert(ctx);
-    return labssh2_status(ctx) != LABSSH2_STATUS_OK;
 }
 

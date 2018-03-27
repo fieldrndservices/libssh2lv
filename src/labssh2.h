@@ -70,12 +70,29 @@ extern "C" {
  * Status
  */
 typedef enum _labssh2_status {
+    LABSSH2_STATUS_MISMATCH = 4,
+    LABSSH2_STATUS_MATCH = 3,
+    LABSSH2_STATUS_NOT_FOUND = 2,
+    LABSSH2_STATUS_END_OF_HOSTS = 1,
+
     LABSSH2_STATUS_OK = 0,
 
-    LABSSH2_STATUS_ERROR_MEMORY,
-    LABSSH2_STATUS_ERROR_NULL_VALUE,
-    LABSSH2_STATUS_ERROR_SESSION,
-    LABSSH2_STATUS_ERROR_KNOWNHOSTS,
+    LABSSH2_STATUS_ERROR_GENERIC = -1,
+    LABSSH2_STATUS_ERROR_MALLOC = -2,
+    LABSSH2_STATUS_ERROR_FREE = -3,
+    LABSSH2_STATUS_ERROR_NULL_VALUE = -4,
+    LABSSH2_STATUS_ERROR_SOCKET_NONE = -5,
+    LABSSH2_STATUS_ERROR_BANNER_SEND = -6,
+    LABSSH2_STATUS_ERROR_KEX_FAILURE = -7,
+    LABSSH2_STATUS_ERROR_SOCKET_SEND = -8,
+    LABSSH2_STATUS_ERROR_SOCKET_DISCONNECT = -9,
+    LABSSH2_STATUS_ERROR_PROTOCAL = -10,
+    LABSSH2_STATUS_ERROR_EXECUTE_AGAIN = -11,
+    LABSSH2_STATUS_ERROR_UNKNOWN_HASH_ALGORITHM = -12,
+    LABSSH2_STATUS_ERROR_HASH_UNAVAILABLE = -13,
+    LABSSH2_STATUS_ERROR_UNKNOWN_NAME_TYPE = -14,
+    LABSSH2_STATUS_ERROR_UNKNOWN_KEY_ENCODING = -15,
+    LABSSH2_STATUS_ERROR_UNKNOWN_KEY_ALGORITHM = -16,
 } labssh2_status_t;
 
 typedef enum _labssh2_session_modes {
@@ -94,11 +111,11 @@ typedef enum _labssh2_hostkey_types {
     LABSSH2_HOSTKEY_TYPE_UNKNOWN = 2
 } labssh2_hostkey_types_t;
 
-typedef enum _labssh2_knownhost_types {
-    LABSSH2_KNOWNHOST_TYPE_PLAIN = 0,
-    LABSSH2_KNOWNHOST_TYPE_SHA1 = 1,
-    LABSSH2_KNOWNHOST_TYPE_CUSTOM = 2,
-} labssh2_knownhost_types_t;
+typedef enum _labssh2_knownhost_name_types {
+    LABSSH2_KNOWNHOST_NAME_TYPE_PLAIN = 0,
+    LABSSH2_KNOWNHOST_NAME_TYPE_SHA1 = 1,
+    LABSSH2_KNOWNHOST_NAME_TYPE_CUSTOM = 2,
+} labssh2_knownhost_name_types_t;
 
 typedef enum _labssh2_knownhost_key_encodings {
     LABSSH2_KNOWNHOST_KEY_ENCODING_RAW = 0,
@@ -146,38 +163,11 @@ typedef struct _labssh2_knownhost labssh2_knownhost_t;
  * @{
  */
 
-LABSSH2_API labssh2_t* 
-labssh2_create();
+LABSSH2_API labssh2_status_t
+labssh2_initialize();
 
-LABSSH2_API void 
-labssh2_destroy(
-    labssh2_t* ctx
-);
-
-LABSSH2_API labssh2_status_t 
-labssh2_status(
-    labssh2_t* ctx
-);
-
-LABSSH2_API const char* 
-labssh2_source(
-    labssh2_t* ctx
-);
-
-LABSSH2_API const char* 
-labssh2_message(
-    labssh2_t* ctx
-);
-
-LABSSH2_API bool 
-labssh2_is_ok(
-    labssh2_t* ctx
-);
-
-LABSSH2_API bool 
-labssh2_is_err(
-    labssh2_t* ctx
-);
+LABSSH2_API labssh2_status_t
+labssh2_shutdown();
 
 /**
  * @}
@@ -189,54 +179,50 @@ labssh2_is_err(
  * @{
  */
 
-LABSSH2_API labssh2_session_t* 
+LABSSH2_API labssh2_status_t
 labssh2_session_create(
-    labssh2_t* ctx
+    labssh2_session_t* handle
 );
 
-LABSSH2_API void 
+LABSSH2_API labssh2_status_t
 labssh2_session_destroy(
-    labssh2_t* ctx, 
-    labssh2_session_t* session
+    labssh2_session_t* handle
 );
 
-LABSSH2_API void 
+LABSSH2_API labssh2_status_t
 labssh2_session_connect(
-    labssh2_t* ctx, 
-    labssh2_session_t* session, 
-    uintptr_t socket
+    labssh2_session_t* handle, 
+    const uintptr_t socket
 );
 
-LABSSH2_API void 
+LABSSH2_API labssh2_status_t
 labssh2_session_disconnect(
-    labssh2_t* ctx, 
-    labssh2_session_t* session, 
+    labssh2_session_t* handle, 
     const char* description
 );
 
-LABSSH2_API size_t 
+LABSSH2_API labssh2_status_t
 labssh2_session_hostkey_hash_len(
-    labssh2_hostkey_hash_types_t type
+    const labssh2_hostkey_hash_types_t type,
+    size_t* len
 );
 
-LABSSH2_API void 
+LABSSH2_API labssh2_status_t
 labssh2_session_hostkey_hash(
-    labssh2_t* ctx, 
-    labssh2_session_t* session, 
-    labssh2_hostkey_hash_types_t type,
+    labssh2_session_t* handle, 
+    const labssh2_hostkey_hash_types_t type,
     uint8_t* buffer
 );
 
-LABSSH2_API size_t
+LABSSH2_API labssh2_status_t
 labssh2_session_hostkey_len(
-    labssh2_t* ctx,
-    labssh2_session_t* session
+    labssh2_session_t* handle,
+    size_t* len
 );
 
-LABSSH2_API void
+LABSSH2_API labssh2_status_t
 labssh2_session_hostkey(
-    labssh2_t* ctx,
-    labssh2_session_t* session,
+    labssh2_session_t* handle,
     uint8_t* buffer,
     labssh2_hostkey_types_t* type
 );
@@ -251,28 +237,26 @@ labssh2_session_hostkey(
  * @{
  */
 
-LABSSH2_API labssh2_knownhosts_t* 
+LABSSH2_API labssh2_status_t
 labssh2_knownhosts_create(
-    labssh2_t* ctx,
-    labssh2_session_t* session
+    labssh2_session_t* session,
+    labssh2_knownhosts_t* handle
 );
 
-LABSSH2_API void 
+LABSSH2_API labssh2_status_t
 labssh2_knownhosts_destroy(
-    labssh2_knownhosts_t* knownhosts
+    labssh2_knownhosts_t* handle
 );
 
-LABSSH2_API bool
+LABSSH2_API labssh2_status_t
 labssh2_knownhosts_get(
-    labssh2_t* ctx,
-    labssh2_knownhosts_t* knownhosts,
+    labssh2_knownhosts_t* handle,
     labssh2_knownhost_t* knownhost
 );
 
-LABSSH2_API void
+LABSSH2_API labssh2_status_t
 labssh2_knownhosts_add(
-    labssh2_t* ctx,
-    labssh2_knownhosts_t* knownhosts,
+    labssh2_knownhosts_t* handle,
     const char* name,
     const char* salt,
     const char* key,
@@ -283,17 +267,17 @@ labssh2_knownhosts_add(
     labssh2_knownhost_t* knownhost
 );
 
-LABSSH2_API int
+LABSSH2_API labssh2_status_t
 labssh2_knownhosts_type_mask(
-    labssh2_knownhost_types_t type,
-    labssh2_knownhost_key_encodings_t encoding,
-    labssh2_knownhost_key_algorithms_t algorithm
+    const labssh2_knownhost_name_types_t type,
+    const labssh2_knownhost_key_encodings_t encoding,
+    const labssh2_knownhost_key_algorithms_t algorithm,
+    int* type_mask
 );
 
-LABSSH2_API labssh2_knownhosts_check_result_t
+LABSSH2_API labssh2_status_t
 labssh2_knownhosts_check(
-    labssh2_t* ctx,
-    labssh2_knownhosts_t* knownhosts,
+    labssh2_knownhosts_t* handle,
     const char* host,
     const int port,
     const char* key,
@@ -302,42 +286,39 @@ labssh2_knownhosts_check(
     labssh2_knownhost_t* knownhost
 );
 
-LABSSH2_API void
+LABSSH2_API labssh2_status_t
 labssh2_knownhosts_delete(
-    labssh2_t* ctx,
-    labssh2_knownhosts_t* knownhosts,
+    labssh2_knownhosts_t* handle,
     labssh2_knownhost_t* knownhost
 );
 
-LABSSH2_API int
+LABSSH2_API labssh2_status_t
 labssh2_knownhosts_read_file(
-    labssh2_t* ctx,
-    labssh2_knownhosts_t* knownhosts,
-    const char* file
+    labssh2_knownhosts_t* handle,
+    const char* file,
+    size_t* count
 );
 
-LABSSH2_API void
+LABSSH2_API labssh2_status_t
 labssh2_knownhosts_read_line(
-    labssh2_t* ctx,
-    labssh2_knownhosts_t* knownhosts,
+    labssh2_knownhosts_t* handle,
     const char* line,
     const size_t line_len
 );
 
-LABSSH2_API void
+LABSSH2_API labssh2_status_t
 labssh2_knownhosts_write_file(
-    labssh2_t* ctx,
-    labssh2_knownhosts_t* knownhosts,
+    labssh2_knownhosts_t* handle,
     const char* file
 );
 
-LABSSH2_API size_t
+LABSSH2_API labssh2_status_t
 labssh2_knownhosts_write_line(
-    labssh2_t* ctx,
-    labssh2_knownhosts_t* knownhosts,
+    labssh2_knownhosts_t* handle,
     labssh2_knownhost_t* knownhost,
-    char* buffer,
-    size_t buffer_len
+    char* line,
+    const size_t line_len,
+    size_t* len
 );
 
 /**
@@ -350,55 +331,49 @@ labssh2_knownhosts_write_line(
  * @{
  */
 
-LABSSH2_API labssh2_knownhost_t* 
+LABSSH2_API labssh2_status_t
 labssh2_knownhost_create(
-    labssh2_t* ctx
+    labssh2_knownhost_t* handle
 );
 
-LABSSH2_API void 
+LABSSH2_API labssh2_status_t
 labssh2_knownhost_destroy(
-    labssh2_knownhost_t* knownhosts
+    labssh2_knownhost_t* handle
 );
 
-LABSSH2_API void
+LABSSH2_API labssh2_status_t
 labssh2_knownhost_magic(
-    labssh2_t* ctx,
-    labssh2_knownhost_t* knownhost,
+    labssh2_knownhost_t* handle,
     int* magic
 );
 
-LABSSH2_API void
+LABSSH2_API labssh2_status_t
 labssh2_knownhost_name_len(
-    labssh2_t* ctx,
-    labssh2_knownhost_t* knownhost,
+    labssh2_knownhost_t* handle,
     size_t* len
 );
 
-LABSSH2_API void
+LABSSH2_API labssh2_status_t
 labssh2_knownhost_name(
-    labssh2_t* ctx,
-    labssh2_knownhost_t* knownhost,
+    labssh2_knownhost_t* handle,
     char* buffer
 );
 
-LABSSH2_API void
+LABSSH2_API labssh2_status_t
 labssh2_knownhost_key_len(
-    labssh2_t* ctx,
-    labssh2_knownhost_t* knownhost,
+    labssh2_knownhost_t* handle,
     size_t* len
 );
 
-LABSSH2_API void
+LABSSH2_API labssh2_status_t
 labssh2_knownhost_key(
-    labssh2_t* ctx,
-    labssh2_knownhost_t* knownhost,
+    labssh2_knownhost_t* handle,
     char* buffer
 );
 
-LABSSH2_API void
+LABSSH2_API labssh2_status_t
 labssh2_knownhost_type_mask(
-    labssh2_t* ctx,
-    labssh2_knownhost_t* knownhost,
+    labssh2_knownhost_t* handle,
     int* type_mask
 );
 
@@ -439,21 +414,20 @@ LABSSH2_API unsigned int
 labssh2_version_patch();
 
 /**
- * Gets an integer representation of the status. 
- *
- * Errors are negative values, warnings are positive values, and zero (0) is no
- * error or warning, i.e. "OK".
- */
-LABSSH2_API int 
-labssh2_status_code(
-    labssh2_status_t status
-);
-
-/**
  * Gets a string representation of the status.
  */
 LABSSH2_API const char* 
 labssh2_status_string(
+    labssh2_status_t status
+);
+
+LABSSH2_API bool 
+labssh2_status_is_ok(
+    labssh2_status_t status
+);
+
+LABSSH2_API bool 
+labssh2_status_is_err(
     labssh2_status_t status
 );
 
