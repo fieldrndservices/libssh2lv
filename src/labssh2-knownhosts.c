@@ -37,6 +37,7 @@
 #include "libssh2.h"
 
 #include "labssh2.h"
+#include "labssh2-status-private.h"
 #include "labssh2-session-private.h"
 #include "labssh2-knownhost-private.h"
 #include "labssh2-knownhosts-private.h"
@@ -96,7 +97,7 @@ labssh2_knownhosts_get(
     switch (result) {
         case 0: return LABSSH2_STATUS_OK;
         case 1: return LABSSH2_STATUS_END_OF_HOSTS;
-        default: return LABSSH2_STATUS_ERROR_GENERIC;
+        default: return labssh2_status_from_result(result);
     }
 }
 
@@ -129,10 +130,7 @@ labssh2_knownhosts_add(
         type_mask, 
         &knownhost->inner
     );
-    if (result != 0) {
-        return LABSSH2_STATUS_ERROR_GENERIC;
-    }
-    return LABSSH2_STATUS_OK;
+    return labssh2_status_from_result(result);
 }
 
 labssh2_status_t
@@ -192,7 +190,7 @@ labssh2_knownhosts_check(
         case LIBSSH2_KNOWNHOST_CHECK_NOTFOUND: return LABSSH2_STATUS_NOT_FOUND;
         case LIBSSH2_KNOWNHOST_CHECK_MATCH: return LABSSH2_STATUS_MATCH;
         case LIBSSH2_KNOWNHOST_CHECK_MISMATCH: return LABSSH2_STATUS_MISMATCH;
-        default: return LABSSH2_STATUS_ERROR_GENERIC;
+        default: return labssh2_status_from_result(result);
     }
 }
 
@@ -211,10 +209,7 @@ labssh2_knownhosts_delete(
         handle->inner, 
         knownhost->inner
     );
-    if (result != 0) {
-        return LABSSH2_STATUS_ERROR_GENERIC;
-    }
-    return LABSSH2_STATUS_OK;
+    return labssh2_status_from_result(result);
 }
 
 labssh2_status_t
@@ -235,7 +230,7 @@ labssh2_knownhosts_read_file(
         LIBSSH2_KNOWNHOST_FILE_OPENSSH
     );
     if (result < 0) {
-        return LABSSH2_STATUS_ERROR_GENERIC; // TODO: Change to function that converts libssh2 result to error
+        return labssh2_status_from_result(result);
     }
     *count = result;
     return LABSSH2_STATUS_OK;
@@ -259,10 +254,7 @@ labssh2_knownhosts_read_line(
         line_len,
         LIBSSH2_KNOWNHOST_FILE_OPENSSH
     );
-    if (result != 0) {
-        return LABSSH2_STATUS_ERROR_GENERIC;
-    }
-    return LABSSH2_STATUS_OK;
+    return labssh2_status_from_result(result);
 }
 
 labssh2_status_t
@@ -281,10 +273,7 @@ labssh2_knownhosts_write_file(
         file,
         LIBSSH2_KNOWNHOST_FILE_OPENSSH
     );
-    if (result != 0) {
-        return LABSSH2_STATUS_ERROR_GENERIC;
-    }
-    return LABSSH2_STATUS_OK;
+    return labssh2_status_from_result(result);
 }
 
 labssh2_status_t
@@ -309,9 +298,6 @@ labssh2_knownhosts_write_line(
         len,
         LIBSSH2_KNOWNHOST_FILE_OPENSSH
     );
-    if (result < 0) {
-        return LABSSH2_STATUS_ERROR_GENERIC; // TODO: Convert from libssh2 error instead of generic
-    }
-    return LABSSH2_STATUS_OK;
+    return labssh2_status_from_result(result);
 }
 
