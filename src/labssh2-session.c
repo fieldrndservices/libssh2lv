@@ -37,6 +37,7 @@
 #include "libssh2.h"
 
 #include "labssh2.h"
+#include "labssh2-status-private.h"
 #include "labssh2-session-private.h"
 
 labssh2_status_t
@@ -82,19 +83,7 @@ labssh2_session_connect(
         return LABSSH2_STATUS_ERROR_NULL_VALUE;
     }
     int result = libssh2_session_handshake(handle->inner, socket);
-    if (result != 0) {
-        switch (result) {
-            case LIBSSH2_ERROR_SOCKET_NONE: return LABSSH2_STATUS_ERROR_SOCKET_NONE;
-            case LIBSSH2_ERROR_BANNER_SEND: return LABSSH2_STATUS_ERROR_BANNER_SEND;
-            case LIBSSH2_ERROR_KEX_FAILURE: return LABSSH2_STATUS_ERROR_KEX_FAILURE;
-            case LIBSSH2_ERROR_SOCKET_SEND: return LABSSH2_STATUS_ERROR_SOCKET_SEND;
-            case LIBSSH2_ERROR_SOCKET_DISCONNECT: return LABSSH2_STATUS_ERROR_SOCKET_DISCONNECT;
-            case LIBSSH2_ERROR_PROTO: return LABSSH2_STATUS_ERROR_PROTOCOL;
-            case LIBSSH2_ERROR_EAGAIN: return LABSSH2_STATUS_ERROR_EXECUTE_AGAIN;
-            default: return LABSSH2_STATUS_ERROR_GENERIC;
-        }
-    }
-    return LABSSH2_STATUS_OK;
+    return labssh2_status_from_result(result);
 }
 
 labssh2_status_t

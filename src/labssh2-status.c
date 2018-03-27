@@ -38,19 +38,23 @@
 static const char* UNKNOWN_STATUS = "Unknown status";
 
 bool
-labssh2_status_is_ok(labssh2_status_t status)
-{
+labssh2_status_is_ok(
+    labssh2_status_t status
+) {
     return status >= LABSSH2_STATUS_OK;
 }
 
 bool
-labssh2_status_is_err(labssh2_status_t status)
-{
+labssh2_status_is_err(
+    labssh2_status_t status
+) {
     return status < LABSSH2_STATUS_OK;
 }
 
 const char*
-labssh2_status_string(labssh2_status_t status) {
+labssh2_status_string(
+    labssh2_status_t status
+) {
     switch (status) {
         case LABSSH2_STATUS_MISMATCH: return "Mismatch";
         case LABSSH2_STATUS_MATCH: return "Match";
@@ -184,8 +188,9 @@ case LABSSH2_STATUS_ERROR_UNKNOWN_HASH_ALGORITHM: return "Only the MD5 and SHA1 
 }
 
 labssh2_status_t 
-labssh2_status_from_result(int libssh2_result) 
-{
+labssh2_status_from_result(
+    int libssh2_result
+) {
     if (libssh2_result >= 0) {
         return LABSSH2_STATUS_OK;
     }
