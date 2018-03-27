@@ -1,14 +1,12 @@
 # LabSSH2-C: A LabVIEW-Friendly C library for libssh2
 
-[About](#what-is-labssh2-c) | [Install](#install) | [Build](#build) | [API](https://fieldrndservices.github.io/labssh2-c/) | [Tests](#tests) | [License](#license)
+The LabSSH2-C project is a [LabVIEW&trade;](http://www.ni.com/labview)-friendly C "wrapper" library for the [libssh2]() library. The library is intended to be used with the [Call Library Function](http://zone.ni.com/reference/en-XX/help/371361P-01/glang/call_library_function/) node. This provides SSH client functionality to LabVIEW as a <abbr title="Dynamic Link Library">DLL</abbr> (Windows), <abbr title="Dynamic Library">Dylib</abbr> (macOS), and/or <abbr title="Shared Object">SO</abbr> (Linux).
 
-## What is LabSSH2-C?
+[Installation](#installation) | [Build](#build) | [API](https://fieldrndservices.github.io/labssh2-c/) | [Tests](#tests) | [License](#license)
 
-The LabSSH2-C project is a [LabVIEW](http://www.ni.com/labview)-friendly C library for encoding and decoding [MessagePack](http://www.msgpack.org) data. The library is intended to be used with the [Call Library Function](http://zone.ni.com/reference/en-XX/help/371361P-01/glang/call_library_function/) node. This provides MessagePack encoding and decoding functionality to LabVIEW as a Dynamic Link Library (DLL, Windows), Dynamic Library (Dylib, macOS), and/or Shared Object (SO, Linux).
+## Installation
 
-## Install
-
-A single ZIP archive containing the pre-compiled/built shared libraries for all of the platforms listed in the [Build](#build) section is provided with each [release](https://github.com/fieldrndservices/labssh2-c/releases).
+A single ZIP archive containing the pre-compiled/built shared libraries for all of the platforms listed in the [Build](#build) section is provided with each [release](https://github.com/fieldrndservices/labssh2-c/releases). These pre-compiled/built shared libraries include software developed by the OpenSSL Project for use in the OpenSSL Toolkit (http://www.openssl.rog).
 
 1. Download the ZIP archive for the latest release. Note, this is _not_ the source code ZIP file. The ZIP archive containing the pre-compiled/built shared libraries will be labeled: `labssh2-c_#.#.#.zip`, where `#.#.#` is the version number for the release.
 2. Extract, or unzip, the ZIP archive.
@@ -25,15 +23,17 @@ A single ZIP archive containing the pre-compiled/built shared libraries for all 
 
 Ensure all of the following dependencies are installed and up-to-date before proceeding:
 
-- [CMake 3.9.x](https://cmake.org/), or newer
+- [CMake 3.10.x](https://cmake.org/), or newer
 - [Microsoft Visual C++ Build Tools 2017](https://www.visualstudio.com/downloads/#build-tools-for-visual-studio-2017), Windows Only
 - [XCode Command Line Tools](https://developer.apple.com/xcode/features/), macOS Only
 - [Git](https://git-scm.com/)
 - [C/C++ Development Tools for NI Linux Real-Time, Eclipse Edition 2017](http://www.ni.com/download/labview-real-time-module-2017/6731/en/), NI Linux RT only
 - [Doxygen](http://www.doxygen.org), Documentation only
-- [Perl](https://www.perl.org/), to build the OpenSSL dependency
+- [ActivePerl](https://www.perl.org/), Windows Only 
 
-The [OpenSSL](https://www.openssl.org/) and [libssh2](https://www.libssh2.org/) dependencies will automatically be downloaded and built as part of the build process. This is to ensure the correct version is used and that these dependencies are statically linked to the eventual `liblabssh2` dynamic library. Statically linking the dependencies avoids having to distribute separate shared libraries for OpenSSL and libssh2 on each supported platform (Windows, macOS, Linux, etc.).
+The [OpenSSL](https://www.openssl.org/) and [libssh2](https://www.libssh2.org/) dependencies will automatically be downloaded and built as part of the build process. This is to ensure the correct version is used and that these dependencies are statically linked to the eventual `liblabssh2` shared library. Statically linking the dependencies avoids having to distribute separate shared libraries for OpenSSL and libssh2 on each supported platform (Windows, macOS, Linux, etc.).
+
+The first build of the project on a system will take longer because the OpenSSL and libssh2 libraries will be downloaded and built. These dependencies can be found in the `.deps` folder.
 
 ### Windows
 
@@ -43,7 +43,7 @@ The [Microsoft Visual C++ Build Tools 2017](https://www.visualstudio.com/downloa
     > cd LabSSH2-C
     > build.bat
 
-The DLLs will be available in the `build32\bin` and `build64\bin` folders. 
+The DLLs (liblabssh2.dll and liblabssh2-x64.dll) will be available in the `build32\bin` and `build64\bin` folders. 
 
 ### macOS
 
@@ -56,7 +56,7 @@ Ensure the command-line tools for [XCode](https://developer.apple.com/xcode/) ha
     $ cmake ..
     $ cmake --build .
 
-The dynamic library (.dylib) will be available in the `bin` folder within the build folder.
+The dynamic library (liblabssh2.dylib) will be available in the `bin` folder within the `build` folder.
 
 ### Linux
 
@@ -72,7 +72,7 @@ Start a terminal, and run the following commands to obtain a copy of the source 
     $ cmake ..
     $ cmake --build .
 
-The shared object (.so) will be available in the `bin` folder.
+The shared object (liblabssh2.so) will be available in the `bin` folder.
 
 ### NI Linux RT
 
@@ -116,25 +116,11 @@ Start a terminal command prompt and navigate to the root folder of the project. 
 > ctest -C "Debug"
 ```
 
-Or
-
-```text
-> bin\reader
-> bin\writer
-> bin\status
-```
-
 ### macOS
 
 Start the Terminal.app. Note, if following from the [Build](#build) instructions, the Terminal.app has already been started and the present working directory (pwd) should already be the root folder of the project. Enter the following commands to run the tests:
 
     $ ctest
-
-Or,
-
-    $ bin/tests/reader
-    $ bin/tests/writer
-    $ bin/tests/status
 
 Or,
 
@@ -148,15 +134,9 @@ Start a terminal. Note, if following from the [Build](#build) instructions, the 
 
 Or,
 
-    $ bin/tests/reader
-    $ bin/tests/writer
-    $ bin/tests/status
-
-Or,
-
     $ make test
 
 ## License
 
-See the LICENSE file for more information about licensing and copyright.
+The labssh2 project is licensed under the [revised BSD 3-Clause](https://opensource.org/licenses/BSD-3-Clause) license. See the [LICENSE](https://github.com/fieldrndservices/labssh2-c/blob/master/LICENSE) file for more information about licensing and copyright.
 
