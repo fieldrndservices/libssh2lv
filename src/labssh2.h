@@ -131,6 +131,7 @@ typedef enum _labssh2_status {
     LABSSH2_STATUS_ERROR_UNKNOWN_NAME_TYPE = -52,
     LABSSH2_STATUS_ERROR_UNKNOWN_KEY_ENCODING = -53,
     LABSSH2_STATUS_ERROR_UNKNOWN_KEY_ALGORITHM = -54,
+    LABSSH2_STATUS_ERROR_UNKNOWN_MODE = -55,
 } labssh2_status_t;
 
 typedef enum _labssh2_session_modes {
@@ -263,6 +264,18 @@ labssh2_session_hostkey(
     labssh2_session_t* handle,
     uint8_t* buffer,
     labssh2_hostkey_types_t* type
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_session_set_mode(
+    labssh2_session_t* handle,
+    labssh2_session_modes_t mode
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_session_mode(
+    labssh2_session_t* handle,
+    labssh2_session_modes_t* mode
 );
 
 /**
@@ -466,6 +479,11 @@ labssh2_status_is_ok(
 
 LABSSH2_API bool 
 labssh2_status_is_err(
+    labssh2_status_t status
+);
+
+LABSSH2_API const char*
+labssh2_status_message(
     labssh2_status_t status
 );
 

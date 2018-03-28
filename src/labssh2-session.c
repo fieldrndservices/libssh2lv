@@ -176,3 +176,36 @@ labssh2_session_hostkey(
     return LABSSH2_STATUS_OK;
 }
 
+labssh2_status_t
+labssh2_session_mode(
+    labssh2_session_t* handle,
+    labssh2_session_modes_t* mode
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_session_get_blocking(handle->inner);
+    switch (result) {
+        case 0: *mode = LABSSH2_SESSION_MODE_NONBLOCKING; break;
+        case 1: *mode = LABSSH2_SESSION_MODE_BLOCKING; break;
+        default: return LABSSH2_STATUS_ERROR_UNKNOWN_MODE;
+    }
+    return LABSSH2_STATUS_OK;
+}
+
+labssh2_status_t
+labssh2_session_set_mode(
+    labssh2_session_t* handle,
+    labssh2_session_modes_t mode
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    switch (mode) {
+        case LABSSH2_SESSION_MODE_NONBLOCKING: libssh2_session_set_blocking(handle->inner, 0); break;
+        case LABSSH2_SESSION_MODE_BLOCKING: libssh2_session_set_blocking(handle->inner, 1); break;
+        default: return LABSSH2_STATUS_ERROR_UNKNOWN_MODE;
+    }
+    return LABSSH2_STATUS_OK;
+}
+

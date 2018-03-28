@@ -114,7 +114,8 @@ labssh2_status_string(
         case LABSSH2_STATUS_ERROR_HASH_UNAVAILABLE: return "Hash Unavailable Error";
         case LABSSH2_STATUS_ERROR_UNKNOWN_NAME_TYPE: return "Unknown Host Name Type Error";
         case LABSSH2_STATUS_ERROR_UNKNOWN_KEY_ENCODING: return "Unknwon Key Encoding Error";
-        case LABSSH2_STATUS_ERROR_UNKNOWN_KEY_ALGORITHM: return "Unknown Key Algorithm error";
+        case LABSSH2_STATUS_ERROR_UNKNOWN_KEY_ALGORITHM: return "Unknown Key Algorithm Error";
+        case LABSSH2_STATUS_ERROR_UNKNOWN_MODE: return "Unknown Mode Error";
         default: return UNKNOWN_STATUS;
     }
 }
@@ -183,6 +184,7 @@ case LABSSH2_STATUS_ERROR_UNKNOWN_HASH_ALGORITHM: return "Only the MD5 and SHA1 
         case LABSSH2_STATUS_ERROR_UNKNOWN_NAME_TYPE: return "The host name type is unknown.";
         case LABSSH2_STATUS_ERROR_UNKNOWN_KEY_ENCODING: return "The key encoding is unknown.";
         case LABSSH2_STATUS_ERROR_UNKNOWN_KEY_ALGORITHM: return "The key algorithm is unknown.";
+        case LABSSH2_STATUS_ERROR_UNKNOWN_MODE: return "The session mode is unknown.";
         default: return UNKNOWN_STATUS;
     }
 }
