@@ -41,18 +41,20 @@
 
 labssh2_status_t
 labssh2_knownhost_create(
-    labssh2_knownhost_t* handle
+    labssh2_knownhost_t** handle
 ) {
+    *handle = NULL;
     struct libssh2_knownhost* inner = malloc(sizeof(struct libssh2_knownhost));
     if (inner == NULL) {
         return LABSSH2_STATUS_ERROR_MALLOC;
     }
-    handle = malloc(sizeof(labssh2_knownhost_t));
-    if (handle == NULL) {
+    labssh2_knownhost_t* knownhost = malloc(sizeof(labssh2_knownhost_t));
+    if (knownhost == NULL) {
         free(inner);
         return LABSSH2_STATUS_ERROR_MALLOC;
     }
-    handle->inner = inner;
+    knownhost->inner = inner;
+    *handle = knownhost;
     return LABSSH2_STATUS_OK;
 }
 

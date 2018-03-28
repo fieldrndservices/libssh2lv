@@ -219,7 +219,7 @@ labssh2_shutdown();
 
 LABSSH2_API labssh2_status_t
 labssh2_session_create(
-    labssh2_session_t* handle
+    labssh2_session_t** handle
 );
 
 LABSSH2_API labssh2_status_t
@@ -278,7 +278,7 @@ labssh2_session_hostkey(
 LABSSH2_API labssh2_status_t
 labssh2_knownhosts_create(
     labssh2_session_t* session,
-    labssh2_knownhosts_t* handle
+    labssh2_knownhosts_t** handle
 );
 
 LABSSH2_API labssh2_status_t
@@ -371,7 +371,7 @@ labssh2_knownhosts_write_line(
 
 LABSSH2_API labssh2_status_t
 labssh2_knownhost_create(
-    labssh2_knownhost_t* handle
+    labssh2_knownhost_t** handle
 );
 
 LABSSH2_API labssh2_status_t

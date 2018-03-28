@@ -45,8 +45,9 @@
 labssh2_status_t
 labssh2_knownhosts_create(
     labssh2_session_t* session,
-    labssh2_knownhosts_t* handle
+    labssh2_knownhosts_t** handle
 ) {
+    *handle = NULL;
     if (session == NULL) {
         return LABSSH2_STATUS_ERROR_NULL_VALUE;
     }
@@ -61,6 +62,7 @@ labssh2_knownhosts_create(
     }
     knownhosts->inner = inner;
     knownhosts->prev = NULL;
+    *handle = knownhosts;
     return LABSSH2_STATUS_OK;
 }
 

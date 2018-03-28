@@ -42,18 +42,20 @@
 
 labssh2_status_t
 labssh2_session_create(
-    labssh2_session_t* handle
+    labssh2_session_t** handle
 ) {
+    *handle = NULL;
     LIBSSH2_SESSION* inner = libssh2_session_init_ex(NULL, NULL, NULL, NULL);
     if (inner == NULL) {
         return LABSSH2_STATUS_ERROR_MALLOC;
     }
-    handle = malloc(sizeof(labssh2_session_t));
-    if (handle == NULL) {
+    labssh2_session_t* session = malloc(sizeof(labssh2_session_t));
+    if (session == NULL) {
         libssh2_session_free(inner);
         return LABSSH2_STATUS_ERROR_MALLOC;
     }
-    handle->inner = inner;
+    session->inner = inner;
+    *handle = session;
     return LABSSH2_STATUS_OK;
 }
 
