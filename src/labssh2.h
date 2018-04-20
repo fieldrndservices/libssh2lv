@@ -132,6 +132,7 @@ typedef enum _labssh2_status {
     LABSSH2_STATUS_ERROR_UNKNOWN_KEY_ENCODING = -53,
     LABSSH2_STATUS_ERROR_UNKNOWN_KEY_ALGORITHM = -54,
     LABSSH2_STATUS_ERROR_UNKNOWN_MODE = -55,
+    LABSSH2_STATUS_ERROR_UNKNOWN_BLOCK_DIRECTION = -56,
 } labssh2_status_t;
 
 typedef enum _labssh2_session_modes {
@@ -173,6 +174,12 @@ typedef enum _labsh2_knownhosts_check_result {
     LABSSH2_KNOWNHOSTS_CHECK_RESULT_MATCH = 2,
     LABSSH2_KNOWNHOSTS_CHECK_RESULT_MISMATCH = 3,
 } labssh2_knownhosts_check_result_t;
+
+typedef enum _labssh2_session_block_directions {
+    LABSSH2_SESSION_BLOCK_DIRECTIONS_READ = 0,
+    LABSSH2_SESSION_BLOCK_DIRECTIONS_WRITE = 1,
+    LABSSH2_SESSION_BLOCK_DIRECTIONS_BOTH = 2,
+} labssh2_session_block_directions_t;
 
 /**
  * The context
@@ -294,6 +301,11 @@ LABSSH2_API labssh2_status_t
 labssh2_session_set_banner(
     labssh2_session_t* handle,
     const char* banner
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_session_block_direction(
+    labssh2_session_t* handle
 );
 
 /**

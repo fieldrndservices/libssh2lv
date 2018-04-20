@@ -40,6 +40,8 @@
 #include "labssh2-status-private.h"
 #include "labssh2-session-private.h"
 
+#define BLOCK_DIRECTIONS_BOTH 3
+
 labssh2_status_t
 labssh2_session_create(
     labssh2_session_t** handle
@@ -254,5 +256,30 @@ labssh2_session_set_banner(
     }
     int result = libssh2_session_banner_set(handle->inner, banner);
     return labssh2_status_from_result(result);
+}
+
+labssh2_status_t
+labssh2_session_block_directions(
+    labssh2_session_t* handle,
+    labssh2_session_block_directions_t* directions
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_session_block_directions(handle->inner);
+    switch (result) {
+        case BLOCK_DIRECTIONS_BOTH: 
+            *directions = LABSSH2_SESSION_BLOCK_DIRECTIONS_BOTH;
+            break;
+        case LIBSSH2_SESSION_BLOCK_INBOUND:
+            *directions = LABSSH2_SESSION_BLOCK_DIRECTIONS_READ;
+            break;
+        case LIBSSH2_SESSION_BLOCK_OUTBOUND:
+            *directions = LABSSH2_SESSION_BLOCK_DIRECTIONS_WRITE;
+            break;
+        default:
+            return LABSSH2_STATUS_ERROR_UNKNOWN_BLOCK_DIRECTION;
+    }
+    return LABSSH2_STATUS_OK;
 }
 
