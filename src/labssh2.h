@@ -278,6 +278,18 @@ labssh2_session_mode(
     labssh2_session_modes_t* mode
 );
 
+LABSSH2_API labssh2_status_t
+labssh2_session_banner_len(
+    labssh2_session_t* handle,
+    size_t* len
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_session_banner(
+    labssh2_session_t* handle,
+    uint8_t* buffer
+);
+
 /**
  * @}
  */

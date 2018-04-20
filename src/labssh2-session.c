@@ -209,3 +209,35 @@ labssh2_session_set_mode(
     return LABSSH2_STATUS_OK;
 }
 
+labssh2_status_t
+labssh2_session_banner_len(
+    labssh2_session_t* handle
+    size_t* len
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    const char* result = libssh2_session_banner_get(handle->inner);
+    if (result == NULL) {
+        return LABSSH2_STATUS_ERROR_GENERIC;
+    }
+    *len = strlen(result);
+    return LABSSH2_STATUS_OK;
+}
+
+labssh2_status_t
+labssh2_session_banner(
+    labssh2_session_t* handle,
+    uint8_t* buffer
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    const char* banner = libssh2_session_banner_get(handle->inner);
+    if (banner == NULL) {
+        return LABSSH2_STATUS_ERROR_GENERIC;
+    }
+    memcpy(buffer, banner, strlen(banner));
+    return LABSSH2_STATUS_OK;
+}
+
