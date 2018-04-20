@@ -283,3 +283,45 @@ labssh2_session_block_directions(
     return LABSSH2_STATUS_OK;
 }
 
+labssh2_status_t
+labssh2_session_enable_option(
+    labssh2_session_t* handle,
+    labssh2_session_options_t option
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = 0;
+    switch (option) {
+        case LABSSH2_SESSION_OPTIONS_SIGPIPE:
+            result = libssh2_session_flag(handle->inner, LIBSSH2_FLAG_SIGPIPE, 1);
+            return labssh2_status_from_result(result);
+        case LABSSH2_SESSION_OPTIONS_COMPRESS:
+            result = libssh2_session_flag(handle->inner, LIBSSH2_FLAG_COMPRESS, 1);
+            return labssh2_status_from_result(result);
+        default:
+            return LABSSH2_STATUS_ERROR_UNKNOWN_SESSION_OPTION;
+    }
+}
+
+labssh2_status_t
+labssh2_session_disable_option(
+    labssh2_session_t* handle,
+    labssh2_session_options_t option
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = 0;
+    switch (option) {
+        case LABSSH2_SESSION_OPTIONS_SIGPIPE:
+            result = libssh2_session_flag(handle->inner, LIBSSH2_FLAG_SIGPIPE, 0);
+            return labssh2_status_from_result(result);
+        case LABSSH2_SESSION_OPTIONS_COMPRESS:
+            result = libssh2_session_flag(handle->inner, LIBSSH2_FLAG_COMPRESS, 0);
+            return labssh2_status_from_result(result);
+        default:
+            return LABSSH2_STATUS_ERROR_UNKNOWN_SESSION_OPTION;
+    }
+}
+

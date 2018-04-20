@@ -116,6 +116,8 @@ labssh2_status_string(
         case LABSSH2_STATUS_ERROR_UNKNOWN_KEY_ENCODING: return "Unknwon Key Encoding Error";
         case LABSSH2_STATUS_ERROR_UNKNOWN_KEY_ALGORITHM: return "Unknown Key Algorithm Error";
         case LABSSH2_STATUS_ERROR_UNKNOWN_MODE: return "Unknown Mode Error";
+        case LABSSH2_STATUS_ERROR_UNKNOWN_BLOCK_DIRECTION: return "Unknown Block Direction Error";
+        case LABSSH2_STATUS_ERROR_UNKNOWN_SESSION_OPTION: return "Unknown Session Option Error";
         default: return UNKNOWN_STATUS;
     }
 }
@@ -185,6 +187,8 @@ case LABSSH2_STATUS_ERROR_UNKNOWN_HASH_ALGORITHM: return "Only the MD5 and SHA1 
         case LABSSH2_STATUS_ERROR_UNKNOWN_KEY_ENCODING: return "The key encoding is unknown.";
         case LABSSH2_STATUS_ERROR_UNKNOWN_KEY_ALGORITHM: return "The key algorithm is unknown.";
         case LABSSH2_STATUS_ERROR_UNKNOWN_MODE: return "The session mode is unknown.";
+        case LABSSH2_STATUS_ERROR_UNKNOWN_BLOCK_DIRECTION: return "The block direction is unknown";
+        case LABSSH2_STATUS_ERROR_UNKNOWN_SESSION_OPTION: return "The session option is unknown";
         default: return UNKNOWN_STATUS;
     }
 }
