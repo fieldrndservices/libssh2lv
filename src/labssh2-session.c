@@ -211,7 +211,7 @@ labssh2_session_set_mode(
 
 labssh2_status_t
 labssh2_session_banner_len(
-    labssh2_session_t* handle
+    labssh2_session_t* handle,
     size_t* len
 ) {
     if (handle == NULL) {
@@ -239,5 +239,20 @@ labssh2_session_banner(
     }
     memcpy(buffer, banner, strlen(banner));
     return LABSSH2_STATUS_OK;
+}
+
+labssh2_status_t
+labssh2_session_set_banner(
+    labssh2_session_t* handle,
+    const char* banner
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (banner == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_session_banner_set(handle->inner, banner);
+    return labssh2_status_from_result(result);
 }
 

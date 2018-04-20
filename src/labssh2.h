@@ -290,6 +290,12 @@ labssh2_session_banner(
     uint8_t* buffer
 );
 
+LABSSH2_API labssh2_status_t
+labssh2_session_set_banner(
+    labssh2_session_t* handle,
+    const char* banner
+);
+
 /**
  * @}
  */
