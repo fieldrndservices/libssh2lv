@@ -187,6 +187,19 @@ typedef enum _labssh2_session_options {
     LABSSH2_SESSION_OPTIONS_COMPRESS = 1,
 } labssh2_session_options_t;
 
+typedef enum _labssh2_methods {
+    LABSSH2_METHOD_KEX = 0,
+    LABSSH2_METHOD_HOSTKEY = 1,
+    LABSSH2_METHOD_CRYPT_CS = 2,
+    LABSSH2_METHOD_CRYPT_SC = 3,
+    LABSSH2_METHOD_MAC_CS = 4,
+    LABSSH2_METHOD_MAC_SC = 5,
+    LABSSH2_METHOD_COMP_CS = 6,
+    LABSSH2_METHOD_COMP_SC = 7,
+    LABSSH2_METHOD_LANG_CS = 8,
+    LABSSH2_METHOD_LANG_SC = 9,
+} labssh2_methods_t;
+
 /**
  * The context
  */
@@ -354,6 +367,13 @@ LABSSH2_API labssh2_status_t
 labssh2_session_last_error(
     labssh2_session_t* handle,
     uint8_t* buffer
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_session_set_method_pref(
+    labssh2_session_t* handle,
+    labssh2_methods_t method,
+    const char* prefs
 );
 
 /**

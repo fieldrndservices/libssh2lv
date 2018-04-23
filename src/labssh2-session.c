@@ -385,4 +385,20 @@ labssh2_session_last_error(
     return LABSSH2_STATUS_OK;
 }
 
+labssh2_status_t
+labssh2_session_set_method_pref(
+    labssh2_session_t* handle,
+    labssh2_methods_t method,
+    const char* prefs
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (prefs == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_session_method_pref(handle->inner, method, prefs);
+    return labssh2_status_from_result(result);
+}
+
 
