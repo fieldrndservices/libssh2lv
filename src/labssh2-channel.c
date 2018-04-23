@@ -116,6 +116,25 @@ labssh2_channel_read(
 }
 
 labssh2_status_t
+labssh2_channel_read_stderr(
+    labssh2_channel_t* handle,
+    char* buffer,
+    const size_t buffer_len,
+    size_t* byte_count
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_channel_read_ex(handle->inner, SSH_EXTENDED_DATA_STDERR, buffer, buffer_len);
+    if (result < 0) {
+        return labssh2_status_from_result(result);
+    }
+    *byte_count = result;
+    return LABSSH2_STATUS_OK;
+}
+
+
+labssh2_status_t
 labssh2_channel_direct_tcpip(
     labssh2_session_t* session,
     const char* host,

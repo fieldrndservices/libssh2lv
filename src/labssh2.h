@@ -567,6 +567,13 @@ labssh2_channel_read(
     size_t* byte_count
 );
 
+labssh2_status_t
+labssh2_channel_read_stderr(
+    labssh2_channel_t* handle,
+    char* buffer,
+    const size_t buffer_len,
+    size_t* byte_count
+);
 
 LABSSH2_API labssh2_status_t
 labssh2_channel_close(
