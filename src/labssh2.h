@@ -338,6 +338,12 @@ labssh2_session_set_timeout(
     const long milliseconds
 );
 
+labssh2_status_t
+labssh2_session_last_error_code(
+    labssh2_session_t* handle,
+    int* code
+);
+
 /**
  * @}
  */
