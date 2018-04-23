@@ -424,6 +424,12 @@ labssh2_userauth_list(
     uint8_t* buffer
 );
 
+LABSSH2_API labssh2_status_t
+labssh2_userauth_authenticated(
+    labssh2_session_t* handle, 
+    int* authenticated
+);
+
 /**
  * @}
  */

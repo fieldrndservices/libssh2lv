@@ -82,3 +82,15 @@ labssh2_userauth_list(
     return LABSSH2_STATUS_OK;
 }
 
+labssh2_status_t
+labssh2_userauth_authenticated(
+    labssh2_session_t* handle, 
+    int* authenticated
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    *authenticated = libssh2_userauth_authenticated(handle->inner);
+    return LABSSH2_STATUS_OK;
+}
+
