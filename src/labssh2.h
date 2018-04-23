@@ -135,7 +135,8 @@ typedef enum _labssh2_status {
     LABSSH2_STATUS_ERROR_UNKNOWN_BLOCK_DIRECTION = -56,
     LABSSH2_STATUS_ERROR_UNKNOWN_SESSION_OPTION = -57,
     LABSSH2_STATUS_ERROR_SESSION_NOT_STARTED = -58,
-    LABSSH2_STATUS_ERROR_VERSION_TOO_OLD = -59
+    LABSSH2_STATUS_ERROR_VERSION_TOO_OLD = -59,
+    LABSSH2_STATUS_ERROR_UNKNOWN_IGNORE_MODE = -60
 } labssh2_status_t;
 
 typedef enum _labssh2_session_modes {
@@ -201,6 +202,12 @@ typedef enum _labssh2_methods {
     LABSSH2_METHOD_LANG_CS = 8,
     LABSSH2_METHOD_LANG_SC = 9,
 } labssh2_methods_t;
+
+typedef enum _labssh2_ignore_modes {
+    LABSSH2_IGNORE_MODES_NORMAL = 0,
+    LABSSH2_IGNORE_MODES_MERGE = 1,
+    LABSSH2_IGNORE_MODES_IGNORE = 3,
+} labssh2_ignore_modes_t;
 
 /**
  * The session
@@ -602,6 +609,12 @@ labssh2_channel_forward_listen(
 LABSSH2_API labssh2_status_t
 labssh2_channel_exit_status(
     labssh2_channel_t* handle
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_channel_set_ignore_mode(
+    labssh2_channel_t* handle,
+    labssh2_ignore_modes_t mode
 );
 
 /**

@@ -217,3 +217,25 @@ labssh2_channel_exit_status(
     return labssh2_status_from_result(result);
 }
 
+labssh2_status_t
+labssh2_channel_set_ignore_mode(
+    labssh2_channel_t* handle,
+    labssh2_ignore_modes_t mode
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    switch (mode) {
+        case LABSSH2_IGNORE_MODES_NORMAL: 
+            int result = libssh2_channel_handle_extended_data2(handle->inner, LIBSSH2_CHANNEL_EXTENDED_DATA_NORMAL);
+            return labssh2_status_from_result(result);
+        case LABSSH2_IGNORE_MODES_MERGE: 
+            int result = libssh2_channel_handle_extended_data2(handle->inner, LIBSSH2_CHANNEL_EXTENDED_DATA_MERGE);
+            return labssh2_status_from_result(result);
+        case LABSSH2_IGNORE_MODES_IGNORE: 
+            int result = libssh2_channel_handle_extended_data2(handle->inner, LIBSSH2_CHANNEL_EXTENDED_DATA_IGNORE);
+            return labssh2_status_from_result(result);
+        default: return LABSSH2_STATUS_ERROR_UNKOWN_IGNORE_MODE;
+    }
+}
+
