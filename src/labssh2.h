@@ -403,6 +403,32 @@ labssh2_session_method(
  */
 
 /**
+ * @defgroup global User Authentication API
+ *
+ * @{
+ */
+
+LABSSH2_API labssh2_status_t
+labssh2_userauth_list_len(
+    labssh2_session_t* handle, 
+    const char* username,
+    size_t username_len,
+    size_t* len
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_userauth_list(
+    labssh2_session_t* handle, 
+    const char* username,
+    size_t username_len,
+    uint8_t* buffer
+);
+
+/**
+ * @}
+ */
+
+/**
  * @defgroup global Known Hosts API
  *
  * @{
