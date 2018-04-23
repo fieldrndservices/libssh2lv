@@ -182,3 +182,27 @@ labssh2_channel_forward_cancel(
     return labssh2_status_from_result(result);
 }
 
+labssh2_status_t
+labssh2_channel_forward_listen(
+    labssh2_session_t* session,
+    const int port,
+    labssh2_listener_t** handle
+) {
+    *handle = NULL;
+    if (session == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    LIBSSH2_LISTENER* inner = libssh2_channel_forward_listen_ex(session->inner, NULL, port, NULL, 16);
+    if (inner == NULL) {
+        return labssh2_status_from_result(libssh2_session_last_errno(session->inner));
+    }
+    labssh2_listener_t* listener = malloc(sizeof(labssh2_listener_t));
+    if (listener == NULL) {
+        libssh2_channel_forward_cancel(inner);
+        return LABSSH2_STATUS_ERROR_MALLOC;
+    }
+    listener->inner = inner;
+    *handle = listener;
+    return LABSSH2_STATUS_OK;
+}
+
