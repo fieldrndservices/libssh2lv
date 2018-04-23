@@ -39,6 +39,7 @@
 #include "labssh2.h"
 #include "labssh2-status-private.h"
 #include "labssh2-session-private.h"
+#include "labssh2-listener-private.h"
 #include "labssh2-channel-private.h"
 
 labssh2_status_t
@@ -141,5 +142,32 @@ labssh2_channel_flush(
     }
     int result = libssh2_channel_flush_ex(handle->inner, 0);
     return labssh2_status_from_result(result);
+}
+
+labssh2_status_t
+labssh2_channel_forward_accept(
+    labssh2_session_t* session,
+    labssh2_listener_t* listener,
+    labssh2_channel_t** handle
+) {
+    *handle = NULL;
+    if (session == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (listener == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    LIBSSH2_CHANNEL* inner = libssh2_channel_forward_accept(listener->inner);
+    if (inner == NULL) {
+        return labssh2_status_from_result(libssh2_session_last_errno(session->inner));
+    }
+    labssh2_channel_t* channel = malloc(sizeof(labssh2_channel_t));
+    if (channel == NULL) {
+        libssh2_channel_free(inner);
+        return LABSSH2_STATUS_ERROR_MALLOC;
+    }
+    channel->inner = inner;
+    *handle = channel;
+    return LABSSH2_STATUS_OK;
 }
 

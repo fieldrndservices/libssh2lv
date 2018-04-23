@@ -228,6 +228,11 @@ typedef struct _labssh2_channel labssh2_channel_t;
 typedef struct _labssh2_fileinfo labssh2_fileinfo_t;
 
 /**
+ * The listener.
+ */
+typedef struct _labssh2_listener labssh2_listener_t;
+
+/**
  * @defgroup global Global API
  *
  * Initialize and shutdown the library.
@@ -573,6 +578,13 @@ labssh2_channel_eof(
 labssh2_status_t
 labssh2_channel_flush(
     labssh2_channel_t* handle
+);
+
+labssh2_status_t
+labssh2_channel_forward_accept(
+    labssh2_session_t* session,
+    labssh2_listener_t* listener,
+    labssh2_channel_t** handle
 );
 
 /**
