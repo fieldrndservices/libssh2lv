@@ -116,3 +116,19 @@ labssh2_channel_direct_tcpip(
     return LABSSH2_STATUS_OK;
 }
 
+labssh2_status_t
+labssh2_channel_eof(
+    labssh2_channel_t* handle,
+    int* eof
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_channel_eof(handle->inner);
+    if (result < 0) {
+        return labssh2_status_from_result(result);
+    }
+    *eof = result;
+    return LABSSH2_STATUS_OK;
+}
+

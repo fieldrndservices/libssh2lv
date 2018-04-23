@@ -564,6 +564,12 @@ labssh2_channel_direct_tcpip(
     labssh2_channel_t** handle
 );
 
+LABSSH2_API labssh2_status_t
+labssh2_channel_eof(
+    labssh2_channel_t* handle,
+    int* eof
+);
+
 /**
  * @}
  */
