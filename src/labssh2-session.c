@@ -386,6 +386,19 @@ labssh2_session_last_error(
 }
 
 labssh2_status_t
+labssh2_session_set_last_error(
+    labssh2_session_t* handle,
+    int code,
+    const char* message
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_session_set_last_error(handle->inner, code, message);
+    return labssh2_status_from_result(result);
+}
+
+labssh2_status_t
 labssh2_session_set_method_pref(
     labssh2_session_t* handle,
     labssh2_methods_t method,
