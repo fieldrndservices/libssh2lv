@@ -135,6 +135,7 @@ typedef enum _labssh2_status {
     LABSSH2_STATUS_ERROR_UNKNOWN_BLOCK_DIRECTION = -56,
     LABSSH2_STATUS_ERROR_UNKNOWN_SESSION_OPTION = -57,
     LABSSH2_STATUS_ERROR_SESSION_NOT_STARTED = -58,
+    LABSSH2_STATUS_ERROR_VERSION_TOO_OLD = -59
 } labssh2_status_t;
 
 typedef enum _labssh2_session_modes {
@@ -660,6 +661,16 @@ labssh2_version_minor();
  */
 LABSSH2_API unsigned int 
 labssh2_version_patch();
+
+LABSSH2_API labssh2_status_t
+labssh2_internal_version_len(
+    size_t* len 
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_internal_version(
+    uint8_t* buffer
+);
 
 /**
  * Gets a string representation of the status.

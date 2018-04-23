@@ -73,3 +73,27 @@ labssh2_version_patch()
     return VERSION_PATCH;
 }
 
+labssh2_status_t
+labssh2_internal_version_len(
+    size_t* len 
+) {
+    const char* version = libssh2_version(0);
+    if (version == NULL) {
+        return LABSSH2_STATUS_ERROR_VERSION_TOO_OLD;
+    }
+    *len = strlen(version);
+    return LABSSH2_STATUS_OK;
+}
+
+labssh2_status_t
+labssh2_internal_version(
+    uint8_t* buffer
+) {
+    const char* version = libssh2_version(0);
+    if (version == NULL) {
+        return LABSSH2_STATUS_ERROR_VERSION_TOO_OLD;
+    }
+    memcpy(buffer, version, strlen(version));
+    return LABSSH2_STATUS_OK;
+}
+
