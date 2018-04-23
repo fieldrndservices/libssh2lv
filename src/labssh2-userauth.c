@@ -129,3 +129,49 @@ labssh2_userauth_hostbased_from_file(
     return labssh2_status_from_result(result);
 }
 
+labssh2_status_t
+labssh2_userauth_password(
+    labssh2_session_t* handle, 
+    const char* username,
+    const size_t username_len,
+    const char* password,
+    const size_t password_len
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (username == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (password == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_userauth_password_ex(handle->inner, username, username_len, password, password_len, NULL);
+    return labssh2_status_from_result(result);
+}
+
+labssh2_status_t
+labssh2_userauth_publickey_from_file(
+    labssh2_session_t* handle, 
+    const char* username,
+    const size_t username_len,
+    const char* public_key_path,
+    const char* private_key_path,
+    const char* passphrase
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (username == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (public_key_path == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (private_key_path == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_userauth_publickey_fromfile_ex(handle->inner, username, username_len, public_key_path, private_key_path, passphrase);
+    return labssh2_status_from_result(result);
+}
+

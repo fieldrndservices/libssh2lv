@@ -444,6 +444,25 @@ labssh2_userauth_hostbased_from_file(
     const size_t local_username_len
 );
 
+LABSSH2_API labssh2_status_t
+labssh2_userauth_password(
+    labssh2_session_t* handle, 
+    const char* username,
+    const size_t username_len,
+    const char* password,
+    const size_t password_len
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_userauth_publickey_from_file(
+    labssh2_session_t* handle, 
+    const char* username,
+    const size_t username_len,
+    const char* public_key_path,
+    const char* private_key_path,
+    const char* passphrase
+);
+
 /**
  * @}
  */
