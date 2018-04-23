@@ -531,6 +531,29 @@ labssh2_fileinfo_size(
  */
 
 /**
+ * @defgroup Channel API
+ *
+ * @{
+ */
+
+LABSSH2_API labssh2_status_t
+labssh2_channel_read(
+    labssh2_channel_t* handle,
+    char* buffer,
+    const size_t buffer_len,
+    size_t* byte_count
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_channel_destroy(
+    labssh2_channel_t* handle
+);
+
+/**
+ * @}
+ */
+
+/**
  * @defgroup global Known Hosts API
  *
  * @{
