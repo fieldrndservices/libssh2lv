@@ -186,6 +186,9 @@ labssh2_session_mode(
     if (handle == NULL) {
         return LABSSH2_STATUS_ERROR_NULL_VALUE;
     }
+    if (mode == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
     int result = libssh2_session_get_blocking(handle->inner);
     switch (result) {
         case 0: *mode = LABSSH2_SESSION_MODE_NONBLOCKING; break;
@@ -324,4 +327,32 @@ labssh2_session_disable_option(
             return LABSSH2_STATUS_ERROR_UNKNOWN_SESSION_OPTION;
     }
 }
+
+labssh2_status_t
+labssh2_session_timeout(
+    labssh2_session_t* handle,
+    long* milliseconds
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (milliseconds == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    *milliseconds = libssh2_session_get_timeout(handle->inner);
+    return LABSSH2_STATUS_OK;
+}
+
+labssh2_status_t
+labssh2_session_set_timeout(
+    labssh2_session_t* handle,
+    const long milliseconds
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    libssh2_session_set_timeout(handle->inner, milliseconds);
+    return LABSSH2_STATUS_OK;
+}
+
 

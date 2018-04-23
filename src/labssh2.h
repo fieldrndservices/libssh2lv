@@ -326,6 +326,18 @@ labssh2_session_disable_option(
     labssh2_session_options_t option
 );
 
+LABSSH2_API labssh2_status_t
+labssh2_session_timeout(
+    labssh2_session_t* handle,
+    long* milliseconds
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_session_set_timeout(
+    labssh2_session_t* handle,
+    const long milliseconds
+);
+
 /**
  * @}
  */
