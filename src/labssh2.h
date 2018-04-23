@@ -171,7 +171,7 @@ typedef enum _labssh2_knownhost_key_algorithms {
     LABSSH2_KNOWNHOST_KEY_ALGORITHM_SSHDSS = 2,
 } labssh2_knownhost_key_algorithms_t;
 
-typedef enum _labsh2_knownhosts_check_result {
+typedef enum _labssh2_knownhosts_check_result {
     LABSSH2_KNOWNHOSTS_CHECK_RESULT_FAILURE = 0,
     LABSSH2_KNOWNHOSTS_CHECK_RESULT_NOT_FOUND = 1,
     LABSSH2_KNOWNHOSTS_CHECK_RESULT_MATCH = 2,
@@ -221,6 +221,11 @@ typedef struct _labssh2_knownhosts labssh2_knownhosts_t;
  * The known host
  */
 typedef struct _labssh2_knownhost labssh2_knownhost_t;
+
+/**
+ * The SSH channel
+ */
+typedef struct _labssh2_channel labssh2_channel_t;
 
 /**
  * @defgroup global Global API
@@ -475,6 +480,35 @@ labssh2_userauth_publickey_from_memory(
     const size_t private_key_data_len,
     const char* passphrase
 );
+
+/**
+ * @}
+ */
+
+/**
+ * @defgroup SCP API
+ *
+ * @{
+ */
+
+LABSSH2_API labssh2_status_t
+labssh2_scp_send(
+    labssh2_session_t* session, 
+    const char* path,
+    int mode,
+    size_t file_size,
+    labssh2_channel_t** handle
+);
+
+/**
+ * @}
+ */
+
+/**
+ * @defgroup Channel API
+ *
+ * @{
+ */
 
 /**
  * @}
