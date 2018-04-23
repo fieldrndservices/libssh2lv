@@ -175,3 +175,39 @@ labssh2_userauth_publickey_from_file(
     return labssh2_status_from_result(result);
 }
 
+labssh2_status_t
+labssh2_userauth_publickey_from_memory(
+    labssh2_session_t* handle,
+    const char* username,
+    const size_t username_len,
+    const char* public_key_data,
+    const size_t public_key_data_len,
+    const char* private_key_data,
+    const size_t private_key_data_len,
+    const char* passphrase
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (username == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (public_key_data == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (private_key_data == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_userauth_publickey_frommemory(
+        handle->inner, 
+        username, 
+        username_len, 
+        public_key_data, 
+        public_key_data_len,
+        private_key_data,
+        private_key_data_len,
+        passphrase
+    );
+    return labssh2_status_from_result(result);
+}
+

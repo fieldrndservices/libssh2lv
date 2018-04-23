@@ -463,6 +463,18 @@ labssh2_userauth_publickey_from_file(
     const char* passphrase
 );
 
+LABSSH2_API labssh2_status_t
+labssh2_userauth_publickey_from_memory(
+    labssh2_session_t* handle,
+    const char* username,
+    const size_t username_len,
+    const char* public_key_data,
+    const size_t public_key_data_len,
+    const char* private_key_data,
+    const size_t private_key_data_len,
+    const char* passphrase
+);
+
 /**
  * @}
  */
