@@ -171,3 +171,14 @@ labssh2_channel_forward_accept(
     return LABSSH2_STATUS_OK;
 }
 
+labssh2_status_t
+labssh2_channel_forward_cancel(
+    labssh2_listener_t* handle
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_channel_forward_cancel(handle->inner);
+    return labssh2_status_from_result(result);
+}
+

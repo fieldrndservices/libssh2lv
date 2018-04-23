@@ -580,11 +580,16 @@ labssh2_channel_flush(
     labssh2_channel_t* handle
 );
 
-labssh2_status_t
+LABSSH2_API labssh2_status_t
 labssh2_channel_forward_accept(
     labssh2_session_t* session,
     labssh2_listener_t* listener,
     labssh2_channel_t** handle
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_channel_forward_cancel(
+    labssh2_listener_t* handle
 );
 
 /**
