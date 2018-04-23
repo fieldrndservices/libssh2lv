@@ -118,6 +118,7 @@ labssh2_status_string(
         case LABSSH2_STATUS_ERROR_UNKNOWN_MODE: return "Unknown Mode Error";
         case LABSSH2_STATUS_ERROR_UNKNOWN_BLOCK_DIRECTION: return "Unknown Block Direction Error";
         case LABSSH2_STATUS_ERROR_UNKNOWN_SESSION_OPTION: return "Unknown Session Option Error";
+        case LABSSH2_STATUS_ERROR_SESSION_NOT_STARTED: return "Session Not Started Error";
         default: return UNKNOWN_STATUS;
     }
 }
@@ -189,6 +190,7 @@ case LABSSH2_STATUS_ERROR_UNKNOWN_HASH_ALGORITHM: return "Only the MD5 and SHA1 
         case LABSSH2_STATUS_ERROR_UNKNOWN_MODE: return "The session mode is unknown.";
         case LABSSH2_STATUS_ERROR_UNKNOWN_BLOCK_DIRECTION: return "The block direction is unknown";
         case LABSSH2_STATUS_ERROR_UNKNOWN_SESSION_OPTION: return "The session option is unknown";
+        case LABSSH2_STATUS_ERROR_SESSION_NOT_STARTED: return "The session has not yet been started";
         default: return UNKNOWN_STATUS;
     }
 }

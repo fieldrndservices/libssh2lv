@@ -401,4 +401,37 @@ labssh2_session_set_method_pref(
     return labssh2_status_from_result(result);
 }
 
+labssh2_status_t
+labssh2_session_method_len(
+    labssh2_session_t* handle,
+    labssh2_methods_t method,
+    size_t* len
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    const char* actual = libssh2_session_methods(handle->inner, method);
+    if (actual == NULL) {
+        return LABSSH2_STATUS_ERROR_SESSION_NOT_STARTED;
+    }
+    *len = strlen(actual);
+    return LABSSH2_STATUS_OK;
+}
+
+labssh2_status_t
+labssh2_session_method(
+    labssh2_session_t* handle,
+    labssh2_methods_t method,
+    uint8_t* buffer
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    const char* actual = libssh2_session_methods(handle->inner, method);
+    if (actual == NULL) {
+        return LABSSH2_STATUS_ERROR_SESSION_NOT_STARTED;
+    }
+    memcpy(buffer, actual, strlen(actual));
+    return LABSSH2_STATUS_OK;
+}
 

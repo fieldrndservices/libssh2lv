@@ -134,6 +134,7 @@ typedef enum _labssh2_status {
     LABSSH2_STATUS_ERROR_UNKNOWN_MODE = -55,
     LABSSH2_STATUS_ERROR_UNKNOWN_BLOCK_DIRECTION = -56,
     LABSSH2_STATUS_ERROR_UNKNOWN_SESSION_OPTION = -57,
+    LABSSH2_STATUS_ERROR_SESSION_NOT_STARTED = -58,
 } labssh2_status_t;
 
 typedef enum _labssh2_session_modes {
@@ -374,6 +375,20 @@ labssh2_session_set_method_pref(
     labssh2_session_t* handle,
     labssh2_methods_t method,
     const char* prefs
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_session_method_len(
+    labssh2_session_t* handle,
+    labssh2_methods_t method,
+    size_t* len
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_session_method(
+    labssh2_session_t* handle,
+    labssh2_methods_t method,
+    uint8_t* buffer
 );
 
 /**
