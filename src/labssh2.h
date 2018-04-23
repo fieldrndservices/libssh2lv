@@ -203,11 +203,6 @@ typedef enum _labssh2_methods {
 } labssh2_methods_t;
 
 /**
- * The context
- */
-typedef struct _labssh2 labssh2_t;
-
-/**
  * The session
  */
 typedef struct _labssh2_session labssh2_session_t;
@@ -226,6 +221,11 @@ typedef struct _labssh2_knownhost labssh2_knownhost_t;
  * The SSH channel
  */
 typedef struct _labssh2_channel labssh2_channel_t;
+
+/**
+ * The File Information structure, or stat info.
+ */
+typedef struct _labssh2_fileinfo labssh2_fileinfo_t;
 
 /**
  * @defgroup global Global API
@@ -505,7 +505,7 @@ labssh2_scp_send(
  */
 
 /**
- * @defgroup Channel API
+ * @defgroup Stat API
  *
  * @{
  */
