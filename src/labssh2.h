@@ -549,6 +549,21 @@ labssh2_channel_destroy(
     labssh2_channel_t* handle
 );
 
+LABSSH2_API labssh2_status_t
+labssh2_channel_close(
+    labssh2_channel_t* handle
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_channel_direct_tcpip(
+    labssh2_session_t* session,
+    const char* host,
+    int port,
+    const char* server_host,
+    int server_port,
+    labssh2_channel_t** handle
+);
+
 /**
  * @}
  */

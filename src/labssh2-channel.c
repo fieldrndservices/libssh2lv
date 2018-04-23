@@ -55,6 +55,17 @@ labssh2_channel_destroy(
 }
 
 labssh2_status_t
+labssh2_channel_close(
+    labssh2_channel_t* handle
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_channel_close(handle->inner);
+    return labssh2_status_from_result(result);
+}
+
+labssh2_status_t
 labssh2_channel_read(
     labssh2_channel_t* handle,
     char* buffer,
@@ -69,6 +80,39 @@ labssh2_channel_read(
         return labssh2_status_from_result(result);
     }
     *byte_count = result;
+    return LABSSH2_STATUS_OK;
+}
+
+labssh2_status_t
+labssh2_channel_direct_tcpip(
+    labssh2_session_t* session,
+    const char* host,
+    int port,
+    const char* server_host,
+    int server_port,
+    labssh2_channel_t** handle
+) {
+    *handle = NULL;
+    if (session == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (host == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (server_host == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    LIBSSH2_CHANNEL* inner = libssh2_channel_direct_tcpip_ex(session->inner, host, port, server_host, server_port);
+    if (inner == NULL) {
+        return labssh2_status_from_result(libssh2_session_errno(session->inner));
+    }
+    labssh2_channel_t* channel = malloc(sizeof(labssh2_channel_t));
+    if (channel == NULL) {
+        libssh2_channel_free(inner);
+        return LABSSH2_STATUS_ERROR_MALLOC;
+    }
+    channel->inner = inner;
+    *handle = channel;
     return LABSSH2_STATUS_OK;
 }
 
