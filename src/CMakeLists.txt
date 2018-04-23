@@ -1,6 +1,7 @@
 set(SOURCE 
     labssh2.c
     labssh2.h
+    labssh2-fileinfo.c
     labssh2-knownhost.c
     labssh2-knownhosts.c
     labssh2-scp.c

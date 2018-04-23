@@ -505,10 +505,26 @@ labssh2_scp_send(
  */
 
 /**
- * @defgroup Stat API
+ * @defgroup File Information API
  *
  * @{
  */
+
+LABSSH2_API labssh2_status_t
+labssh2_fileinfo_create(
+    labssh2_fileinfo_t** handle
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_fileinfo_destroy(
+    labssh2_fileinfo_t* handle
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_fileinfo_size(
+    labssh2_fileinfo_t* handle,
+    uint64_t* size
+);
 
 /**
  * @}
