@@ -94,3 +94,38 @@ labssh2_userauth_authenticated(
     return LABSSH2_STATUS_OK;
 }
 
+labssh2_status_t
+labssh2_userauth_hostbased_from_file(
+    labssh2_session_t* handle, 
+    const char* username,
+    const size_t username_len,
+    const char* public_key,
+    const char* private_key,
+    const char* passphrase,
+    const char* hostname,
+    const size_t hostname_len,
+    const char* local_username,
+    const size_t local_username_len
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (username == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (public_key == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (private_key == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (hostname == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (local_username == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_userauth_hostbased_fromfile_ex(handle->inner, username, username_len, public_key, private_key, passphrase, hostname, hostname_len, local_username, local_username_len);
+    return labssh2_status_from_result(result);
+}
+

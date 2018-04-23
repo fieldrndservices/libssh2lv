@@ -430,6 +430,20 @@ labssh2_userauth_authenticated(
     int* authenticated
 );
 
+LABSSH2_API labssh2_status_t
+labssh2_userauth_hostbased_from_file(
+    labssh2_session_t* handle, 
+    const char* username,
+    const size_t username_len,
+    const char* public_key,
+    const char* private_key,
+    const char* passphrase,
+    const char* hostname,
+    const size_t hostname_len,
+    const char* local_username,
+    const size_t local_username_len
+);
+
 /**
  * @}
  */
