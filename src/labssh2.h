@@ -570,6 +570,11 @@ labssh2_channel_eof(
     int* eof
 );
 
+labssh2_status_t
+labssh2_channel_flush(
+    labssh2_channel_t* handle
+);
+
 /**
  * @}
  */

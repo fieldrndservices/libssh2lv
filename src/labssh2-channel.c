@@ -132,3 +132,14 @@ labssh2_channel_eof(
     return LABSSH2_STATUS_OK;
 }
 
+labssh2_status_t
+labssh2_channel_flush(
+    labssh2_channel_t* handle
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_channel_flush_ex(handle->inner, 0);
+    return labssh2_status_from_result(result);
+}
+
