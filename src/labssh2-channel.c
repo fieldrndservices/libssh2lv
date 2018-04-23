@@ -206,3 +206,14 @@ labssh2_channel_forward_listen(
     return LABSSH2_STATUS_OK;
 }
 
+labssh2_status_t
+labssh2_channel_exit_status(
+    labssh2_channel_t* handle
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_channel_get_exit_status(handle->inner);
+    return labssh2_status_from_result(result);
+}
+

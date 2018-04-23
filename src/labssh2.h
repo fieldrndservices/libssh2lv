@@ -592,11 +592,16 @@ labssh2_channel_forward_cancel(
     labssh2_listener_t* handle
 );
 
-labssh2_status_t
+LABSSH2_API labssh2_status_t
 labssh2_channel_forward_listen(
     labssh2_session_t* session,
     const int port,
     labssh2_listener_t** handle
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_channel_exit_status(
+    labssh2_channel_t* handle
 );
 
 /**
