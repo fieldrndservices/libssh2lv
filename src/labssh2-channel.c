@@ -270,3 +270,57 @@ labssh2_channel_set_ignore_mode(
     }
 }
 
+labssh2_status_t
+labssh2_channel_shell(
+    labssh2_channel_t* handle
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_channel_process_startup(
+        handle->inner,
+        "shell",
+        sizeof("shell") - 1,
+        NULL,
+        0
+    );
+    return labssh2_status_from_result(result);
+}
+
+labssh2_status_t
+labssh2_channel_exec(
+    labssh2_channel_t* handle,
+    const char* command,
+    const size_t command_len
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_channel_process_startup(
+        handle->inner,
+        "exec",
+        sizeof("exec") - 1,
+        command,
+        command_len
+    );
+    return labssh2_status_from_result(result);
+}
+
+labssh2_status_t
+labssh2_channel_subsystem(
+    labssh2_channel_t* handle,
+    const char* subsystem,
+    const size_t subsystem_len
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_channel_process_startup(
+        handle->inner,
+        "subsystem",
+        sizeof("subsystem") - 1,
+        subsystem,
+        subsystem_len
+    );
+    return labssh2_status_from_result(result);
+}

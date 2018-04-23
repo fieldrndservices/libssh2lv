@@ -624,6 +624,25 @@ labssh2_channel_set_ignore_mode(
     labssh2_ignore_modes_t mode
 );
 
+LABSSH2_API labssh2_status_t
+labssh2_channel_shell(
+    labssh2_channel_t* handle
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_channel_exec(
+    labssh2_channel_t* handle,
+    const char* command,
+    const size_t command_len
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_channel_subsystem(
+    labssh2_channel_t* handle,
+    const char* subsystem,
+    const size_t subsystem_len
+);
+
 /**
  * @}
  */
