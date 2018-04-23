@@ -549,6 +549,17 @@ labssh2_fileinfo_size(
  */
 
 LABSSH2_API labssh2_status_t
+labssh2_channel_create(
+    labssh2_session_t* session,
+    labssh2_channel_t** handle
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_channel_destroy(
+    labssh2_channel_t* handle
+);
+
+LABSSH2_API labssh2_status_t
 labssh2_channel_read(
     labssh2_channel_t* handle,
     char* buffer,
@@ -556,10 +567,6 @@ labssh2_channel_read(
     size_t* byte_count
 );
 
-LABSSH2_API labssh2_status_t
-labssh2_channel_destroy(
-    labssh2_channel_t* handle
-);
 
 LABSSH2_API labssh2_status_t
 labssh2_channel_close(

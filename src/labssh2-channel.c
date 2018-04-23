@@ -43,6 +43,37 @@
 #include "labssh2-channel-private.h"
 
 labssh2_status_t
+labssh2_channel_create(
+    labssh2_session_t* session,
+    labssh2_channel_t** handle
+) {
+    *handle = NULL;
+    if (session == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    LIBSSH2_CHANNEL* inner = libssh2_channel_open_ex(
+        session->inner, 
+        "session", 
+        sizeof("session") - 1, 
+        LIBSSH2_CHANNEL_WINDOW_DEFAULT, 
+        LIBSSH2_CHANNEL_PACKET_DEFAULT, 
+        NULL, 
+        0
+    );
+    if (inner == NULL) {
+        return labssh2_status_from_result(libssh2_session_last_errno(session->inner));
+    }
+    labssh2_channel_t* channel = malloc(sizeof(labssh2_channel_t));
+    if (channel == NULL) {
+        libssh2_channel_free(inner);
+        return LABSSH2_STATUS_ERROR_MALLOC;
+    }
+    channel->inner = inner;
+    *handle = channel;
+    return LABSSH2_STATUS_OK;
+}
+
+labssh2_status_t
 labssh2_channel_destroy(
     labssh2_channel_t* handle
 ) {
