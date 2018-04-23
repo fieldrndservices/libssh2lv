@@ -361,3 +361,28 @@ labssh2_session_last_error_code(
     return LABSSH2_STATUS_OK;
 }
 
+labssh2_status_t
+labssh2_session_last_error_len(
+    labssh2_session_t* handle,
+    size_t* len
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    libssh2_session_last_error(handle->inner, NULL, len, 0);
+    return LABSSH2_STATUS_OK;
+}
+
+labssh2_status_t
+labssh2_session_last_error(
+    labssh2_session_t* handle,
+    uint8_t* buffer
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    libssh2_session_last_error(handle->inner, &buffer, NULL, 1);
+    return LABSSH2_STATUS_OK;
+}
+
+
