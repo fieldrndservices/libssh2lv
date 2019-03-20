@@ -1,20 +1,20 @@
 /*
- * LabSSH2 - A LabVIEW-Friendly C library for libssh2 
+ * LabSSH2 - A LabVIEW-Friendly C library for libssh2
  *
  * Copyright (c) 2018 Field R&D Services, LLC. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or
  * withoutmodification, are permitted provided that the following conditions
- * are met: 
+ * are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution. 
+ *    and/or other materials provided with the distribution.
  * 3. Neither the name of the Field R&D Services nor the names of its
  *    contributors may be used to endorse or promote products derived from this
- *    software without specific prior written permission. 
+ *    software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY Field R&D Services, LLC ''AS IS'' AND ANY
  * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -31,7 +31,7 @@
  *   Christopher R. Field <chris@fieldrndservices.com>
  */
 
-/** 
+/**
  * @file
  *
  * Includes the full LabSSH2 API.
@@ -125,7 +125,7 @@ typedef enum _labssh2_status {
     LABSSH2_STATUS_ERROR_SOCKET_RECV = -46,
     LABSSH2_STATUS_ERROR_ENCRYPTION = -47,
     LABSSH2_STATUS_ERROR_BAD_SOCKET = -48,
-    LABSSH2_STATUS_ERROR_KNOWN_HOSTS = -49, 
+    LABSSH2_STATUS_ERROR_KNOWN_HOSTS = -49,
     LABSSH2_STATUS_ERROR_UNKNOWN_HASH_ALGORITHM = -50,
     LABSSH2_STATUS_ERROR_HASH_UNAVAILABLE = -51,
     LABSSH2_STATUS_ERROR_UNKNOWN_NAME_TYPE = -52,
@@ -275,13 +275,13 @@ labssh2_session_destroy(
 
 LABSSH2_API labssh2_status_t
 labssh2_session_connect(
-    labssh2_session_t* handle, 
+    labssh2_session_t* handle,
     const uintptr_t socket
 );
 
 LABSSH2_API labssh2_status_t
 labssh2_session_disconnect(
-    labssh2_session_t* handle, 
+    labssh2_session_t* handle,
     const char* description
 );
 
@@ -293,7 +293,7 @@ labssh2_session_hostkey_hash_len(
 
 LABSSH2_API labssh2_status_t
 labssh2_session_hostkey_hash(
-    labssh2_session_t* handle, 
+    labssh2_session_t* handle,
     const labssh2_hostkey_hash_types_t type,
     uint8_t* buffer
 );
@@ -428,7 +428,7 @@ labssh2_session_method(
 
 LABSSH2_API labssh2_status_t
 labssh2_userauth_list_len(
-    labssh2_session_t* handle, 
+    labssh2_session_t* handle,
     const char* username,
     size_t username_len,
     size_t* len
@@ -436,7 +436,7 @@ labssh2_userauth_list_len(
 
 LABSSH2_API labssh2_status_t
 labssh2_userauth_list(
-    labssh2_session_t* handle, 
+    labssh2_session_t* handle,
     const char* username,
     size_t username_len,
     uint8_t* buffer
@@ -444,13 +444,13 @@ labssh2_userauth_list(
 
 LABSSH2_API labssh2_status_t
 labssh2_userauth_authenticated(
-    labssh2_session_t* handle, 
+    labssh2_session_t* handle,
     int* authenticated
 );
 
 LABSSH2_API labssh2_status_t
 labssh2_userauth_hostbased_from_file(
-    labssh2_session_t* handle, 
+    labssh2_session_t* handle,
     const char* username,
     const size_t username_len,
     const char* public_key,
@@ -464,7 +464,7 @@ labssh2_userauth_hostbased_from_file(
 
 LABSSH2_API labssh2_status_t
 labssh2_userauth_password(
-    labssh2_session_t* handle, 
+    labssh2_session_t* handle,
     const char* username,
     const size_t username_len,
     const char* password,
@@ -473,7 +473,7 @@ labssh2_userauth_password(
 
 LABSSH2_API labssh2_status_t
 labssh2_userauth_publickey_from_file(
-    labssh2_session_t* handle, 
+    labssh2_session_t* handle,
     const char* username,
     const size_t username_len,
     const char* public_key_path,
@@ -505,7 +505,7 @@ labssh2_userauth_publickey_from_memory(
 
 LABSSH2_API labssh2_status_t
 labssh2_scp_send(
-    labssh2_session_t* session, 
+    labssh2_session_t* session,
     const char* path,
     int mode,
     size_t file_size,
@@ -596,7 +596,7 @@ labssh2_channel_eof(
     int* eof
 );
 
-labssh2_status_t
+LABSSH2_API labssh2_status_t
 labssh2_channel_flush(
     labssh2_channel_t* handle
 );
@@ -815,30 +815,30 @@ labssh2_knownhost_type_mask(
 /**
  * Gets the library version number in Major.Minor.Patch notation.
  */
-LABSSH2_API const char* 
+LABSSH2_API const char*
 labssh2_version();
 
 /**
  * Gets the library major version number as an integer.
  */
-LABSSH2_API unsigned int 
+LABSSH2_API unsigned int
 labssh2_version_major();
 
 /**
  * Gets the library minor version number as an integer.
  */
-LABSSH2_API unsigned int 
+LABSSH2_API unsigned int
 labssh2_version_minor();
 
 /**
  * Gets the library patch version number as an integer.
  */
-LABSSH2_API unsigned int 
+LABSSH2_API unsigned int
 labssh2_version_patch();
 
 LABSSH2_API labssh2_status_t
 labssh2_internal_version_len(
-    size_t* len 
+    size_t* len
 );
 
 LABSSH2_API labssh2_status_t
@@ -849,17 +849,17 @@ labssh2_internal_version(
 /**
  * Gets a string representation of the status.
  */
-LABSSH2_API const char* 
+LABSSH2_API const char*
 labssh2_status_string(
     labssh2_status_t status
 );
 
-LABSSH2_API bool 
+LABSSH2_API bool
 labssh2_status_is_ok(
     labssh2_status_t status
 );
 
-LABSSH2_API bool 
+LABSSH2_API bool
 labssh2_status_is_err(
     labssh2_status_t status
 );

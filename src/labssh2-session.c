@@ -1,20 +1,20 @@
 /*
- * LabSSH2 - A LabVIEW-Friendly C library for libssh2 
+ * LabSSH2 - A LabVIEW-Friendly C library for libssh2
  *
  * Copyright (c) 2018 Field R&D Services, LLC. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or
  * withoutmodification, are permitted provided that the following conditions
- * are met: 
+ * are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution. 
+ *    and/or other materials provided with the distribution.
  * 3. Neither the name of the Field R&D Services nor the names of its
  *    contributors may be used to endorse or promote products derived from this
- *    software without specific prior written permission. 
+ *    software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY Field R&D Services, LLC ''AS IS'' AND ANY
  * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -80,7 +80,7 @@ labssh2_session_destroy(
 
 labssh2_status_t
 labssh2_session_connect(
-    labssh2_session_t* handle, 
+    labssh2_session_t* handle,
     const uintptr_t socket
 ) {
     if (handle == NULL) {
@@ -92,12 +92,12 @@ labssh2_session_connect(
 
 labssh2_status_t
 labssh2_session_disconnect(
-    labssh2_session_t* handle, 
+    labssh2_session_t* handle,
     const char* description
 ) {
     if (handle == NULL) {
         return LABSSH2_STATUS_ERROR_NULL_VALUE;
-    } 
+    }
     libssh2_session_set_blocking(handle->inner, LABSSH2_SESSION_MODE_BLOCKING);
     libssh2_session_disconnect_ex(handle->inner, SSH_DISCONNECT_BY_APPLICATION, description, "");
     return LABSSH2_STATUS_OK;
@@ -118,8 +118,8 @@ labssh2_session_hostkey_hash_len(
 
 labssh2_status_t
 labssh2_session_hostkey_hash(
-    labssh2_session_t* handle, 
-    const labssh2_hostkey_hash_types_t type, 
+    labssh2_session_t* handle,
+    const labssh2_hostkey_hash_types_t type,
     uint8_t* buffer
 ) {
     if (handle == NULL) {
@@ -156,8 +156,8 @@ labssh2_session_hostkey_len(
 
 labssh2_status_t
 labssh2_session_hostkey(
-    labssh2_session_t* handle, 
-    uint8_t* buffer, 
+    labssh2_session_t* handle,
+    uint8_t* buffer,
     labssh2_hostkey_types_t* type
 ) {
     if (handle == NULL) {
@@ -268,7 +268,7 @@ labssh2_session_block_directions(
     }
     int result = libssh2_session_block_directions(handle->inner);
     switch (result) {
-        case BLOCK_DIRECTIONS_BOTH: 
+        case BLOCK_DIRECTIONS_BOTH:
             *directions = LABSSH2_SESSION_BLOCK_DIRECTIONS_BOTH;
             break;
         case LIBSSH2_SESSION_BLOCK_INBOUND:
