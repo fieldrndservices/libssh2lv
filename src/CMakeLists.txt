@@ -1,4 +1,4 @@
-set(SOURCE 
+set(SOURCE
     labssh2.c
     labssh2.h
     labssh2-fileinfo.c
@@ -20,15 +20,15 @@ if(WIN32)
     # The `ws2_32.lib` is not included automatically with the rest of the
     # Windows SDK libraries (kernal32.lib, etc.). Symbols from this library are
     # needed by libssh2 and libcrypto, which are not included in the static
-    # libraries. 
+    # libraries.
     target_link_libraries(shared
-        ${LIBSSH2_ARCHIVE_DIR}/${LIBSSH2}${CMAKE_STATIC_LIBRARY_SUFFIX} 
+        ${LIBSSH2_ARCHIVE_DIR}/${LIBSSH2}${CMAKE_STATIC_LIBRARY_SUFFIX}
         ${OPENSSL_BINARY_DIR}/libcrypto${CMAKE_STATIC_LIBRARY_SUFFIX}
         ws2_32
     )
 else()
-    target_link_libraries(shared 
-        ${LIBSSH2_ARCHIVE_DIR}/${LIBSSH2}${CMAKE_STATIC_LIBRARY_SUFFIX} 
+    target_link_libraries(shared
+        ${LIBSSH2_ARCHIVE_DIR}/${LIBSSH2}${CMAKE_STATIC_LIBRARY_SUFFIX}
         ${OPENSSL_BINARY_DIR}/libcrypto${CMAKE_STATIC_LIBRARY_SUFFIX}
     )
 endif()
