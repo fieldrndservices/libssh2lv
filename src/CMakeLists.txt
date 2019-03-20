@@ -6,6 +6,7 @@ set(SOURCE
     labssh2-knownhosts.c
     labssh2-scp.c
     labssh2-session.c
+    labssh2-sftp.c
     labssh2-status.c
     labssh2-userauth.c
 )
