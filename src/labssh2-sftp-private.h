@@ -40,5 +40,9 @@ struct _labssh2_sftp {
     LIBSSH2_SFTP* inner;
 };
 
+struct _labssh2_sftp_file {
+    LIBSSH2_SFTP_HANDLE* inner;
+};
+
 #endif
 

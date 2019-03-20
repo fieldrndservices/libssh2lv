@@ -245,6 +245,11 @@ typedef struct _labssh2_listener labssh2_listener_t;
 typedef struct _labssh2_sftp labssh2_sftp_t;
 
 /**
+  * The SFTP File
+  */
+typedef struct _labssh2_sftp_file labssh2_sftp_file_t;
+
+/**
  * @defgroup global Global API
  *
  * Initialize and shutdown the library.
