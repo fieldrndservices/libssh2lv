@@ -1,20 +1,20 @@
 /*
- * LabSSH2 - A LabVIEW-Friendly C library for libssh2 
+ * LabSSH2 - A LabVIEW-Friendly C library for libssh2
  *
  * Copyright (c) 2018 Field R&D Services, LLC. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or
  * withoutmodification, are permitted provided that the following conditions
- * are met: 
+ * are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution. 
+ *    and/or other materials provided with the distribution.
  * 3. Neither the name of the Field R&D Services nor the names of its
  *    contributors may be used to endorse or promote products derived from this
- *    software without specific prior written permission. 
+ *    software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY Field R&D Services, LLC ''AS IS'' AND ANY
  * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -52,12 +52,12 @@ labssh2_channel_create(
         return LABSSH2_STATUS_ERROR_NULL_VALUE;
     }
     LIBSSH2_CHANNEL* inner = libssh2_channel_open_ex(
-        session->inner, 
-        "session", 
-        sizeof("session") - 1, 
-        LIBSSH2_CHANNEL_WINDOW_DEFAULT, 
-        LIBSSH2_CHANNEL_PACKET_DEFAULT, 
-        NULL, 
+        session->inner,
+        "session",
+        sizeof("session") - 1,
+        LIBSSH2_CHANNEL_WINDOW_DEFAULT,
+        LIBSSH2_CHANNEL_PACKET_DEFAULT,
+        NULL,
         0
     );
     if (inner == NULL) {
@@ -276,13 +276,13 @@ labssh2_channel_set_ignore_mode(
         return LABSSH2_STATUS_ERROR_NULL_VALUE;
     }
     switch (mode) {
-        case LABSSH2_IGNORE_MODES_NORMAL: 
+        case LABSSH2_IGNORE_MODES_NORMAL:
             int result = libssh2_channel_handle_extended_data2(handle->inner, LIBSSH2_CHANNEL_EXTENDED_DATA_NORMAL);
             return labssh2_status_from_result(result);
-        case LABSSH2_IGNORE_MODES_MERGE: 
+        case LABSSH2_IGNORE_MODES_MERGE:
             int result = libssh2_channel_handle_extended_data2(handle->inner, LIBSSH2_CHANNEL_EXTENDED_DATA_MERGE);
             return labssh2_status_from_result(result);
-        case LABSSH2_IGNORE_MODES_IGNORE: 
+        case LABSSH2_IGNORE_MODES_IGNORE:
             int result = libssh2_channel_handle_extended_data2(handle->inner, LIBSSH2_CHANNEL_EXTENDED_DATA_IGNORE);
             return labssh2_status_from_result(result);
         default: return LABSSH2_STATUS_ERROR_UNKOWN_IGNORE_MODE;

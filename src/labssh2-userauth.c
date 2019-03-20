@@ -1,20 +1,20 @@
 /*
- * LabSSH2 - A LabVIEW-Friendly C library for libssh2 
+ * LabSSH2 - A LabVIEW-Friendly C library for libssh2
  *
  * Copyright (c) 2018 Field R&D Services, LLC. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or
  * withoutmodification, are permitted provided that the following conditions
- * are met: 
+ * are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution. 
+ *    and/or other materials provided with the distribution.
  * 3. Neither the name of the Field R&D Services nor the names of its
  *    contributors may be used to endorse or promote products derived from this
- *    software without specific prior written permission. 
+ *    software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY Field R&D Services, LLC ''AS IS'' AND ANY
  * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -42,7 +42,7 @@
 
 labssh2_status_t
 labssh2_userauth_list_len(
-    labssh2_session_t* handle, 
+    labssh2_session_t* handle,
     const char* username,
     size_t username_len,
     size_t* len
@@ -63,7 +63,7 @@ labssh2_userauth_list_len(
 
 labssh2_status_t
 labssh2_userauth_list(
-    labssh2_session_t* handle, 
+    labssh2_session_t* handle,
     const char* username,
     size_t username_len,
     uint8_t* buffer
@@ -84,7 +84,7 @@ labssh2_userauth_list(
 
 labssh2_status_t
 labssh2_userauth_authenticated(
-    labssh2_session_t* handle, 
+    labssh2_session_t* handle,
     int* authenticated
 ) {
     if (handle == NULL) {
@@ -96,7 +96,7 @@ labssh2_userauth_authenticated(
 
 labssh2_status_t
 labssh2_userauth_hostbased_from_file(
-    labssh2_session_t* handle, 
+    labssh2_session_t* handle,
     const char* username,
     const size_t username_len,
     const char* public_key,
@@ -131,7 +131,7 @@ labssh2_userauth_hostbased_from_file(
 
 labssh2_status_t
 labssh2_userauth_password(
-    labssh2_session_t* handle, 
+    labssh2_session_t* handle,
     const char* username,
     const size_t username_len,
     const char* password,
@@ -152,7 +152,7 @@ labssh2_userauth_password(
 
 labssh2_status_t
 labssh2_userauth_publickey_from_file(
-    labssh2_session_t* handle, 
+    labssh2_session_t* handle,
     const char* username,
     const size_t username_len,
     const char* public_key_path,
@@ -199,10 +199,10 @@ labssh2_userauth_publickey_from_memory(
         return LABSSH2_STATUS_ERROR_NULL_VALUE;
     }
     int result = libssh2_userauth_publickey_frommemory(
-        handle->inner, 
-        username, 
-        username_len, 
-        public_key_data, 
+        handle->inner,
+        username,
+        username_len,
+        public_key_data,
         public_key_data_len,
         private_key_data,
         private_key_data_len,

@@ -1,20 +1,20 @@
 /*
- * LabSSH2 - A LabVIEW-Friendly C library for libssh2 
+ * LabSSH2 - A LabVIEW-Friendly C library for libssh2
  *
  * Copyright (c) 2018 Field R&D Services, LLC. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or
  * withoutmodification, are permitted provided that the following conditions
- * are met: 
+ * are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution. 
+ *    and/or other materials provided with the distribution.
  * 3. Neither the name of the Field R&D Services nor the names of its
  *    contributors may be used to endorse or promote products derived from this
- *    software without specific prior written permission. 
+ *    software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY Field R&D Services, LLC ''AS IS'' AND ANY
  * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -44,7 +44,7 @@
 
 labssh2_status_t
 labssh2_scp_send(
-    labssh2_session_t* session, 
+    labssh2_session_t* session,
     const char* path,
     int mode,
     size_t file_size,
@@ -73,7 +73,7 @@ labssh2_scp_send(
 
 labssh2_status_t
 labssh2_scp_receive(
-    labssh2_session_t* session, 
+    labssh2_session_t* session,
     const char* path,
     labssh2_fileinfo_t* file_info,
     labssh2_channel_t** handle

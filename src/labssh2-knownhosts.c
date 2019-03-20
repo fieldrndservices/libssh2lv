@@ -1,20 +1,20 @@
 /*
- * LabSSH2 - A LabVIEW-Friendly C library for libssh2 
+ * LabSSH2 - A LabVIEW-Friendly C library for libssh2
  *
  * Copyright (c) 2018 Field R&D Services, LLC. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or
  * withoutmodification, are permitted provided that the following conditions
- * are met: 
+ * are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution. 
+ *    and/or other materials provided with the distribution.
  * 3. Neither the name of the Field R&D Services nor the names of its
  *    contributors may be used to endorse or promote products derived from this
- *    software without specific prior written permission. 
+ *    software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY Field R&D Services, LLC ''AS IS'' AND ANY
  * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -86,14 +86,14 @@ labssh2_knownhosts_get(
     labssh2_knownhost_t* knownhost
 ) {
     if (handle == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE; 
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
     }
     if (knownhost == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE; 
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
     }
     int result = libssh2_knownhost_get(
-        handle->inner, 
-        &knownhost->inner, 
+        handle->inner,
+        &knownhost->inner,
         handle->prev->inner
     );
     switch (result) {
@@ -119,17 +119,17 @@ labssh2_knownhosts_add(
         return LABSSH2_STATUS_ERROR_NULL_VALUE;
     }
     if (knownhost == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE; 
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
     }
     int result = libssh2_knownhost_addc(
-        handle->inner, 
-        name, 
-        salt, 
-        key, 
-        key_len, 
-        comment, 
-        comment_len, 
-        type_mask, 
+        handle->inner,
+        name,
+        salt,
+        key,
+        key_len,
+        comment,
+        comment_len,
+        type_mask,
         &knownhost->inner
     );
     return labssh2_status_from_result(result);
@@ -180,12 +180,12 @@ labssh2_knownhosts_check(
         return LABSSH2_STATUS_ERROR_NULL_VALUE;
     }
     int result = libssh2_knownhost_checkp(
-        handle->inner, 
-        host, 
-        port, 
-        key, 
-        key_len, 
-        type_mask, 
+        handle->inner,
+        host,
+        port,
+        key,
+        key_len,
+        type_mask,
         &knownhost->inner
     );
     switch (result) {
@@ -208,7 +208,7 @@ labssh2_knownhosts_delete(
         return LABSSH2_STATUS_ERROR_NULL_VALUE;
     }
     int result = libssh2_knownhost_del(
-        handle->inner, 
+        handle->inner,
         knownhost->inner
     );
     return labssh2_status_from_result(result);
@@ -227,7 +227,7 @@ labssh2_knownhosts_read_file(
         return LABSSH2_STATUS_ERROR_NULL_VALUE;
     }
     int result = libssh2_knownhost_readfile(
-        handle->inner, 
+        handle->inner,
         file,
         LIBSSH2_KNOWNHOST_FILE_OPENSSH
     );
@@ -251,7 +251,7 @@ labssh2_knownhosts_read_line(
         return LABSSH2_STATUS_ERROR_NULL_VALUE;
     }
     int result = libssh2_knownhost_readline(
-        handle->inner, 
+        handle->inner,
         line,
         line_len,
         LIBSSH2_KNOWNHOST_FILE_OPENSSH
@@ -271,7 +271,7 @@ labssh2_knownhosts_write_file(
         return LABSSH2_STATUS_ERROR_NULL_VALUE;
     }
     int result = libssh2_knownhost_writefile(
-        handle->inner, 
+        handle->inner,
         file,
         LIBSSH2_KNOWNHOST_FILE_OPENSSH
     );
@@ -293,7 +293,7 @@ labssh2_knownhosts_write_line(
         return LABSSH2_STATUS_ERROR_NULL_VALUE;
     }
     int result = libssh2_knownhost_writeline(
-        handle->inner, 
+        handle->inner,
         knownhost->inner,
         line,
         line_len,
