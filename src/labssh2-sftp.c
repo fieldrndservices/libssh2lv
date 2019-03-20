@@ -35,9 +35,11 @@
 #include <stdlib.h>
 
 #include "libssh2.h"
+#include "libssh2_sftp.h"
 
 #include "labssh2.h"
 #include "labssh2-status-private.h"
+#include "labssh2-session-private.h"
 #include "labssh2-sftp-private.h"
 
 labssh2_status_t
@@ -46,7 +48,7 @@ labssh2_sftp_create(
     labssh2_sftp_t** handle
 ) {
     *handle = NULL;
-    LIBSSH2_SFTP_HANDLE* inner = libssh2_sftp_init(session->inner);
+    LIBSSH2_SFTP* inner = libssh2_sftp_init(session->inner);
     if (inner == NULL) {
         return LABSSH2_STATUS_ERROR_MALLOC;
     }

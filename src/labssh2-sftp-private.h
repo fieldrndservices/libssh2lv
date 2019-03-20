@@ -37,7 +37,7 @@
 #include "labssh2.h"
 
 struct _labssh2_sftp {
-    LIBSSH2_SFTP_HANDLE* inner;
+    LIBSSH2_SFTP* inner;
 };
 
 #endif
