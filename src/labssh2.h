@@ -512,6 +512,14 @@ labssh2_scp_send(
     labssh2_channel_t** handle
 );
 
+LABSSH2_API labssh2_status_t
+labssh2_scp_receive(
+    labssh2_session_t* session,
+    const char* path,
+    labssh2_fileinfo_t* file_info,
+    labssh2_channel_t** handle
+);
+
 /**
  * @}
  */
