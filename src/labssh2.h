@@ -209,6 +209,21 @@ typedef enum _labssh2_ignore_modes {
     LABSSH2_IGNORE_MODES_IGNORE = 3,
 } labssh2_ignore_modes_t;
 
+typedef enum _labssh2_sftp_open_types {
+    LABSSH2_SFTP_OPEN_TYPES_FILE = 0,
+    LABSSH2_SFTP_OPEN_TYPES_DIRECTORY = 1,
+} labssh2_sftp_open_types_t;
+
+typedef enum _labssh2_sftp_file_types {
+    LABSSH2_SFTP_FILE_TYPES_MASK = 0170000,
+    LABSSH2_SFTP_FILE_TYPES_NAMED_PIPE = 0010000,
+    LABSSH2_SFTP_FILE_TYPES_SPECIAL_CHARACTER = 0020000,
+    LABSSH2_SFTP_FILE_TYPES_DIRECTORY = 0040000,
+    LABSSH2_SFTP_FILE_TYPES_SPECIAL_BLOCK = 0060000,
+    LABSSH2_SFTP_FILE_TYPES_REGULAR = 0100000,
+    LABSSH2_SFTP_FILE_TYPES_SYMBOLIC_LINK = 0140000,
+} labssh2_sftp_file_types_t;
+
 /**
  * The session
  */
@@ -551,9 +566,24 @@ labssh2_sftp_destroy(
     labssh2_sftp_t* handle
 );
 
+LABSSH2_API labssh2_status_t
+labssh2_sftp_open(
+    labssh2_sftp_t* sftp,
+    const char* filename,
+    uint32_t flags,
+    int32_t mode,
+    labssh2_sftp_file_t** handle
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_sftp_close(
+    labssh2_sftp_file_t* handle
+);
+
+
 /**
-  * @}
-  */
+ * @}
+ */
 
 /**
  * @defgroup File Information API
