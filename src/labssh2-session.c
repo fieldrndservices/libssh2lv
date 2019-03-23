@@ -230,7 +230,7 @@ labssh2_session_banner_len(
 labssh2_status_t
 labssh2_session_banner(
     labssh2_session_t* handle,
-    uint8_t* buffer
+    char* buffer
 ) {
     if (handle == NULL) {
         return LABSSH2_STATUS_ERROR_NULL_VALUE;
@@ -364,7 +364,7 @@ labssh2_session_last_error_code(
 labssh2_status_t
 labssh2_session_last_error_len(
     labssh2_session_t* handle,
-    size_t* len
+    int32_t* len
 ) {
     if (handle == NULL) {
         return LABSSH2_STATUS_ERROR_NULL_VALUE;
@@ -376,7 +376,7 @@ labssh2_session_last_error_len(
 labssh2_status_t
 labssh2_session_last_error(
     labssh2_session_t* handle,
-    uint8_t* buffer
+    char* buffer
 ) {
     if (handle == NULL) {
         return LABSSH2_STATUS_ERROR_NULL_VALUE;
