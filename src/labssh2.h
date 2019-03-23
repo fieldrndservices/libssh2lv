@@ -44,6 +44,9 @@
 #include <stdint.h>
 #include <stddef.h>
 
+#include "libssh2.h"
+#include "libssh2_sftp.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -209,11 +212,6 @@ typedef enum _labssh2_ignore_modes {
     LABSSH2_IGNORE_MODES_IGNORE = 3,
 } labssh2_ignore_modes_t;
 
-typedef enum _labssh2_sftp_open_types {
-    LABSSH2_SFTP_OPEN_TYPES_FILE = 0,
-    LABSSH2_SFTP_OPEN_TYPES_DIRECTORY = 1,
-} labssh2_sftp_open_types_t;
-
 typedef enum _labssh2_sftp_file_types {
     LABSSH2_SFTP_FILE_TYPES_MASK = 0170000,
     LABSSH2_SFTP_FILE_TYPES_NAMED_PIPE = 0010000,
@@ -221,8 +219,38 @@ typedef enum _labssh2_sftp_file_types {
     LABSSH2_SFTP_FILE_TYPES_DIRECTORY = 0040000,
     LABSSH2_SFTP_FILE_TYPES_SPECIAL_BLOCK = 0060000,
     LABSSH2_SFTP_FILE_TYPES_REGULAR = 0100000,
-    LABSSH2_SFTP_FILE_TYPES_SYMBOLIC_LINK = 0140000,
+    LABSSH2_SFTP_FILE_TYPES_SYMBOLIC_LINK = 0120000,
+    LABSSH2_SFTP_FILE_TYPES_SOCKET = 0140000,
 } labssh2_sftp_file_types_t;
+
+typedef enum _labssh2_sftp_file_modes {
+    LABSSH2_SFTP_FILE_MODES_OWNER_MASK = 00000700,
+    LABSSH2_SFTP_FILE_MODES_OWNER_READ = 00000400,
+    LABSSH2_SFTP_FILE_MODES_OWNER_WRITE = 00000200,
+    LABSSH2_SFTP_FILE_MODES_OWNER_EXECUTE = 00000100,
+    LABSSH2_SFTP_FILE_MODES_GROUP_MASK = 00000070,
+    LABSSH2_SFTP_FILE_MODES_GROUP_READ = 00000040,
+    LABSSH2_SFTP_FILE_MODES_GROUP_WRITE = 00000020,
+    LABSSH2_SFTP_FILE_MODES_GROUP_EXECUTE = 00000010,
+    LABSSH2_SFTP_FILE_MODES_OTHER_MASK = 00000007,
+    LABSSH2_SFTP_FILE_MODES_OTHER_READ = 00000004,
+    LABSSH2_SFTP_FILE_MODES_OTHER_WRITE = 00000002,
+    LABSSH2_SFTP_FILE_MODES_OTHER_EXECUTE = 00000001,
+} labssh2_sftp_file_modes_t;
+
+typedef enum _labssh2_sftp_open_flags {
+    LABSSH2_SFTP_OPEN_FLAGS_READ = LIBSSH2_FXF_READ,
+    LABSSH2_SFTP_OPEN_FLAGS_WRITE = LIBSSH2_FXF_WRITE,
+    LABSSH2_SFTP_OPEN_FLAGS_APPEND = LIBSSH2_FXF_APPEND,
+    LABSSH2_SFTP_OPEN_FLAGS_CREATE = LIBSSH2_FXF_CREAT,
+    LABSSH2_SFTP_OPEN_FLAGS_TRUNCATE = LIBSSH2_FXF_TRUNC,
+    LABSSH2_SFTP_OPEN_FLAGS_EXCLUDE = LIBSSH2_FXF_EXCL,
+} labssh2_sftp_open_flags_t;
+
+typedef enum _labssh2_sftp_open_types {
+    LABSSH2_SFTP_OPEN_TYPES_FILE = LIBSSH2_SFTP_OPENFILE,
+    LABSSH2_SFTP_OPEN_TYPES_DIRECTORY = LIBSSH2_SFTP_OPENDIR,
+} labssh2_sftp_open_types_t;
 
 /**
  * The session
@@ -263,6 +291,16 @@ typedef struct _labssh2_sftp labssh2_sftp_t;
   * The SFTP File
   */
 typedef struct _labssh2_sftp_file labssh2_sftp_file_t;
+
+/**
+ * The SFTP Directory
+ */
+typedef struct _labssh2_sftp_directory labssh2_sftp_directory_t;
+
+/**
+ * The SFTP file/directory attributes
+ */
+typedef struct _labssh2_sftp_attributes labssh2_sftp_attributes_t;
 
 /**
  * @defgroup global Global API
@@ -357,7 +395,7 @@ labssh2_session_banner_len(
 LABSSH2_API labssh2_status_t
 labssh2_session_banner(
     labssh2_session_t* handle,
-    uint8_t* buffer
+    char* buffer
 );
 
 LABSSH2_API labssh2_status_t
@@ -404,13 +442,13 @@ labssh2_session_last_error_code(
 LABSSH2_API labssh2_status_t
 labssh2_session_last_error_len(
     labssh2_session_t* handle,
-    size_t* len
+    int32_t* len
 );
 
 LABSSH2_API labssh2_status_t
 labssh2_session_last_error(
     labssh2_session_t* handle,
-    uint8_t* buffer
+    char* buffer
 );
 
 LABSSH2_API labssh2_status_t
@@ -567,19 +605,156 @@ labssh2_sftp_destroy(
 );
 
 LABSSH2_API labssh2_status_t
-labssh2_sftp_open(
+labssh2_sftp_last_error(
+    labssh2_sftp_t* handle,
+    uint32_t* code
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_sftp_open_file(
     labssh2_sftp_t* sftp,
-    const char* filename,
+    const char* path,
     uint32_t flags,
-    int32_t mode,
+    int32_t permissions,
     labssh2_sftp_file_t** handle
 );
 
 LABSSH2_API labssh2_status_t
-labssh2_sftp_close(
+labssh2_sftp_close_file(
     labssh2_sftp_file_t* handle
 );
 
+LABSSH2_API labssh2_status_t
+labssh2_sftp_open_directory(
+    labssh2_sftp_t* sftp,
+    const char* path,
+    labssh2_sftp_directory_t** handle
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_sftp_close_directory(
+    labssh2_sftp_directory_t* handle
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_sftp_read_file(
+    labssh2_sftp_file_t* handle,
+    uint8_t* buffer,
+    size_t buffer_max_length
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_sftp_read_directory(
+    labssh2_sftp_directory_t* handle,
+    uint8_t* buffer,
+    size_t buffer_max_length,
+    labssh2_sftp_attributes_t** attributes
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_sftp_write_file(
+    labssh2_sftp_file_t* handle,
+    uint8_t* buffer,
+    size_t count
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_sftp_file_sync(
+    labssh2_sftp_file_t* handle
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_sftp_file_seek(
+    labssh2_sftp_file_t* handle,
+    size_t offest
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_sftp_file_rewind(
+    labssh2_sftp_file_t* handle
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_sftp_file_position(
+    labssh2_sftp_file_t* handle
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_sftp_file_status(
+    labssh2_sftp_file_t* handle,
+    labssh2_sftp_attributes_t* attributes
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_sftp_file_set_status(
+    labssh2_sftp_file_t* handle,
+    labssh2_sftp_attributes_t* attributes
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_sftp_link_status(
+    labssh2_sftp_file_t* handle,
+    labssh2_sftp_attributes_t* attributes
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_sftp_file_rename(
+    labssh2_sftp_file_t* handle,
+    const char* source_path,
+    const char* destination_path
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_sftp_unlink(
+    labssh2_sftp_t* handle,
+    const char* file_path
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_sftp_create_directory(
+    labssh2_sftp_t* handle,
+    const char* directory_path,
+    int32_t mode
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_sftp_remove_directory(
+    labssh2_sftp_t* handle,
+    const char* directory_path
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_sftp_create_link(
+    labssh2_sftp_t* handle,
+    const char* source_path,
+    const char* link_path
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_sftp_resolve_symbolic_link(
+    labssh2_sftp_t* handle,
+    const char* link_path,
+    char* source_path,
+    uint32_t source_path_max_length
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_sftp_resolve_real_link(
+    labssh2_sftp_t* handle,
+    const char* link_path,
+    char* source_path,
+    uint32_t source_path_max_length
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_sftp_attributes_create(
+    labssh2_sftp_attributes_t** handle
+);
+
+LABSSH2_API labssh2_status_t
+labssh2_sftp_attributes_destroy(
+    labssh2_sftp_attributes_t* handle
+);
 
 /**
  * @}
