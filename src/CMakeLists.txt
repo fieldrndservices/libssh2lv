@@ -16,6 +16,7 @@ add_library(shared SHARED ${SOURCE})
 set_target_properties(shared PROPERTIES OUTPUT_NAME ${OUTPUT_NAME})
 add_dependencies(shared ${LIBSSH2})
 target_compile_definitions(shared PRIVATE LABSSH2_BUILD_SHARED)
+target_compile_options(shared PRIVATE -Wno-pointer-sign)
 target_include_directories(shared PRIVATE ${LIBSSH2_INCLUDE_DIR})
 if(WIN32)
     # The `ws2_32.lib` is not included automatically with the rest of the
