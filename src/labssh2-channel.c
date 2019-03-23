@@ -94,7 +94,12 @@ labssh2_channel_close(
         return LABSSH2_STATUS_ERROR_NULL_VALUE;
     }
     int result = libssh2_channel_close(handle->inner);
-    return labssh2_status_from_result(result);
+    if (result != 0) {
+        return labssh2_status_from_result(result);
+    }
+    handle->inner = NULL;
+    free(handle);
+    return LABSSH2_STATUS_OK;
 }
 
 labssh2_status_t
