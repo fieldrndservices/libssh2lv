@@ -41,6 +41,7 @@
 #include "labssh2-status-private.h"
 #include "labssh2-session-private.h"
 #include "labssh2-sftp-private.h"
+#include "labssh2-sftp-attributes-private.h"
 
 labssh2_status_t
 labssh2_sftp_create(
@@ -192,20 +193,55 @@ labssh2_sftp_close_directory(
     return LABSSH2_STATUS_OK;
 }
 
-/* labssh2_status_t */
-/* labssh2_sftp_read_file( */
-/*     labssh2_sftp_file_t* handle, */
-/*     uint8_t* buffer, */
-/*     size_t buffer_max_length */
-/* ); */
+labssh2_status_t
+labssh2_sftp_read_file(
+    labssh2_sftp_file_t* handle,
+    uint8_t* buffer,
+    size_t buffer_max_length,
+    ssize_t* read_count
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (buffer == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    ssize_t count = libssh2_sftp_read(handle->inner, buffer, buffer_max_length);
+    if (count < 0) {
+        return labssh2_status_from_result(count);
+    }
+    *read_count = count;
+    return LABSSH2_STATUS_OK;
+}
 
-/* labssh2_status_t */
-/* labssh2_sftp_read_directory( */
-/*     labssh2_sftp_directory_t* handle, */
-/*     uint8_t* buffer, */
-/*     size_t buffer_max_length, */
-/*     labssh2_sftp_attributes_t** attributes */
-/* ); */
+labssh2_status_t
+labssh2_sftp_read_directory(
+    labssh2_sftp_directory_t* handle,
+    uint8_t* buffer,
+    size_t buffer_max_length,
+    labssh2_sftp_attributes_t* attributes,
+    ssize_t* read_count
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (buffer == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    ssize_t count = libssh2_sftp_readdir_ex(
+        handle->inner,
+        buffer,
+        buffer_max_length,
+        NULL,
+        0,
+        attributes->inner
+    );
+    if (count < 0) {
+        return labssh2_status_from_result(count);
+    }
+    *read_count = count;
+    return LABSSH2_STATUS_OK;
+}
 
 /* labssh2_status_t */
 /* labssh2_sftp_write_file( */

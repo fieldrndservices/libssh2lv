@@ -640,7 +640,8 @@ LABSSH2_API labssh2_status_t
 labssh2_sftp_read_file(
     labssh2_sftp_file_t* handle,
     uint8_t* buffer,
-    size_t buffer_max_length
+    size_t buffer_max_length,
+    ssize_t* read_count
 );
 
 LABSSH2_API labssh2_status_t
@@ -648,7 +649,8 @@ labssh2_sftp_read_directory(
     labssh2_sftp_directory_t* handle,
     uint8_t* buffer,
     size_t buffer_max_length,
-    labssh2_sftp_attributes_t** attributes
+    labssh2_sftp_attributes_t* attributes,
+    ssize_t* read_count
 );
 
 LABSSH2_API labssh2_status_t
