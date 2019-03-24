@@ -243,45 +243,107 @@ labssh2_sftp_read_directory(
     return LABSSH2_STATUS_OK;
 }
 
-/* labssh2_status_t */
-/* labssh2_sftp_write_file( */
-/*     labssh2_sftp_file_t* handle, */
-/*     uint8_t* buffer, */
-/*     size_t count */
-/* ); */
+labssh2_status_t
+labssh2_sftp_write_file(
+    labssh2_sftp_file_t* handle,
+    uint8_t* buffer,
+    size_t buffer_length,
+    ssize_t* write_count
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (buffer == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    ssize_t count = libssh2_sftp_write(
+        handle->inner,
+        buffer,
+        buffer_length
+    );
+    if (count < 0) {
+        return labssh2_status_from_result(count);
+    }
+    *write_count = count;
+    return LABSSH2_STATUS_OK;
+}
 
-/* labssh2_status_t */
-/* labssh2_sftp_file_sync( */
-/*     labssh2_sftp_file_t* handle */
-/* ); */
+labssh2_status_t
+labssh2_sftp_file_sync(
+    labssh2_sftp_file_t* handle
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_sftp_fsync(handle->inner);
+    return labssh2_status_from_result(result);
+}
 
-/* labssh2_status_t */
-/* labssh2_sftp_file_seek( */
-/*     labssh2_sftp_file_t* handle, */
-/*     size_t offest */
-/* ); */
+labssh2_status_t
+labssh2_sftp_file_seek(
+    labssh2_sftp_file_t* handle,
+    size_t offset
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    libssh2_sftp_seek64(handle->inner, offset);
+    return LABSSH2_STATUS_OK;
+}
 
-/* labssh2_status_t */
-/* labssh2_sftp_file_rewind( */
-/*     labssh2_sftp_file_t* handle */
-/* ); */
+labssh2_status_t
+labssh2_sftp_file_rewind(
+    labssh2_sftp_file_t* handle
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    libssh2_sftp_seek64(handle->inner, 0);
+    return LABSSH2_STATUS_OK;
+}
 
-/* labssh2_status_t */
-/* labssh2_sftp_file_position( */
-/*     labssh2_sftp_file_t* handle */
-/* ); */
+labssh2_status_t
+labssh2_sftp_file_position(
+    labssh2_sftp_file_t* handle,
+    uint64_t* position
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    uint64_t pos = libssh2_sftp_tell64(handle->inner);
+    *position = pos;
+    return LABSSH2_STATUS_OK;
+}
 
-/* labssh2_status_t */
-/* labssh2_sftp_file_status( */
-/*     labssh2_sftp_file_t* handle, */
-/*     labssh2_sftp_attributes_t* attributes */
-/* ); */
+labssh2_status_t
+labssh2_sftp_file_status(
+    labssh2_sftp_file_t* handle,
+    labssh2_sftp_attributes_t* attributes
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_sftp_fstat_ex(handle->inner, attributes->inner, 0);
+    if (result != 0) {
+        return labssh2_status_from_result(result);
+    }
+    return LABSSH2_STATUS_OK;
+}
 
-/* labssh2_status_t */
-/* labssh2_sftp_file_set_status( */
-/*     labssh2_sftp_file_t* handle, */
-/*     labssh2_sftp_attributes_t* attributes */
-/* ); */
+labssh2_status_t
+labssh2_sftp_file_set_status(
+    labssh2_sftp_file_t* handle,
+    labssh2_sftp_attributes_t* attributes
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_sftp_fstat_ex(handle->inner, attributes->inner, 1);
+    if (result != 0) {
+        return labssh2_status_from_result(result);
+    }
+    return LABSSH2_STATUS_OK;
+}
 
 /* labssh2_status_t */
 /* labssh2_sftp_link_status( */

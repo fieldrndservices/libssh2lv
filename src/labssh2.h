@@ -657,7 +657,8 @@ LABSSH2_API labssh2_status_t
 labssh2_sftp_write_file(
     labssh2_sftp_file_t* handle,
     uint8_t* buffer,
-    size_t count
+    size_t buffer_length,
+    ssize_t* write_count
 );
 
 LABSSH2_API labssh2_status_t
@@ -668,7 +669,7 @@ labssh2_sftp_file_sync(
 LABSSH2_API labssh2_status_t
 labssh2_sftp_file_seek(
     labssh2_sftp_file_t* handle,
-    size_t offest
+    size_t offset
 );
 
 LABSSH2_API labssh2_status_t
@@ -678,7 +679,8 @@ labssh2_sftp_file_rewind(
 
 LABSSH2_API labssh2_status_t
 labssh2_sftp_file_position(
-    labssh2_sftp_file_t* handle
+    labssh2_sftp_file_t* handle,
+    uint64_t* position
 );
 
 LABSSH2_API labssh2_status_t

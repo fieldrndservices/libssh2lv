@@ -199,7 +199,7 @@ case LABSSH2_STATUS_ERROR_UNKNOWN_HASH_ALGORITHM: return "Only the MD5 and SHA1 
     }
 }
 
-labssh2_status_t 
+labssh2_status_t
 labssh2_status_from_result(
     int libssh2_result
 ) {
