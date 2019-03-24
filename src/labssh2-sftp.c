@@ -323,6 +323,9 @@ labssh2_sftp_file_status(
     if (handle == NULL) {
         return LABSSH2_STATUS_ERROR_NULL_VALUE;
     }
+    if (attributes == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
     int result = libssh2_sftp_fstat_ex(handle->inner, attributes->inner, 0);
     if (result != 0) {
         return labssh2_status_from_result(result);
@@ -338,6 +341,9 @@ labssh2_sftp_file_set_status(
     if (handle == NULL) {
         return LABSSH2_STATUS_ERROR_NULL_VALUE;
     }
+    if (attributes == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
     int result = libssh2_sftp_fstat_ex(handle->inner, attributes->inner, 1);
     if (result != 0) {
         return labssh2_status_from_result(result);
@@ -345,11 +351,33 @@ labssh2_sftp_file_set_status(
     return LABSSH2_STATUS_OK;
 }
 
-/* labssh2_status_t */
-/* labssh2_sftp_link_status( */
-/*     labssh2_sftp_file_t* handle, */
-/*     labssh2_sftp_attributes_t* attributes */
-/* ); */
+labssh2_status_t
+labssh2_sftp_link_status(
+    labssh2_sftp_t* handle,
+    const char* path,
+    labssh2_sftp_attributes_t* attributes
+) {
+    if (handle == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (path == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (attributes == NULL) {
+        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_sftp_stat_ex(
+        handle->inner,
+        path,
+        strlen(path),
+        LIBSSH2_SFTP_LSTAT,
+        attributes->inner
+    );
+    if (result != 0) {
+        return labssh2_status_from_result(result);
+    }
+    return LABSSH2_STATUS_OK;
+}
 
 /* labssh2_status_t */
 /* labssh2_sftp_file_rename( */

@@ -697,7 +697,8 @@ labssh2_sftp_file_set_status(
 
 LABSSH2_API labssh2_status_t
 labssh2_sftp_link_status(
-    labssh2_sftp_file_t* handle,
+    labssh2_sftp_t* handle,
+    const char* path,
     labssh2_sftp_attributes_t* attributes
 );
 
