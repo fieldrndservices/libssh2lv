@@ -109,7 +109,7 @@ labssh2_sftp_open_file(
     LIBSSH2_SFTP_HANDLE* inner = libssh2_sftp_open_ex(
         sftp->inner,
         path,
-        strlen(path),
+        (unsigned int)strlen(path),
         flags,
         permissions,
         LIBSSH2_SFTP_OPENFILE
@@ -159,7 +159,7 @@ labssh2_sftp_open_directory(
     LIBSSH2_SFTP_HANDLE* inner = libssh2_sftp_open_ex(
         sftp->inner,
         path,
-        strlen(path),
+        (unsigned int)strlen(path),
         0,
         0,
         LIBSSH2_SFTP_OPENDIR
@@ -208,7 +208,7 @@ labssh2_sftp_read_file(
     }
     ssize_t count = libssh2_sftp_read(handle->inner, (char*)buffer, buffer_max_length);
     if (count < 0) {
-        return labssh2_status_from_result(count);
+        return labssh2_status_from_result((int)count);
     }
     *read_count = count;
     return LABSSH2_STATUS_OK;
@@ -237,7 +237,7 @@ labssh2_sftp_read_directory(
         attributes->inner
     );
     if (count < 0) {
-        return labssh2_status_from_result(count);
+        return labssh2_status_from_result((int)count);
     }
     *read_count = count;
     return LABSSH2_STATUS_OK;
@@ -262,7 +262,7 @@ labssh2_sftp_write_file(
         buffer_length
     );
     if (count < 0) {
-        return labssh2_status_from_result(count);
+        return labssh2_status_from_result((int)count);
     }
     *write_count = count;
     return LABSSH2_STATUS_OK;
@@ -369,7 +369,7 @@ labssh2_sftp_link_status(
     int result = libssh2_sftp_stat_ex(
         handle->inner,
         path,
-        strlen(path),
+        (unsigned int)strlen(path),
         LIBSSH2_SFTP_LSTAT,
         attributes->inner
     );
