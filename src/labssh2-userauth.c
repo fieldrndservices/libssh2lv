@@ -202,9 +202,9 @@ labssh2_userauth_publickey_from_memory(
         handle->inner,
         username,
         username_len,
-        public_key_data,
+        (char*)public_key_data,
         public_key_data_len,
-        private_key_data,
+        (char*)private_key_data,
         private_key_data_len,
         passphrase
     );
