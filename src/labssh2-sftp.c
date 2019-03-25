@@ -206,7 +206,7 @@ labssh2_sftp_read_file(
     if (buffer == NULL) {
         return LABSSH2_STATUS_ERROR_NULL_VALUE;
     }
-    ssize_t count = libssh2_sftp_read(handle->inner, buffer, buffer_max_length);
+    ssize_t count = libssh2_sftp_read(handle->inner, (char*)buffer, buffer_max_length);
     if (count < 0) {
         return labssh2_status_from_result(count);
     }
@@ -230,7 +230,7 @@ labssh2_sftp_read_directory(
     }
     ssize_t count = libssh2_sftp_readdir_ex(
         handle->inner,
-        buffer,
+        (char*)buffer,
         buffer_max_length,
         NULL,
         0,
@@ -258,7 +258,7 @@ labssh2_sftp_write_file(
     }
     ssize_t count = libssh2_sftp_write(
         handle->inner,
-        buffer,
+        (char*)buffer,
         buffer_length
     );
     if (count < 0) {
