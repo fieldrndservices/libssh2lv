@@ -1,14 +1,14 @@
-# LabSSH2-C: A LabVIEW-Friendly C library for libssh2
+# LV-LIBSSH2: A LabVIEW-Friendly C library for libssh2
 
-The LabSSH2-C project is a [LabVIEW&trade;](http://www.ni.com/labview)-friendly C "wrapper" library for the [libssh2]() library. The library is intended to be used with the [Call Library Function](http://zone.ni.com/reference/en-XX/help/371361P-01/glang/call_library_function/) node. This provides SSH client functionality to LabVIEW as a <abbr title="Dynamic Link Library">DLL</abbr> (Windows), <abbr title="Dynamic Library">Dylib</abbr> (macOS), and/or <abbr title="Shared Object">SO</abbr> (Linux).
+The LV-LIBSSH2 project is a [LabVIEW&trade;](http://www.ni.com/labview)-friendly C "wrapper" library for the [libssh2](http://libssh2.org) library. The library is intended to be used with the [Call Library Function](http://zone.ni.com/reference/en-XX/help/371361P-01/glang/call_library_function/) node. This provides SSH client functionality to LabVIEW as a <abbr title="Dynamic Link Library">DLL</abbr> (Windows), <abbr title="Dynamic Library">Dylib</abbr> (macOS), and/or <abbr title="Shared Object">SO</abbr> (Linux).
 
-[Installation](#installation) | [Build](#build) | [API](https://fieldrndservices.github.io/labssh2-c/) | [Tests](#tests) | [License](#license)
+[Installation](#installation) | [Build](#build) | [API](https://fieldrndservices.github.io/lv-libssh2/) | [Tests](#tests) | [License](#license)
 
 ## Installation
 
-A single ZIP archive containing the pre-compiled/built shared libraries for all of the platforms listed in the [Build](#build) section is provided with each [release](https://github.com/fieldrndservices/labssh2-c/releases). These pre-compiled/built shared libraries include software developed by the OpenSSL Project for use in the OpenSSL Toolkit (http://www.openssl.rog).
+A single ZIP archive containing the pre-compiled/built shared libraries for all of the platforms listed in the [Build](#build) section is provided with each [release](https://github.com/fieldrndservices/lv-libssh2/releases). These pre-compiled/built shared libraries include software developed by the OpenSSL Project for use in the OpenSSL Toolkit (http://www.openssl.rog).
 
-1. Download the ZIP archive for the latest release. Note, this is _not_ the source code ZIP file. The ZIP archive containing the pre-compiled/built shared libraries will be labeled: `labssh2-c_#.#.#.zip`, where `#.#.#` is the version number for the release.
+1. Download the ZIP archive for the latest release. Note, this is _not_ the source code ZIP file. The ZIP archive containing the pre-compiled/built shared libraries will be labeled: `lv_libssh2_#.#.#.zip`, where `#.#.#` is the version number for the release.
 2. Extract, or unzip, the ZIP archive.
 3. Copy and paste all or the platform-specific shared libraries to one of the following locations on disk:
 
@@ -31,7 +31,7 @@ Ensure all of the following dependencies are installed and up-to-date before pro
 - [Doxygen](http://www.doxygen.org), Documentation only
 - [ActivePerl](https://www.perl.org/), Windows Only 
 
-The [OpenSSL](https://www.openssl.org/) and [libssh2](https://www.libssh2.org/) dependencies will automatically be downloaded and built as part of the build process. This is to ensure the correct version is used and that these dependencies are statically linked to the eventual `liblabssh2` shared library. Statically linking the dependencies avoids having to distribute separate shared libraries for OpenSSL and libssh2 on each supported platform (Windows, macOS, Linux, etc.).
+The [OpenSSL](https://www.openssl.org/) and [libssh2](https://www.libssh2.org/) dependencies will automatically be downloaded and built as part of the build process. This is to ensure the correct version is used and that these dependencies are statically linked to the eventual LV-LIBSSH2 shared library. Statically linking the dependencies avoids having to distribute separate shared libraries for OpenSSL and libssh2 on each supported platform (Windows, macOS, Linux, etc.).
 
 The first build of the project on a system will take longer because the OpenSSL and libssh2 libraries will be downloaded and built. These dependencies can be found in the `.deps` folder.
 
@@ -39,24 +39,23 @@ The first build of the project on a system will take longer because the OpenSSL 
 
 The [Microsoft Visual C++ Build Tools 2017](https://www.visualstudio.com/downloads/#build-tools-for-visual-studio-2017) should have installed a `x64 Native Build Tools` command prompt. Start the `x64 Native Build Tools` command prompt. This ensures the appropriate C compiler is available to CMake to build the library. Run the following commands to obtain a copy of the source code and build both the 32-bit and 64-bit DLLs with a `Release` configuration:
 
-    > git clone https://github.com/fieldrndservices/labssh2-c.git LabSSH2-C
-    > cd LabSSH2-C
-    > build.bat
+    C:\> git clone https://github.com/fieldrndservices/lv-libssh2.git
+    C:\> cd lv-libssh2
+    C:\> build.bat
 
-The DLLs (liblabssh2.dll and liblabssh2-x64.dll) will be available in the `build32\bin` and `build64\bin` folders. 
+The DLLs (lv-libssh2.dll and lv-libssh2-x64.dll) will be available in the `build32\bin` and `build64\bin` folders. 
 
 ### macOS
 
 Ensure the command-line tools for [XCode](https://developer.apple.com/xcode/) have been installed along with [git](https://git-scm.com/) before proceeding.
 
-
-    $ git clone https://github.com/fieldrndservices/labssh2-c.git LabSSH2-C
-    $ cd LabSSH2-C
+    $ git clone https://github.com/fieldrndservices/lv-libssh2.git
+    $ cd lv-libssh2
     $ mkdir build && cd build
     $ cmake ..
     $ cmake --build .
 
-The dynamic library (liblabssh2.dylib) will be available in the `bin` folder within the `build` folder.
+The dynamic library (libssh2-lv.dylib) will be available in the `bin` folder within the `build` folder.
 
 ### Linux
 
@@ -66,13 +65,13 @@ If running on Ubuntu or similar distribution, ensure the [build-essential](https
 
 Start a terminal, and run the following commands to obtain a copy of the source code from the repository and build the shared object (so):
 
-    $ git clone https://github.com/fieldrndservices/labssh2-c.git
-    $ cd labssh2-c
+    $ git clone https://github.com/fieldrndservices/lv-libssh2.git
+    $ cd lv-libssh2
     $ mkdir build && cd build
     $ cmake ..
     $ cmake --build .
 
-The shared object (liblabssh2.so) will be available in the `bin` folder.
+The shared object (libssh2-lv.so) will be available in the `bin` folder.
 
 ### NI Linux RT
 
@@ -83,17 +82,17 @@ NI provides a cross-compiler for their Real-Time (RT) Linux distribution. Before
 3. Right-click in the _Project Explorer_ on the left and select _Import_ from the context menu that appears. A new dialog will appear.
 4. Select `Git->Projects from Git` from the dialog that appears. Click the _Next >_ button. A new page will appear.
 5. Select the `Clone URI` from the list that appears in the new page of the dialog. Click the _Next >_ button. A new page will appear.
-6. Enter the URI for the git repository in the _URI:_ field, i.e. `https://github.com/fieldrndservices/labssh2-c.git`. The _Host:_ and _Repository path:_ fields will populate automatically. Click the _Next >_ button. A new page will appear.
+6. Enter the URI for the git repository in the _URI:_ field, i.e. `https://github.com/fieldrndservices/lv-libssh2.git`. The _Host:_ and _Repository path:_ fields will populate automatically. Click the _Next >_ button. A new page will appear.
 7. Ensure only the `master` checkbox is checked in the _Branch Selection_ page of the _Import Projects from Git_ dialog. Click the _Next >_ button. A new page will appear.
 8. Browse to the workspace directory for NI Eclipse to populate the _Directory:_ field. Leave all other fields as the defaults. Click the _Next >_ button. A new page will appear.
 9. Select the `Import existing projects` radio button from the options under the _Wizard for project import_ section. Click the _Next >_ button. A new page will appear.
-10. Click the _Finish_ button. No changes are needed on the _Import Projects_ page. A new `labssh2-c` project should appear in the _Project Explorer_.
+10. Click the _Finish_ button. No changes are needed on the _Import Projects_ page. A new `lv-libssh2` project should appear in the _Project Explorer_.
 11. Click the _Build_ toolbar button (icon is a small hammer) to build the NI Linux RT x86_64-based shared object (so).
 12. Click the drop-down menu next to the _Build_ toolbar button and select the `ARM` build configuration. This will build the NI Linux RT ARM-based shared object (so).
 
-Note, steps 3-10 only need to be done once to setup the project. The `liblabssh2-rt.so` will be located in the `x86_64` folder under the project's root folder inside the Eclipse workspace folder, and the `liblabssh2-arm-rt.so` will be located in the `ARM` folder under the project's root folder inside the Eclipse workspace folder.
+Note, steps 3-10 only need to be done once to setup the project. The `libssh2-lv-rt.so` will be located in the `x86_64` folder under the project's root folder inside the Eclipse workspace folder, and the `libssh2-lv-arm-rt.so` will be located in the `ARM` folder under the project's root folder inside the Eclipse workspace folder.
 
-### [Documentation](https://fieldrndservices.github.io/labssh2-c/)
+### [Documentation](https://fieldrndservices.github.io/lv-libssh2/)
 
 [Doxygen](http://www.doxygen.org) is used to build the Application Programming Interface (API) documentation. Ensure the latest version is installed then enter the following command from the root directory of the project to build the API docs:
 
@@ -138,5 +137,5 @@ Or,
 
 ## License
 
-The labssh2 project is licensed under the [revised BSD 3-Clause](https://opensource.org/licenses/BSD-3-Clause) license. See the [LICENSE](https://github.com/fieldrndservices/labssh2-c/blob/master/LICENSE) file for more information about licensing and copyright.
+The LV-LIBSSH2 project is licensed under the [revised BSD 3-Clause](https://opensource.org/licenses/BSD-3-Clause) license. See the [LICENSE](https://github.com/fieldrndservices/lv-libssh2/blob/master/LICENSE) file for more information about licensing and copyright.
 
