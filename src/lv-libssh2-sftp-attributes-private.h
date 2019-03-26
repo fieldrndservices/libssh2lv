@@ -31,13 +31,14 @@
  *   Christopher R. Field <chris@fieldrndservices.com>
  */
 
-#ifndef LV_LIBSSH2_STATUS_PRIVATE_H
-#define LV_LIBSSH2_STATUS_PRIVATE_H
+#ifndef LV_LIBSSH2_SFTP_ATTRIBUTES_PRIVATE_H
+#define LV_LIBSSH2_SFTP_ATTRIBUTES_PRIVATE_H
 
-lv_libssh2_status_t
-lv_libssh2_status_from_result(
-    int libssh2_result
-);
+#include "lv-libssh2.h"
+
+struct _lv_libssh2_sftp_attributes {
+    LIBSSH2_SFTP_ATTRIBUTES* inner;
+};
 
 #endif
 

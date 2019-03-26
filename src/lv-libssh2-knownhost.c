@@ -36,8 +36,8 @@
 
 #include "libssh2.h"
 
-#include "lv_libssh2.h"
-#include "lv_libssh2-knownhost-private.h"
+#include "lv-libssh2.h"
+#include "lv-libssh2-knownhost-private.h"
 
 lv_libssh2_status_t
 lv_libssh2_knownhost_create(

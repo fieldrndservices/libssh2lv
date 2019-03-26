@@ -34,7 +34,7 @@
 #ifndef LV_LIBSSH2_KNOWNHOSTS_PRIVATE_H
 #define LV_LIBSSH2_KNOWNHOSTS_PRIVATE_H
 
-#include "lv_libssh2.h"
+#include "lv-libssh2.h"
 
 struct _lv_libssh2_knownhosts {
     LIBSSH2_KNOWNHOSTS* inner;

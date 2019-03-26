@@ -53,7 +53,7 @@ lv_libssh2_sftp_create(
     if (inner == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_MALLOC;
     }
-    lv_libssh2_sftp_t* sftp = malloc(sizeof(labssh2_sftp_t));
+    lv_libssh2_sftp_t* sftp = malloc(sizeof(lv_libssh2_sftp_t));
     if (sftp == NULL) {
         libssh2_sftp_shutdown(inner);
         return LV_LIBSSH2_STATUS_ERROR_MALLOC;
@@ -117,7 +117,7 @@ lv_libssh2_sftp_open_file(
     if (inner == NULL) {
         return lv_libssh2_status_from_result(libssh2_sftp_last_error(sftp->inner));
     }
-    lv_libssh2_sftp_file_t* file = malloc(sizeof(labssh2_sftp_file_t));
+    lv_libssh2_sftp_file_t* file = malloc(sizeof(lv_libssh2_sftp_file_t));
     if (file == NULL) {
         libssh2_sftp_close_handle(inner);
         return LV_LIBSSH2_STATUS_ERROR_MALLOC;
@@ -167,7 +167,7 @@ lv_libssh2_sftp_open_directory(
     if (inner == NULL) {
         return lv_libssh2_status_from_result(libssh2_sftp_last_error(sftp->inner));
     }
-    lv_libssh2_sftp_directory_t* directory = malloc(sizeof(labssh2_sftp_directory_t));
+    lv_libssh2_sftp_directory_t* directory = malloc(sizeof(lv_libssh2_sftp_directory_t));
     if (directory == NULL) {
         libssh2_sftp_close_handle(inner);
         return LV_LIBSSH2_STATUS_ERROR_MALLOC;
