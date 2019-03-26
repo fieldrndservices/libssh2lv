@@ -1,15 +1,15 @@
 set(SOURCE
-    labssh2.c
-    labssh2.h
-    labssh2-fileinfo.c
-    labssh2-knownhost.c
-    labssh2-knownhosts.c
-    labssh2-scp.c
-    labssh2-session.c
-    labssh2-sftp.c
-    labssh2-sftp-attributes.c
-    labssh2-status.c
-    labssh2-userauth.c
+    lv-libssh2.c
+    lv-libssh2.h
+    lv-libssh2-fileinfo.c
+    lv-libssh2-knownhost.c
+    lv-libssh2-knownhosts.c
+    lv-libssh2-scp.c
+    lv-libssh2-session.c
+    lv-libssh2-sftp.c
+    lv-libssh2-sftp-attributes.c
+    lv-libssh2-status.c
+    lv-libssh2-userauth.c
 )
 
 add_library(shared SHARED ${SOURCE})

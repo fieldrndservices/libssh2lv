@@ -1,5 +1,5 @@
 /*
- * LabSSH2 - A LabVIEW-Friendly C library for libssh2
+ * LV-LIBSSH2 - A LabVIEW-Friendly C library for libssh2
  *
  * Copyright (c) 2018 Field R&D Services, LLC. All Rights Reserved.
  *
@@ -36,69 +36,69 @@
 
 #include "libssh2.h"
 
-#include "labssh2.h"
-#include "labssh2-status-private.h"
-#include "labssh2-session-private.h"
-#include "labssh2-channel-private.h"
-#include "labssh2-fileinfo-private.h"
+#include "lv_libssh2.h"
+#include "lv_libssh2-status-private.h"
+#include "lv_libssh2-session-private.h"
+#include "lv_libssh2-channel-private.h"
+#include "lv_libssh2-fileinfo-private.h"
 
-labssh2_status_t
-labssh2_scp_send(
-    labssh2_session_t* session,
+lv_libssh2_status_t
+lv_libssh2_scp_send(
+    lv_libssh2_session_t* session,
     const char* path,
     int mode,
     size_t file_size,
-    labssh2_channel_t** handle
+    lv_libssh2_channel_t** handle
 ) {
     *handle = NULL;
     if (session == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     if (path == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     LIBSSH2_CHANNEL* inner = libssh2_scp_send64(session->inner, path, mode, file_size, 0, 0);
     if (inner == NULL) {
-        return LABSSH2_STATUS_ERROR_MALLOC;
+        return LV_LIBSSH2_STATUS_ERROR_MALLOC;
     }
-    labssh2_channel_t* channel = malloc(sizeof(labssh2_channel_t));
+    lv_libssh2_channel_t* channel = malloc(sizeof(lv_libssh2_channel_t));
     if (channel == NULL) {
         libssh2_channel_free(inner);
-        return LABSSH2_STATUS_ERROR_MALLOC;
+        return LV_LIBSSH2_STATUS_ERROR_MALLOC;
     }
     channel->inner = inner;
     *handle = channel;
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-labssh2_status_t
-labssh2_scp_receive(
-    labssh2_session_t* session,
+lv_libssh2_status_t
+lv_libssh2_scp_receive(
+    lv_libssh2_session_t* session,
     const char* path,
-    labssh2_fileinfo_t* file_info,
-    labssh2_channel_t** handle
+    lv_libssh2_fileinfo_t* file_info,
+    lv_libssh2_channel_t** handle
 ) {
     *handle = NULL;
     if (session == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     if (path == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     if (file_info == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     LIBSSH2_CHANNEL* inner = libssh2_scp_recv2(session->inner, path, file_info->inner);
     if (inner == NULL) {
-        return LABSSH2_STATUS_ERROR_MALLOC;
+        return LV_LIBSSH2_STATUS_ERROR_MALLOC;
     }
-    labssh2_channel_t* channel = malloc(sizeof(labssh2_channel_t));
+    lv_libssh2_channel_t* channel = malloc(sizeof(lv_libssh2_channel_t));
     if (channel == NULL) {
         libssh2_channel_free(inner);
-        return LABSSH2_STATUS_ERROR_MALLOC;
+        return LV_LIBSSH2_STATUS_ERROR_MALLOC;
     }
     channel->inner = inner;
     *handle = channel;
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 

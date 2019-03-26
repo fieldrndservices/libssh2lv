@@ -1,5 +1,5 @@
 /*
- * LabSSH2 - A LabVIEW-Friendly C library for libssh2
+ * LV-LIBSSH2 - A LabVIEW-Friendly C library for libssh2
  *
  * Copyright (c) 2018 Field R&D Services, LLC. All Rights Reserved.
  *
@@ -25,18 +25,18 @@
  * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
- * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * THIS Software, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Contributor(s):
  *   Christopher R. Field <chris@fieldrndservices.com>
  */
 
-#ifndef LABSSH2_CHANNEL_PRIVATE_H
-#define LABSSH2_CHANNEL_PRIVATE_H
+#ifndef LV_LIBSSH2_CHANNEL_PRIVATE_H
+#define LV_LIBSSH2_CHANNEL_PRIVATE_H
 
-#include "labssh2.h"
+#include "lv_libssh2.h"
 
-struct _labssh2_channel {
+struct _lv_libssh2_channel {
     LIBSSH2_CHANNEL* inner;
 };
 

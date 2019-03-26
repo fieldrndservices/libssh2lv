@@ -1,5 +1,5 @@
 /*
- * LabSSH2 - A LabVIEW-Friendly C library for libssh2
+ * LV-LIBSSH2 - A LabVIEW-Friendly C library for libssh2
  *
  * Copyright (c) 2018 Field R&D Services, LLC. All Rights Reserved.
  *
@@ -36,128 +36,128 @@
 
 #include "libssh2.h"
 
-#include "labssh2.h"
-#include "labssh2-knownhost-private.h"
+#include "lv_libssh2.h"
+#include "lv_libssh2-knownhost-private.h"
 
-labssh2_status_t
-labssh2_knownhost_create(
-    labssh2_knownhost_t** handle
+lv_libssh2_status_t
+lv_libssh2_knownhost_create(
+    lv_libssh2_knownhost_t** handle
 ) {
     *handle = NULL;
     struct libssh2_knownhost* inner = malloc(sizeof(struct libssh2_knownhost));
     if (inner == NULL) {
-        return LABSSH2_STATUS_ERROR_MALLOC;
+        return LV_LIBSSH2_STATUS_ERROR_MALLOC;
     }
-    labssh2_knownhost_t* knownhost = malloc(sizeof(labssh2_knownhost_t));
+    lv_libssh2_knownhost_t* knownhost = malloc(sizeof(lv_libssh2_knownhost_t));
     if (knownhost == NULL) {
         free(inner);
-        return LABSSH2_STATUS_ERROR_MALLOC;
+        return LV_LIBSSH2_STATUS_ERROR_MALLOC;
     }
     knownhost->inner = inner;
     *handle = knownhost;
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-labssh2_status_t
-labssh2_knownhost_destroy(
-    labssh2_knownhost_t* handle
+lv_libssh2_status_t
+lv_libssh2_knownhost_destroy(
+    lv_libssh2_knownhost_t* handle
 ) {
     if (handle == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     free(handle->inner);
     handle->inner = NULL;
     free(handle);
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-labssh2_status_t
-labssh2_knownhost_magic(
-    labssh2_knownhost_t* handle,
+lv_libssh2_status_t
+lv_libssh2_knownhost_magic(
+    lv_libssh2_knownhost_t* handle,
     int* magic
 ) {
     if (handle == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     *magic = handle->inner->magic;
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-labssh2_status_t
-labssh2_knownhost_name_len(
-    labssh2_knownhost_t* handle,
+lv_libssh2_status_t
+lv_libssh2_knownhost_name_len(
+    lv_libssh2_knownhost_t* handle,
     size_t* len
 ) {
     if (handle == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     if (handle->inner->name == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     *len = strlen(handle->inner->name);
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-labssh2_status_t
-labssh2_knownhost_name(
-    labssh2_knownhost_t* handle,
+lv_libssh2_status_t
+lv_libssh2_knownhost_name(
+    lv_libssh2_knownhost_t* handle,
     char* name
 ) {
     if (handle == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     if (name == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     if (handle->inner->name == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     memcpy(name, handle->inner->name, strlen(handle->inner->name));
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-labssh2_status_t
-labssh2_knownhost_key_len(
-    labssh2_knownhost_t* handle,
+lv_libssh2_status_t
+lv_libssh2_knownhost_key_len(
+    lv_libssh2_knownhost_t* handle,
     size_t* len
 ) {
     if (handle == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     if (handle->inner->key == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     *len = strlen(handle->inner->key);
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-labssh2_status_t
-labssh2_knownhost_key(
-    labssh2_knownhost_t* handle,
+lv_libssh2_status_t
+lv_libssh2_knownhost_key(
+    lv_libssh2_knownhost_t* handle,
     char* key
 ) {
     if (handle == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     if (handle->inner->key == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     if (key == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     memcpy(key, handle->inner->key, strlen(handle->inner->key));
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-labssh2_status_t
-labssh2_knownhost_type_mask(
-    labssh2_knownhost_t* handle,
+lv_libssh2_status_t
+lv_libssh2_knownhost_type_mask(
+    lv_libssh2_knownhost_t* handle,
     int* type_mask
 ) {
     if (handle == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     *type_mask = handle->inner->typemask;
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 

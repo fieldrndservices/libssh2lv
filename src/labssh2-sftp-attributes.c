@@ -1,5 +1,5 @@
 /*
- * LabSSH2 - A LabVIEW-Friendly C library for libssh2
+ * LV-LIBSSH2 - A LabVIEW-Friendly C library for libssh2
  *
  * Copyright (c) 2018 Field R&D Services, LLC. All Rights Reserved.
  *
@@ -35,38 +35,38 @@
 
 #include "libssh2_sftp.h"
 
-#include "labssh2.h"
-#include "labssh2-status-private.h"
-#include "labssh2-sftp-attributes-private.h"
+#include "lv_libssh2.h"
+#include "lv_libssh2-status-private.h"
+#include "lv_libssh2-sftp-attributes-private.h"
 
-labssh2_status_t
-labssh2_sftp_attributes_create(
-    labssh2_sftp_attributes_t** handle
+lv_libssh2_status_t
+lv_libssh2_sftp_attributes_create(
+    lv_libssh2_sftp_attributes_t** handle
 ) {
     *handle = NULL;
-    labssh2_sftp_attributes_t* attributes = malloc(sizeof(labssh2_sftp_attributes_t));
+    lv_libssh2_sftp_attributes_t* attributes = malloc(sizeof(lv_libssh2_sftp_attributes_t));
     if (attributes == NULL) {
-        return LABSSH2_STATUS_ERROR_MALLOC;
+        return LV_LIBSSH2_STATUS_ERROR_MALLOC;
     }
     LIBSSH2_SFTP_ATTRIBUTES* inner = malloc(sizeof(LIBSSH2_SFTP_ATTRIBUTES));
     if (inner == NULL) {
         free(attributes);
-        return LABSSH2_STATUS_ERROR_MALLOC;
+        return LV_LIBSSH2_STATUS_ERROR_MALLOC;
     }
     attributes->inner = inner;
     *handle = attributes;
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-labssh2_status_t
-labssh2_sftp_attributes_destroy(
-    labssh2_sftp_attributes_t* handle
+lv_libssh2_status_t
+lv_libssh2_sftp_attributes_destroy(
+    lv_libssh2_sftp_attributes_t* handle
 ) {
     if (handle == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     free(handle->inner);
     handle->inner = NULL;
     free(handle);
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }

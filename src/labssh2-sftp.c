@@ -1,5 +1,5 @@
 /*
- * LabSSH2 - A LabVIEW-Friendly C library for libssh2
+ * LV-LIBSSH2 - A LabVIEW-Friendly C library for libssh2
  *
  * Copyright (c) 2018 Field R&D Services, LLC. All Rights Reserved.
  *
@@ -37,74 +37,74 @@
 #include "libssh2.h"
 #include "libssh2_sftp.h"
 
-#include "labssh2.h"
-#include "labssh2-status-private.h"
-#include "labssh2-session-private.h"
-#include "labssh2-sftp-private.h"
-#include "labssh2-sftp-attributes-private.h"
+#include "lv-libssh2.h"
+#include "lv-libssh2-status-private.h"
+#include "lv-libssh2-session-private.h"
+#include "lv-libssh2-sftp-private.h"
+#include "lv-libssh2-sftp-attributes-private.h"
 
-labssh2_status_t
-labssh2_sftp_create(
-    labssh2_session_t* session,
-    labssh2_sftp_t** handle
+lv_libssh2_status_t
+lv_libssh2_sftp_create(
+    lv_libssh2_session_t* session,
+    lv_libssh2_sftp_t** handle
 ) {
     *handle = NULL;
     LIBSSH2_SFTP* inner = libssh2_sftp_init(session->inner);
     if (inner == NULL) {
-        return LABSSH2_STATUS_ERROR_MALLOC;
+        return LV_LIBSSH2_STATUS_ERROR_MALLOC;
     }
-    labssh2_sftp_t* sftp = malloc(sizeof(labssh2_sftp_t));
+    lv_libssh2_sftp_t* sftp = malloc(sizeof(labssh2_sftp_t));
     if (sftp == NULL) {
         libssh2_sftp_shutdown(inner);
-        return LABSSH2_STATUS_ERROR_MALLOC;
+        return LV_LIBSSH2_STATUS_ERROR_MALLOC;
     }
     sftp->inner = inner;
     *handle = sftp;
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-labssh2_status_t
-labssh2_sftp_destroy(
-    labssh2_sftp_t* handle
+lv_libssh2_status_t
+lv_libssh2_sftp_destroy(
+    lv_libssh2_sftp_t* handle
 ) {
     if (handle == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     int result = libssh2_sftp_shutdown(handle->inner);
     if (result != 0) {
-        return LABSSH2_STATUS_ERROR_FREE;
+        return LV_LIBSSH2_STATUS_ERROR_FREE;
     }
     handle->inner = NULL;
     free(handle);
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-labssh2_status_t
-labssh2_sftp_last_error(
-    labssh2_sftp_t* handle,
+lv_libssh2_status_t
+lv_libssh2_sftp_last_error(
+    lv_libssh2_sftp_t* handle,
     uint32_t* code
 ) {
     if (handle == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     *code = libssh2_sftp_last_error(handle->inner);
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-labssh2_status_t
-labssh2_sftp_open_file(
-    labssh2_sftp_t* sftp,
+lv_libssh2_status_t
+lv_libssh2_sftp_open_file(
+    lv_libssh2_sftp_t* sftp,
     const char* path,
     uint32_t flags,
     int32_t permissions,
-    labssh2_sftp_file_t** handle
+    lv_libssh2_sftp_file_t** handle
 ) {
     *handle = NULL;
     if (sftp == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     if (path == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     LIBSSH2_SFTP_HANDLE* inner = libssh2_sftp_open_ex(
         sftp->inner,
@@ -115,46 +115,46 @@ labssh2_sftp_open_file(
         LIBSSH2_SFTP_OPENFILE
     );
     if (inner == NULL) {
-        return labssh2_status_from_result(libssh2_sftp_last_error(sftp->inner));
+        return lv_libssh2_status_from_result(libssh2_sftp_last_error(sftp->inner));
     }
-    labssh2_sftp_file_t* file = malloc(sizeof(labssh2_sftp_file_t));
+    lv_libssh2_sftp_file_t* file = malloc(sizeof(labssh2_sftp_file_t));
     if (file == NULL) {
         libssh2_sftp_close_handle(inner);
-        return LABSSH2_STATUS_ERROR_MALLOC;
+        return LV_LIBSSH2_STATUS_ERROR_MALLOC;
     }
     file->inner = inner;
     *handle = file;
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-labssh2_status_t
-labssh2_sftp_close_file(
-    labssh2_sftp_file_t* handle
+lv_libssh2_status_t
+lv_libssh2_sftp_close_file(
+    lv_libssh2_sftp_file_t* handle
 ) {
     if (handle == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     int result = libssh2_sftp_close_handle(handle->inner);
     if (result != 0) {
-        return labssh2_status_from_result(result);
+        return lv_libssh2_status_from_result(result);
     }
     handle->inner = NULL;
     free(handle);
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-labssh2_status_t
-labssh2_sftp_open_directory(
-    labssh2_sftp_t* sftp,
+lv_libssh2_status_t
+lv_libssh2_sftp_open_directory(
+    lv_libssh2_sftp_t* sftp,
     const char* path,
-    labssh2_sftp_directory_t** handle
+    lv_libssh2_sftp_directory_t** handle
 ) {
     *handle = NULL;
     if (sftp == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     if (path == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     LIBSSH2_SFTP_HANDLE* inner = libssh2_sftp_open_ex(
         sftp->inner,
@@ -165,68 +165,68 @@ labssh2_sftp_open_directory(
         LIBSSH2_SFTP_OPENDIR
     );
     if (inner == NULL) {
-        return labssh2_status_from_result(libssh2_sftp_last_error(sftp->inner));
+        return lv_libssh2_status_from_result(libssh2_sftp_last_error(sftp->inner));
     }
-    labssh2_sftp_directory_t* directory = malloc(sizeof(labssh2_sftp_directory_t));
+    lv_libssh2_sftp_directory_t* directory = malloc(sizeof(labssh2_sftp_directory_t));
     if (directory == NULL) {
         libssh2_sftp_close_handle(inner);
-        return LABSSH2_STATUS_ERROR_MALLOC;
+        return LV_LIBSSH2_STATUS_ERROR_MALLOC;
     }
     directory->inner = inner;
     *handle = directory;
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-labssh2_status_t
-labssh2_sftp_close_directory(
-    labssh2_sftp_directory_t* handle
+lv_libssh2_status_t
+lv_libssh2_sftp_close_directory(
+    lv_libssh2_sftp_directory_t* handle
 ) {
     if (handle == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     int result = libssh2_sftp_close_handle(handle->inner);
     if (result != 0) {
-        return labssh2_status_from_result(result);
+        return lv_libssh2_status_from_result(result);
     }
     handle->inner = NULL;
     free(handle);
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-labssh2_status_t
-labssh2_sftp_read_file(
-    labssh2_sftp_file_t* handle,
+lv_libssh2_status_t
+lv_libssh2_sftp_read_file(
+    lv_libssh2_sftp_file_t* handle,
     uint8_t* buffer,
     size_t buffer_max_length,
     ssize_t* read_count
 ) {
     if (handle == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     if (buffer == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     ssize_t count = libssh2_sftp_read(handle->inner, (char*)buffer, buffer_max_length);
     if (count < 0) {
-        return labssh2_status_from_result((int)count);
+        return lv_libssh2_status_from_result((int)count);
     }
     *read_count = count;
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-labssh2_status_t
-labssh2_sftp_read_directory(
-    labssh2_sftp_directory_t* handle,
+lv_libssh2_status_t
+lv_libssh2_sftp_read_directory(
+    lv_libssh2_sftp_directory_t* handle,
     uint8_t* buffer,
     size_t buffer_max_length,
-    labssh2_sftp_attributes_t* attributes,
+    lv_libssh2_sftp_attributes_t* attributes,
     ssize_t* read_count
 ) {
     if (handle == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     if (buffer == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     ssize_t count = libssh2_sftp_readdir_ex(
         handle->inner,
@@ -237,24 +237,24 @@ labssh2_sftp_read_directory(
         attributes->inner
     );
     if (count < 0) {
-        return labssh2_status_from_result((int)count);
+        return lv_libssh2_status_from_result((int)count);
     }
     *read_count = count;
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-labssh2_status_t
-labssh2_sftp_write_file(
-    labssh2_sftp_file_t* handle,
+lv_libssh2_status_t
+lv_libssh2_sftp_write_file(
+    lv_libssh2_sftp_file_t* handle,
     uint8_t* buffer,
     size_t buffer_length,
     ssize_t* write_count
 ) {
     if (handle == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     if (buffer == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     ssize_t count = libssh2_sftp_write(
         handle->inner,
@@ -262,109 +262,109 @@ labssh2_sftp_write_file(
         buffer_length
     );
     if (count < 0) {
-        return labssh2_status_from_result((int)count);
+        return lv_libssh2_status_from_result((int)count);
     }
     *write_count = count;
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-labssh2_status_t
-labssh2_sftp_file_sync(
-    labssh2_sftp_file_t* handle
+lv_libssh2_status_t
+lv_libssh2_sftp_file_sync(
+    lv_libssh2_sftp_file_t* handle
 ) {
     if (handle == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     int result = libssh2_sftp_fsync(handle->inner);
-    return labssh2_status_from_result(result);
+    return lv_libssh2_status_from_result(result);
 }
 
-labssh2_status_t
-labssh2_sftp_file_seek(
-    labssh2_sftp_file_t* handle,
+lv_libssh2_status_t
+lv_libssh2_sftp_file_seek(
+    lv_libssh2_sftp_file_t* handle,
     size_t offset
 ) {
     if (handle == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     libssh2_sftp_seek64(handle->inner, offset);
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-labssh2_status_t
-labssh2_sftp_file_rewind(
-    labssh2_sftp_file_t* handle
+lv_libssh2_status_t
+lv_libssh2_sftp_file_rewind(
+    lv_libssh2_sftp_file_t* handle
 ) {
     if (handle == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     libssh2_sftp_seek64(handle->inner, 0);
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-labssh2_status_t
-labssh2_sftp_file_position(
-    labssh2_sftp_file_t* handle,
+lv_libssh2_status_t
+lv_libssh2_sftp_file_position(
+    lv_libssh2_sftp_file_t* handle,
     uint64_t* position
 ) {
     if (handle == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     uint64_t pos = libssh2_sftp_tell64(handle->inner);
     *position = pos;
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-labssh2_status_t
-labssh2_sftp_file_status(
-    labssh2_sftp_file_t* handle,
-    labssh2_sftp_attributes_t* attributes
+lv_libssh2_status_t
+lv_libssh2_sftp_file_status(
+    lv_libssh2_sftp_file_t* handle,
+    lv_libssh2_sftp_attributes_t* attributes
 ) {
     if (handle == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     if (attributes == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     int result = libssh2_sftp_fstat_ex(handle->inner, attributes->inner, 0);
     if (result != 0) {
-        return labssh2_status_from_result(result);
+        return lv_libssh2_status_from_result(result);
     }
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-labssh2_status_t
-labssh2_sftp_file_set_status(
-    labssh2_sftp_file_t* handle,
-    labssh2_sftp_attributes_t* attributes
+lv_libssh2_status_t
+lv_libssh2_sftp_file_set_status(
+    lv_libssh2_sftp_file_t* handle,
+    lv_libssh2_sftp_attributes_t* attributes
 ) {
     if (handle == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     if (attributes == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     int result = libssh2_sftp_fstat_ex(handle->inner, attributes->inner, 1);
     if (result != 0) {
-        return labssh2_status_from_result(result);
+        return lv_libssh2_status_from_result(result);
     }
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-labssh2_status_t
-labssh2_sftp_link_status(
-    labssh2_sftp_t* handle,
+lv_libssh2_status_t
+lv_libssh2_sftp_link_status(
+    lv_libssh2_sftp_t* handle,
     const char* path,
-    labssh2_sftp_attributes_t* attributes
+    lv_libssh2_sftp_attributes_t* attributes
 ) {
     if (handle == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     if (path == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     if (attributes == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     int result = libssh2_sftp_stat_ex(
         handle->inner,
@@ -374,66 +374,66 @@ labssh2_sftp_link_status(
         attributes->inner
     );
     if (result != 0) {
-        return labssh2_status_from_result(result);
+        return lv_libssh2_status_from_result(result);
     }
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-/* labssh2_status_t */
-/* labssh2_sftp_file_rename( */
-/*     labssh2_sftp_file_t* handle, */
+/* lv_libssh2_status_t */
+/* lv_libssh2_sftp_file_rename( */
+/*     lv_libssh2_sftp_file_t* handle, */
 /*     const char* source_path, */
 /*     const char* destination_path */
 /* ); */
 
-/* labssh2_status_t */
-/* labssh2_sftp_unlink( */
-/*     labssh2_sftp_t* handle, */
+/* lv_libssh2_status_t */
+/* lv_libssh2_sftp_unlink( */
+/*     lv_libssh2_sftp_t* handle, */
 /*     const char* file_path */
 /* ); */
 
-/* labssh2_status_t */
-/* labssh2_sftp_create_directory( */
-/*     labssh2_sftp_t* handle, */
+/* lv_libssh2_status_t */
+/* lv_libssh2_sftp_create_directory( */
+/*     lv_libssh2_sftp_t* handle, */
 /*     const char* directory_path, */
 /*     int32_t mode */
 /* ); */
 
-/* labssh2_status_t */
-/* labssh2_sftp_remove_directory( */
-/*     labssh2_sftp_t* handle, */
+/* lv_libssh2_status_t */
+/* lv_libssh2_sftp_remove_directory( */
+/*     lv_libssh2_sftp_t* handle, */
 /*     const char* directory_path */
 /* ); */
 
-/* labssh2_status_t */
-/* labssh2_sftp_create_link( */
-/*     labssh2_sftp_t* handle, */
+/* lv_libssh2_status_t */
+/* lv_libssh2_sftp_create_link( */
+/*     lv_libssh2_sftp_t* handle, */
 /*     const char* source_path, */
 /*     const char* link_path */
 /* ); */
 
-/* labssh2_status_t */
-/* labssh2_sftp_resolve_symbolic_link( */
-/*     labssh2_sftp_t* handle, */
+/* lv_libssh2_status_t */
+/* lv_libssh2_sftp_resolve_symbolic_link( */
+/*     lv_libssh2_sftp_t* handle, */
 /*     const char* link_path, */
 /*     char* source_path, */
 /*     uint32_t source_path_max_length */
 /* ); */
 
-/* labssh2_status_t */
-/* labssh2_sftp_resolve_real_link( */
-/*     labssh2_sftp_t* handle, */
+/* lv_libssh2_status_t */
+/* lv_libssh2_sftp_resolve_real_link( */
+/*     lv_libssh2_sftp_t* handle, */
 /*     const char* link_path, */
 /*     char* source_path, */
 /*     uint32_t source_path_max_length */
 /* ); */
 
-/* labssh2_status_t */
-/* labssh2_sftp_attributes_create( */
-/*     labssh2_sftp_attributes_t** handle */
+/* lv_libssh2_status_t */
+/* lv_libssh2_sftp_attributes_create( */
+/*     lv_libssh2_sftp_attributes_t** handle */
 /* ); */
 
-/* labssh2_status_t */
-/* labssh2_sftp_attributes_destroy( */
-/*     labssh2_sftp_attributes_t* handle */
+/* lv_libssh2_status_t */
+/* lv_libssh2_sftp_attributes_destroy( */
+/*     lv_libssh2_sftp_attributes_t* handle */
 /* ); */

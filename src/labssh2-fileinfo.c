@@ -1,5 +1,5 @@
 /*
- * LabSSH2 - A LabVIEW-Friendly C library for libssh2
+ * LV-LIBSSH2 - A LabVIEW-Friendly C library for libssh2
  *
  * Copyright (c) 2018 Field R&D Services, LLC. All Rights Reserved.
  *
@@ -36,51 +36,51 @@
 
 #include "libssh2.h"
 
-#include "labssh2.h"
-#include "labssh2-status-private.h"
-#include "labssh2-fileinfo-private.h"
+#include "lv_libssh2.h"
+#include "lv_libssh2-status-private.h"
+#include "lv_libssh2-fileinfo-private.h"
 
-labssh2_status_t
-labssh2_fileinfo_create(
-    labssh2_fileinfo_t** handle
+lv_libssh2_status_t
+lv_libssh2_fileinfo_create(
+    lv_libssh2_fileinfo_t** handle
 ) {
     *handle = NULL;
-    labssh2_fileinfo_t* file_info = malloc(sizeof(labssh2_fileinfo_t));
+    lv_libssh2_fileinfo_t* file_info = malloc(sizeof(lv_libssh2_fileinfo_t));
     if (file_info == NULL) {
-        return LABSSH2_STATUS_ERROR_MALLOC;
+        return LV_LIBSSH2_STATUS_ERROR_MALLOC;
     }
     libssh2_struct_stat* inner = malloc(sizeof(libssh2_struct_stat));
     if (inner == NULL) {
         free(file_info);
-        return LABSSH2_STATUS_ERROR_MALLOC;
+        return LV_LIBSSH2_STATUS_ERROR_MALLOC;
     }
     file_info->inner = inner;
     *handle = file_info;
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-labssh2_status_t
-labssh2_fileinfo_destroy(
-    labssh2_fileinfo_t* handle
+lv_libssh2_status_t
+lv_libssh2_fileinfo_destroy(
+    lv_libssh2_fileinfo_t* handle
 ) {
     if (handle == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     free(handle->inner);
     handle->inner = NULL;
     free(handle);
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
-labssh2_status_t
-labssh2_fileinfo_size(
-    labssh2_fileinfo_t* handle,
+lv_libssh2_status_t
+lv_libssh2_fileinfo_size(
+    lv_libssh2_fileinfo_t* handle,
     uint64_t* size
 ) {
     if (handle == NULL) {
-        return LABSSH2_STATUS_ERROR_NULL_VALUE;
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     *size = handle->inner->st_size;
-    return LABSSH2_STATUS_OK;
+    return LV_LIBSSH2_STATUS_OK;
 }
 
