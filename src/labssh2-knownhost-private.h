@@ -1,5 +1,5 @@
 /*
- * LabSSH2 - A LabVIEW-Friendly C library for libssh2
+ * LV-LIBSSH2 - A LabVIEW-Friendly C library for libssh2
  *
  * Copyright (c) 2018 Field R&D Services, LLC. All Rights Reserved.
  *
@@ -31,12 +31,12 @@
  *   Christopher R. Field <chris@fieldrndservices.com>
  */
 
-#ifndef LABSSH2_KNOWNHOST_PRIVATE_H
-#define LABSSH2_KNOWNHOST_PRIVATE_H
+#ifndef LV_LIBSSH2_KNOWNHOST_PRIVATE_H
+#define LV_LIBSSH2_KNOWNHOST_PRIVATE_H
 
-#include "labssh2.h"
+#include "lv_libssh2.h"
 
-struct _labssh2_knownhost {
+struct _lv_libssh2_knownhost {
     struct libssh2_knownhost* inner;
 };
 
