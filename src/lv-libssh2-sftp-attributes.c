@@ -33,7 +33,7 @@
 
 #include "libssh2.h"
 
-#include "lv_libssh2.h"
+#include "lv-libssh2.h"
 
 static const char* UNKNOWN_STATUS = "Unknown status";
 

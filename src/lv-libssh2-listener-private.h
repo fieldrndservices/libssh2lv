@@ -1,5 +1,5 @@
 /*
- * LV_LIBSSH2 - A LabVIEW-Friendly C library for libssh2
+ * LV-LIBSSH2 - A LabVIEW-Friendly C library for libssh2
  *
  * Copyright (c) 2018 Field R&D Services, LLC. All Rights Reserved.
  *
@@ -34,7 +34,7 @@
 #ifndef LV_LIBSSH2_LISTENER_PRIVATE_H
 #define LV_LIBSSH2_LISTENER_PRIVATE_H
 
-#include "lv_libssh2.h"
+#include "lv-libssh2.h"
 
 struct _lv_libssh2_listener {
     LIBSSH2_LISTENER* inner;

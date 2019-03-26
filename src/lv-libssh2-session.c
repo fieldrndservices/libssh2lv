@@ -36,9 +36,9 @@
 
 #include "libssh2.h"
 
-#include "lv_libssh2.h"
-#include "lv_libssh2-status-private.h"
-#include "lv_libssh2-session-private.h"
+#include "lv-libssh2.h"
+#include "lv-libssh2-status-private.h"
+#include "lv-libssh2-session-private.h"
 
 #define BLOCK_DIRECTIONS_BOTH 3
 
