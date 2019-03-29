@@ -43,9 +43,22 @@ else()
     set(OUTPUT_NAME ${UNIX_LIBRARY_NAME})
 endif()
 
+# ExternalProject_Add(${OPENSSL}
+#     PREFIX ${DEPS_DIR}/${OPENSSL}
+#     URL https://github.com/openssl/openssl/archive/OpenSSL_1_1_0g.zip
+#     UPDATE_DISCONNECTED YES
+#     UPDATE_COMMAND ""
+#     CONFIGURE_COMMAND ${OPENSSL_CONFIGURE_COMMAND}
+#     BUILD_IN_SOURCE YES
+#     BUILD_COMMAND ${OPENSSL_BUILD_COMMAND}
+#     TEST_COMMAND ""
+#     INSTALL_COMMAND ""
+# )
+
 ExternalProject_Add(${OPENSSL}
     PREFIX ${DEPS_DIR}/${OPENSSL}
-    URL https://github.com/openssl/openssl/archive/OpenSSL_1_1_0g.zip
+    GIT_REPOSITORY https://github.com/openssl/openssl.git
+    GIT_TAG OpenSSL_1_1_0j
     UPDATE_DISCONNECTED YES
     UPDATE_COMMAND ""
     CONFIGURE_COMMAND ${OPENSSL_CONFIGURE_COMMAND}
@@ -62,7 +75,7 @@ ExternalProject_Add(${LIBSSH2}
     PREFIX ${DEPS_DIR}/${LIBSSH2}
     DEPENDS ${OPENSSL}
     GIT_REPOSITORY https://github.com/libssh2/libssh2.git
-    GIT_TAG libssh2-1.8.0
+    GIT_TAG libssh2-1.8.2
     UPDATE_DISCONNECTED YES
     UPDATE_COMMAND ""
     CMAKE_GENERATOR ${LIBSSH2_CMAKE_GENERATOR}
