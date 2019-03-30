@@ -95,8 +95,8 @@ lv_libssh2_status_t
 lv_libssh2_sftp_open_file(
     lv_libssh2_sftp_t* sftp,
     const char* path,
-    uint32_t flags,
-    int32_t permissions,
+    const uint32_t flags,
+    const int32_t permissions,
     lv_libssh2_sftp_file_t** handle
 ) {
     *handle = NULL;
@@ -197,7 +197,7 @@ lv_libssh2_status_t
 lv_libssh2_sftp_read_file(
     lv_libssh2_sftp_file_t* handle,
     uint8_t* buffer,
-    size_t buffer_max_length,
+    const size_t buffer_max_length,
     ssize_t* read_count
 ) {
     if (handle == NULL) {
@@ -218,7 +218,7 @@ lv_libssh2_status_t
 lv_libssh2_sftp_read_directory(
     lv_libssh2_sftp_directory_t* handle,
     uint8_t* buffer,
-    size_t buffer_max_length,
+    const size_t buffer_max_length,
     lv_libssh2_sftp_attributes_t* attributes,
     ssize_t* read_count
 ) {
@@ -246,8 +246,8 @@ lv_libssh2_sftp_read_directory(
 lv_libssh2_status_t
 lv_libssh2_sftp_write_file(
     lv_libssh2_sftp_file_t* handle,
-    uint8_t* buffer,
-    size_t buffer_length,
+    const uint8_t* buffer,
+    const size_t buffer_length,
     ssize_t* write_count
 ) {
     if (handle == NULL) {
@@ -282,7 +282,7 @@ lv_libssh2_sftp_file_sync(
 lv_libssh2_status_t
 lv_libssh2_sftp_file_seek(
     lv_libssh2_sftp_file_t* handle,
-    size_t offset
+    const size_t offset
 ) {
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
@@ -327,10 +327,7 @@ lv_libssh2_sftp_file_status(
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     int result = libssh2_sftp_fstat_ex(handle->inner, attributes->inner, 0);
-    if (result != 0) {
-        return lv_libssh2_status_from_result(result);
-    }
-    return LV_LIBSSH2_STATUS_OK;
+    return lv_libssh2_status_from_result(result);
 }
 
 lv_libssh2_status_t
@@ -345,10 +342,7 @@ lv_libssh2_sftp_file_set_status(
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     int result = libssh2_sftp_fstat_ex(handle->inner, attributes->inner, 1);
-    if (result != 0) {
-        return lv_libssh2_status_from_result(result);
-    }
-    return LV_LIBSSH2_STATUS_OK;
+    return lv_libssh2_status_from_result(result);
 }
 
 lv_libssh2_status_t
@@ -396,7 +390,7 @@ lv_libssh2_sftp_link_status(
 /* lv_libssh2_sftp_create_directory( */
 /*     lv_libssh2_sftp_t* handle, */
 /*     const char* directory_path, */
-/*     int32_t mode */
+/*     const int32_t mode */
 /* ); */
 
 /* lv_libssh2_status_t */

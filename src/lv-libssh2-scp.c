@@ -46,8 +46,8 @@ lv_libssh2_status_t
 lv_libssh2_scp_send(
     lv_libssh2_session_t* session,
     const char* path,
-    int mode,
-    size_t file_size,
+    const int mode,
+    const size_t file_size,
     lv_libssh2_channel_t** handle
 ) {
     *handle = NULL;

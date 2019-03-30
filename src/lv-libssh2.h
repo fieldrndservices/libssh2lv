@@ -377,7 +377,7 @@ lv_libssh2_session_hostkey(
 LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_session_set_mode(
     lv_libssh2_session_t* handle,
-    lv_libssh2_session_modes_t mode
+    const lv_libssh2_session_modes_t mode
 );
 
 LV_LIBSSH2_API lv_libssh2_status_t
@@ -412,13 +412,13 @@ lv_libssh2_session_block_direction(
 LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_session_enable_option(
     lv_libssh2_session_t* handle,
-    lv_libssh2_session_options_t option
+    const lv_libssh2_session_options_t option
 );
 
 LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_session_disable_option(
     lv_libssh2_session_t* handle,
-    lv_libssh2_session_options_t option
+    const lv_libssh2_session_options_t option
 );
 
 LV_LIBSSH2_API lv_libssh2_status_t
@@ -454,28 +454,28 @@ lv_libssh2_session_last_error(
 LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_session_set_last_error(
     lv_libssh2_session_t* handle,
-    int code,
+    const int code,
     const char* message
 );
 
 LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_session_set_method_pref(
     lv_libssh2_session_t* handle,
-    lv_libssh2_methods_t method,
+    const lv_libssh2_methods_t method,
     const char* prefs
 );
 
 LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_session_method_len(
     lv_libssh2_session_t* handle,
-    lv_libssh2_methods_t method,
+    const lv_libssh2_methods_t method,
     size_t* len
 );
 
 LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_session_method(
     lv_libssh2_session_t* handle,
-    lv_libssh2_methods_t method,
+    const lv_libssh2_methods_t method,
     uint8_t* buffer
 );
 
@@ -493,7 +493,6 @@ LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_userauth_list_len(
     lv_libssh2_session_t* handle,
     const char* username,
-    size_t username_len,
     size_t* len
 );
 
@@ -501,7 +500,6 @@ LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_userauth_list(
     lv_libssh2_session_t* handle,
     const char* username,
-    size_t username_len,
     uint8_t* buffer
 );
 
@@ -515,30 +513,23 @@ LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_userauth_hostbased_from_file(
     lv_libssh2_session_t* handle,
     const char* username,
-    const size_t username_len,
     const char* public_key,
     const char* private_key,
     const char* passphrase,
-    const char* hostname,
-    const size_t hostname_len,
-    const char* local_username,
-    const size_t local_username_len
+    const char* hostname
 );
 
 LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_userauth_password(
     lv_libssh2_session_t* handle,
     const char* username,
-    const size_t username_len,
-    const char* password,
-    const size_t password_len
+    const char* password
 );
 
 LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_userauth_publickey_from_file(
     lv_libssh2_session_t* handle,
     const char* username,
-    const size_t username_len,
     const char* public_key_path,
     const char* private_key_path,
     const char* passphrase
@@ -548,10 +539,9 @@ LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_userauth_publickey_from_memory(
     lv_libssh2_session_t* handle,
     const char* username,
-    const size_t username_len,
-    const uint8_t* public_key_data,
+    const char* public_key_data,
     const size_t public_key_data_len,
-    const uint8_t* private_key_data,
+    const char* private_key_data,
     const size_t private_key_data_len,
     const char* passphrase
 );
@@ -570,8 +560,8 @@ LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_scp_send(
     lv_libssh2_session_t* session,
     const char* path,
-    int mode,
-    size_t file_size,
+    const int mode,
+    const size_t file_size,
     lv_libssh2_channel_t** handle
 );
 
@@ -614,8 +604,8 @@ LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_sftp_open_file(
     lv_libssh2_sftp_t* sftp,
     const char* path,
-    uint32_t flags,
-    int32_t permissions,
+    const uint32_t flags,
+    const int32_t permissions,
     lv_libssh2_sftp_file_t** handle
 );
 
@@ -640,7 +630,7 @@ LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_sftp_read_file(
     lv_libssh2_sftp_file_t* handle,
     uint8_t* buffer,
-    size_t buffer_max_length,
+    const size_t buffer_max_length,
     ssize_t* read_count
 );
 
@@ -648,7 +638,7 @@ LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_sftp_read_directory(
     lv_libssh2_sftp_directory_t* handle,
     uint8_t* buffer,
-    size_t buffer_max_length,
+    const size_t buffer_max_length,
     lv_libssh2_sftp_attributes_t* attributes,
     ssize_t* read_count
 );
@@ -656,8 +646,8 @@ lv_libssh2_sftp_read_directory(
 LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_sftp_write_file(
     lv_libssh2_sftp_file_t* handle,
-    uint8_t* buffer,
-    size_t buffer_length,
+    const uint8_t* buffer,
+    const size_t buffer_length,
     ssize_t* write_count
 );
 
@@ -669,7 +659,7 @@ lv_libssh2_sftp_file_sync(
 LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_sftp_file_seek(
     lv_libssh2_sftp_file_t* handle,
-    size_t offset
+    const size_t offset
 );
 
 LV_LIBSSH2_API lv_libssh2_status_t
@@ -719,7 +709,7 @@ LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_sftp_create_directory(
     lv_libssh2_sftp_t* handle,
     const char* directory_path,
-    int32_t mode
+    const int32_t mode
 );
 
 LV_LIBSSH2_API lv_libssh2_status_t

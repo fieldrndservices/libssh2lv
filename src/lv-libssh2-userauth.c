@@ -44,7 +44,6 @@ lv_libssh2_status_t
 lv_libssh2_userauth_list_len(
     lv_libssh2_session_t* handle,
     const char* username,
-    size_t username_len,
     size_t* len
 ) {
     if (handle == NULL) {
@@ -53,7 +52,10 @@ lv_libssh2_userauth_list_len(
     if (username == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
-    const char* list = libssh2_userauth_list(handle->inner, username, username_len);
+    if (len == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    char* list = libssh2_userauth_list(handle->inner, username, (unsigned int)strlen(username));
     if (list == NULL) {
         return lv_libssh2_status_from_result(libssh2_session_last_errno(handle->inner));
     }
@@ -65,7 +67,6 @@ lv_libssh2_status_t
 lv_libssh2_userauth_list(
     lv_libssh2_session_t* handle,
     const char* username,
-    size_t username_len,
     uint8_t* buffer
 ) {
     if (handle == NULL) {
@@ -74,7 +75,10 @@ lv_libssh2_userauth_list(
     if (username == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
-    const char* list = libssh2_userauth_list(handle->inner, username, username_len);
+    if (buffer == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    char* list = libssh2_userauth_list(handle->inner, username, (unsigned int)strlen(username));
     if (list == NULL) {
         return lv_libssh2_status_from_result(libssh2_session_last_errno(handle->inner));
     }
@@ -98,14 +102,10 @@ lv_libssh2_status_t
 lv_libssh2_userauth_hostbased_from_file(
     lv_libssh2_session_t* handle,
     const char* username,
-    const size_t username_len,
     const char* public_key,
     const char* private_key,
     const char* passphrase,
-    const char* hostname,
-    const size_t hostname_len,
-    const char* local_username,
-    const size_t local_username_len
+    const char* hostname
 ) {
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
@@ -122,10 +122,18 @@ lv_libssh2_userauth_hostbased_from_file(
     if (hostname == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
-    if (local_username == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    int result = libssh2_userauth_hostbased_fromfile_ex(handle->inner, username, username_len, public_key, private_key, passphrase, hostname, hostname_len, local_username, local_username_len);
+    int result = libssh2_userauth_hostbased_fromfile_ex(
+        handle->inner,
+        username,
+        (unsigned int)strlen(username),
+        public_key,
+        private_key,
+        passphrase,
+        hostname,
+        (unsigned int)strlen(hostname),
+        username,
+        (unsigned int)strlen(username)
+    );
     return lv_libssh2_status_from_result(result);
 }
 
@@ -133,9 +141,7 @@ lv_libssh2_status_t
 lv_libssh2_userauth_password(
     lv_libssh2_session_t* handle,
     const char* username,
-    const size_t username_len,
-    const char* password,
-    const size_t password_len
+    const char* password
 ) {
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
@@ -146,7 +152,14 @@ lv_libssh2_userauth_password(
     if (password == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
-    int result = libssh2_userauth_password_ex(handle->inner, username, username_len, password, password_len, NULL);
+    int result = libssh2_userauth_password_ex(
+        handle->inner,
+        username,
+        (unsigned int)strlen(username),
+        password,
+        (unsigned int)strlen(password),
+        NULL
+    );
     return lv_libssh2_status_from_result(result);
 }
 
@@ -154,7 +167,6 @@ lv_libssh2_status_t
 lv_libssh2_userauth_publickey_from_file(
     lv_libssh2_session_t* handle,
     const char* username,
-    const size_t username_len,
     const char* public_key_path,
     const char* private_key_path,
     const char* passphrase
@@ -171,7 +183,14 @@ lv_libssh2_userauth_publickey_from_file(
     if (private_key_path == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
-    int result = libssh2_userauth_publickey_fromfile_ex(handle->inner, username, username_len, public_key_path, private_key_path, passphrase);
+    int result = libssh2_userauth_publickey_fromfile_ex(
+        handle->inner,
+        username,
+        (unsigned int)strlen(username),
+        public_key_path,
+        private_key_path,
+        passphrase
+    );
     return lv_libssh2_status_from_result(result);
 }
 
@@ -179,10 +198,9 @@ lv_libssh2_status_t
 lv_libssh2_userauth_publickey_from_memory(
     lv_libssh2_session_t* handle,
     const char* username,
-    const size_t username_len,
-    const uint8_t* public_key_data,
+    const char* public_key_data,
     const size_t public_key_data_len,
-    const uint8_t* private_key_data,
+    const char* private_key_data,
     const size_t private_key_data_len,
     const char* passphrase
 ) {
@@ -201,10 +219,10 @@ lv_libssh2_userauth_publickey_from_memory(
     int result = libssh2_userauth_publickey_frommemory(
         handle->inner,
         username,
-        username_len,
-        (char*)public_key_data,
+        (unsigned int)strlen(username),
+        public_key_data,
         public_key_data_len,
-        (char*)private_key_data,
+        private_key_data,
         private_key_data_len,
         passphrase
     );

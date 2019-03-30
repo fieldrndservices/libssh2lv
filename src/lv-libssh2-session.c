@@ -198,7 +198,7 @@ lv_libssh2_session_mode(
 lv_libssh2_status_t
 lv_libssh2_session_set_mode(
     lv_libssh2_session_t* handle,
-    lv_libssh2_session_modes_t mode
+    const lv_libssh2_session_modes_t mode
 ) {
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
@@ -286,7 +286,7 @@ lv_libssh2_session_block_directions(
 lv_libssh2_status_t
 lv_libssh2_session_enable_option(
     lv_libssh2_session_t* handle,
-    lv_libssh2_session_options_t option
+    const lv_libssh2_session_options_t option
 ) {
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
@@ -307,7 +307,7 @@ lv_libssh2_session_enable_option(
 lv_libssh2_status_t
 lv_libssh2_session_disable_option(
     lv_libssh2_session_t* handle,
-    lv_libssh2_session_options_t option
+    const lv_libssh2_session_options_t option
 ) {
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
@@ -388,7 +388,7 @@ lv_libssh2_session_last_error(
 lv_libssh2_status_t
 lv_libssh2_session_set_last_error(
     lv_libssh2_session_t* handle,
-    int code,
+    const int code,
     const char* message
 ) {
     if (handle == NULL) {
@@ -401,7 +401,7 @@ lv_libssh2_session_set_last_error(
 lv_libssh2_status_t
 lv_libssh2_session_set_method_pref(
     lv_libssh2_session_t* handle,
-    lv_libssh2_methods_t method,
+    const lv_libssh2_methods_t method,
     const char* prefs
 ) {
     if (handle == NULL) {
@@ -417,7 +417,7 @@ lv_libssh2_session_set_method_pref(
 lv_libssh2_status_t
 lv_libssh2_session_method_len(
     lv_libssh2_session_t* handle,
-    lv_libssh2_methods_t method,
+    const lv_libssh2_methods_t method,
     size_t* len
 ) {
     if (handle == NULL) {
@@ -434,7 +434,7 @@ lv_libssh2_session_method_len(
 lv_libssh2_status_t
 lv_libssh2_session_method(
     lv_libssh2_session_t* handle,
-    lv_libssh2_methods_t method,
+    const lv_libssh2_methods_t method,
     uint8_t* buffer
 ) {
     if (handle == NULL) {
