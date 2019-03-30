@@ -375,7 +375,7 @@ lv_libssh2_sftp_link_status(
 
 lv_libssh2_status_t
 lv_libssh2_sftp_file_rename(
-    lv_libssh2_sftp_file_t* handle,
+    lv_libssh2_sftp_t* handle,
     const char* source_path,
     const char* destination_path
 ) {
@@ -392,7 +392,7 @@ lv_libssh2_sftp_file_rename(
         handle->inner,
         source_path,
         (unsigned int)strlen(source_path),
-        destintation_path,
+        destination_path,
         (unsigned int)strlen(destination_path),
         LIBSSH2_SFTP_RENAME_OVERWRITE | LIBSSH2_SFTP_RENAME_ATOMIC | LIBSSH2_SFTP_RENAME_NATIVE
     );
@@ -489,7 +489,7 @@ lv_libssh2_sftp_create_link(
         handle->inner,
         source_path,
         (unsigned int)strlen(source_path),
-        link_path,
+        (char*)link_path,
         (unsigned int)strlen(link_path),
         LIBSSH2_SFTP_SYMLINK
     );
@@ -503,7 +503,7 @@ lv_libssh2_status_t
 lv_libssh2_sftp_resolve_symbolic_link(
     lv_libssh2_sftp_t* handle,
     const char* link_path,
-    char* source_path,
+    uint8_t* source_path,
     const size_t source_path_max_length,
     size_t* read_count
 ) {
@@ -524,7 +524,7 @@ lv_libssh2_sftp_resolve_symbolic_link(
         handle->inner,
         link_path,
         (unsigned int)strlen(link_path),
-        source_path,
+        (char*)source_path,
         (unsigned int)source_path_max_length,
         LIBSSH2_SFTP_READLINK
     );
@@ -539,7 +539,7 @@ lv_libssh2_status_t
 lv_libssh2_sftp_resolve_real_link(
     lv_libssh2_sftp_t* handle,
     const char* link_path,
-    char* source_path,
+    uint8_t* source_path,
     const size_t source_path_max_length,
     size_t* read_count
 ) {
@@ -563,20 +563,10 @@ lv_libssh2_sftp_resolve_real_link(
         source_path,
         (unsigned int)source_path_max_length,
         LIBSSH2_SFTP_REALPATH
-        );
+    );
     if (result < 0) {
         return lv_libssh2_status_from_result(result);
     }
     *read_count = (size_t)result;
     return LV_LIBSSH2_STATUS_OK;
 }
-
-/* lv_libssh2_status_t */
-/* lv_libssh2_sftp_attributes_create( */
-/*     lv_libssh2_sftp_attributes_t** handle */
-/* ); */
-
-/* lv_libssh2_status_t */
-/* lv_libssh2_sftp_attributes_destroy( */
-/*     lv_libssh2_sftp_attributes_t* handle */
-/* ); */

@@ -694,7 +694,7 @@ lv_libssh2_sftp_link_status(
 
 LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_sftp_file_rename(
-    lv_libssh2_sftp_file_t* handle,
+    lv_libssh2_sftp_t* handle,
     const char* source_path,
     const char* destination_path
 );
@@ -730,7 +730,8 @@ lv_libssh2_sftp_resolve_symbolic_link(
     lv_libssh2_sftp_t* handle,
     const char* link_path,
     uint8_t* source_path,
-    const size_t source_path_max_length
+    const size_t source_path_max_length,
+    size_t* read_count
 );
 
 LV_LIBSSH2_API lv_libssh2_status_t
@@ -738,7 +739,7 @@ lv_libssh2_sftp_resolve_real_link(
     lv_libssh2_sftp_t* handle,
     const char* link_path,
     uint8_t* source_path,
-    const size_t source_path_max_length
+    const size_t source_path_max_length,
     size_t* read_count
 );
 
