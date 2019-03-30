@@ -700,7 +700,7 @@ lv_libssh2_sftp_file_rename(
 );
 
 LV_LIBSSH2_API lv_libssh2_status_t
-lv_libssh2_sftp_unlink(
+lv_libssh2_sftp_delete_file(
     lv_libssh2_sftp_t* handle,
     const char* file_path
 );
@@ -713,7 +713,7 @@ lv_libssh2_sftp_create_directory(
 );
 
 LV_LIBSSH2_API lv_libssh2_status_t
-lv_libssh2_sftp_remove_directory(
+lv_libssh2_sftp_delete_directory(
     lv_libssh2_sftp_t* handle,
     const char* directory_path
 );
@@ -729,16 +729,17 @@ LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_sftp_resolve_symbolic_link(
     lv_libssh2_sftp_t* handle,
     const char* link_path,
-    char* source_path,
-    uint32_t source_path_max_length
+    uint8_t* source_path,
+    const size_t source_path_max_length
 );
 
 LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_sftp_resolve_real_link(
     lv_libssh2_sftp_t* handle,
     const char* link_path,
-    char* source_path,
-    uint32_t source_path_max_length
+    uint8_t* source_path,
+    const size_t source_path_max_length
+    size_t* read_count
 );
 
 LV_LIBSSH2_API lv_libssh2_status_t

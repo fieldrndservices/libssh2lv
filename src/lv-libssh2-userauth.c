@@ -228,4 +228,3 @@ lv_libssh2_userauth_publickey_from_memory(
     );
     return lv_libssh2_status_from_result(result);
 }
-

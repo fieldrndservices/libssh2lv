@@ -373,54 +373,203 @@ lv_libssh2_sftp_link_status(
     return LV_LIBSSH2_STATUS_OK;
 }
 
-/* lv_libssh2_status_t */
-/* lv_libssh2_sftp_file_rename( */
-/*     lv_libssh2_sftp_file_t* handle, */
-/*     const char* source_path, */
-/*     const char* destination_path */
-/* ); */
+lv_libssh2_status_t
+lv_libssh2_sftp_file_rename(
+    lv_libssh2_sftp_file_t* handle,
+    const char* source_path,
+    const char* destination_path
+) {
+    if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (source_path == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (destination_path == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_sftp_rename_ex(
+        handle->inner,
+        source_path,
+        (unsigned int)strlen(source_path),
+        destintation_path,
+        (unsigned int)strlen(destination_path),
+        LIBSSH2_SFTP_RENAME_OVERWRITE | LIBSSH2_SFTP_RENAME_ATOMIC | LIBSSH2_SFTP_RENAME_NATIVE
+    );
+    if (result != 0) {
+        return lv_libssh2_status_from_result(result);
+    }
+    return LV_LIBSSH2_STATUS_OK;
+}
 
-/* lv_libssh2_status_t */
-/* lv_libssh2_sftp_unlink( */
-/*     lv_libssh2_sftp_t* handle, */
-/*     const char* file_path */
-/* ); */
+lv_libssh2_status_t
+lv_libssh2_sftp_delete_file(
+    lv_libssh2_sftp_t* handle,
+    const char* file_path
+) {
+    if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (file_path == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_sftp_unlink_ex(
+        handle->inner,
+        file_path,
+        (unsigned int)strlen(file_path)
+    );
+    if (result != 0) {
+        return lv_libssh2_status_from_result(result);
+    }
+    return LV_LIBSSH2_STATUS_OK;
+}
 
-/* lv_libssh2_status_t */
-/* lv_libssh2_sftp_create_directory( */
-/*     lv_libssh2_sftp_t* handle, */
-/*     const char* directory_path, */
-/*     const int32_t mode */
-/* ); */
+lv_libssh2_status_t
+lv_libssh2_sftp_create_directory(
+    lv_libssh2_sftp_t* handle,
+    const char* directory_path,
+    const int32_t mode
+) {
+    if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (directory_path == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_sftp_mkdir_ex(
+        handle->inner,
+        directory_path,
+        (unsigned int)strlen(directory_path),
+        mode
+    );
+    if (result != 0) {
+        return lv_libssh2_status_from_result(result);
+    }
+    return LV_LIBSSH2_STATUS_OK;
+}
 
-/* lv_libssh2_status_t */
-/* lv_libssh2_sftp_remove_directory( */
-/*     lv_libssh2_sftp_t* handle, */
-/*     const char* directory_path */
-/* ); */
+lv_libssh2_status_t
+lv_libssh2_sftp_delete_directory(
+    lv_libssh2_sftp_t* handle,
+    const char* directory_path
+) {
+    if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (directory_path == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_sftp_rmdir_ex(
+        handle->inner,
+        directory_path,
+        (unsigned int)strlen(directory_path)
+    );
+    if (result != 0) {
+        return lv_libssh2_status_from_result(result);
+    }
+    return LV_LIBSSH2_STATUS_OK;
+}
 
-/* lv_libssh2_status_t */
-/* lv_libssh2_sftp_create_link( */
-/*     lv_libssh2_sftp_t* handle, */
-/*     const char* source_path, */
-/*     const char* link_path */
-/* ); */
+lv_libssh2_status_t
+lv_libssh2_sftp_create_link(
+    lv_libssh2_sftp_t* handle,
+    const char* source_path,
+    const char* link_path
+) {
+    if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (source_path == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (link_path == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_sftp_symlink_ex(
+        handle->inner,
+        source_path,
+        (unsigned int)strlen(source_path),
+        link_path,
+        (unsigned int)strlen(link_path),
+        LIBSSH2_SFTP_SYMLINK
+    );
+    if (result != 0) {
+        return lv_libssh2_status_from_result(result);
+    }
+    return LV_LIBSSH2_STATUS_OK;
+}
 
-/* lv_libssh2_status_t */
-/* lv_libssh2_sftp_resolve_symbolic_link( */
-/*     lv_libssh2_sftp_t* handle, */
-/*     const char* link_path, */
-/*     char* source_path, */
-/*     uint32_t source_path_max_length */
-/* ); */
+lv_libssh2_status_t
+lv_libssh2_sftp_resolve_symbolic_link(
+    lv_libssh2_sftp_t* handle,
+    const char* link_path,
+    char* source_path,
+    const size_t source_path_max_length,
+    size_t* read_count
+) {
+    if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (link_path == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (source_path == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (read_count == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    *read_count = 0;
+    int result = libssh2_sftp_symlink_ex(
+        handle->inner,
+        link_path,
+        (unsigned int)strlen(link_path),
+        source_path,
+        (unsigned int)source_path_max_length,
+        LIBSSH2_SFTP_READLINK
+    );
+    if (result < 0) {
+        return lv_libssh2_status_from_result(result);
+    }
+    *read_count = (size_t)result;
+    return LV_LIBSSH2_STATUS_OK;
+}
 
-/* lv_libssh2_status_t */
-/* lv_libssh2_sftp_resolve_real_link( */
-/*     lv_libssh2_sftp_t* handle, */
-/*     const char* link_path, */
-/*     char* source_path, */
-/*     uint32_t source_path_max_length */
-/* ); */
+lv_libssh2_status_t
+lv_libssh2_sftp_resolve_real_link(
+    lv_libssh2_sftp_t* handle,
+    const char* link_path,
+    char* source_path,
+    const size_t source_path_max_length,
+    size_t* read_count
+) {
+    if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (link_path == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (source_path == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (read_count == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    *read_count = 0;
+    int result = libssh2_sftp_symlink_ex(
+        handle->inner,
+        link_path,
+        (unsigned int)strlen(link_path),
+        source_path,
+        (unsigned int)source_path_max_length,
+        LIBSSH2_SFTP_REALPATH
+        );
+    if (result < 0) {
+        return lv_libssh2_status_from_result(result);
+    }
+    *read_count = (size_t)result;
+    return LV_LIBSSH2_STATUS_OK;
+}
 
 /* lv_libssh2_status_t */
 /* lv_libssh2_sftp_attributes_create( */
