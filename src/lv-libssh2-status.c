@@ -109,11 +109,11 @@ lv_libssh2_status_string(
         case LV_LIBSSH2_STATUS_ERROR_SOCKET_RECV: return "Socket Receive Error";
         case LV_LIBSSH2_STATUS_ERROR_ENCRYPTION: return "Encryption Error";
         case LV_LIBSSH2_STATUS_ERROR_BAD_SOCKET: return "Bad Socket Error";
-        case LV_LIBSSH2_STATUS_ERROR_KNOWN_HOSTS: return "Known Hosts Error"; 
+        case LV_LIBSSH2_STATUS_ERROR_KNOWN_HOSTS: return "Known Hosts Error";
         case LV_LIBSSH2_STATUS_ERROR_UNKNOWN_HASH_ALGORITHM: return "Unknown Hash Algorithm Error";
         case LV_LIBSSH2_STATUS_ERROR_HASH_UNAVAILABLE: return "Hash Unavailable Error";
         case LV_LIBSSH2_STATUS_ERROR_UNKNOWN_NAME_TYPE: return "Unknown Host Name Type Error";
-        case LV_LIBSSH2_STATUS_ERROR_UNKNOWN_KEY_ENCODING: return "Unknwon Key Encoding Error";
+        case LV_LIBSSH2_STATUS_ERROR_UNKNOWN_KEY_ENCODING: return "Unknown Key Encoding Error";
         case LV_LIBSSH2_STATUS_ERROR_UNKNOWN_KEY_ALGORITHM: return "Unknown Key Algorithm Error";
         case LV_LIBSSH2_STATUS_ERROR_UNKNOWN_MODE: return "Unknown Mode Error";
         case LV_LIBSSH2_STATUS_ERROR_UNKNOWN_BLOCK_DIRECTION: return "Unknown Block Direction Error";

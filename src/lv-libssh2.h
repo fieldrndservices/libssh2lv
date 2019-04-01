@@ -944,9 +944,10 @@ lv_libssh2_knownhosts_check(
     lv_libssh2_knownhosts_t* handle,
     const char* host,
     const int port,
-    const char* key,
+    const uint8_t* key,
     const size_t key_len,
-    const int type_mask,
+    const lv_libssh2_knownhost_name_types_t type,
+    const lv_libssh2_knownhost_key_encodings_t encoding,
     lv_libssh2_knownhost_t* knownhost
 );
 

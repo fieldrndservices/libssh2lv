@@ -168,22 +168,41 @@ lv_libssh2_knownhosts_check(
     lv_libssh2_knownhosts_t* handle,
     const char* host,
     const int port,
-    const char* key,
+    const uint8_t* key,
     const size_t key_len,
-    const int type_mask,
+    const lv_libssh2_knownhost_name_types_t type,
+    const lv_libssh2_knownhost_key_encodings_t encoding,
     lv_libssh2_knownhost_t* knownhost
 ) {
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
+    if (host == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (key == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
     if (knownhost == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int type_mask = 0;
+    switch (type) {
+        case LV_LIBSSH2_KNOWNHOST_NAME_TYPE_PLAIN: type_mask = LIBSSH2_KNOWNHOST_TYPE_PLAIN; break;
+        case LV_LIBSSH2_KNOWNHOST_NAME_TYPE_SHA1: type_mask = LIBSSH2_KNOWNHOST_TYPE_SHA1; break;
+        case LV_LIBSSH2_KNOWNHOST_NAME_TYPE_CUSTOM: type_mask = LIBSSH2_KNOWNHOST_TYPE_CUSTOM; break;
+        default: return LV_LIBSSH2_STATUS_ERROR_UNKNOWN_NAME_TYPE;
+    }
+    switch (encoding) {
+        case LV_LIBSSH2_KNOWNHOST_KEY_ENCODING_RAW: type_mask = type_mask | LIBSSH2_KNOWNHOST_KEYENC_RAW; break;
+        case LV_LIBSSH2_KNOWNHOST_KEY_ENCODING_BASE64: type_mask = type_mask | LIBSSH2_KNOWNHOST_KEYENC_BASE64; break;
+        default: return LV_LIBSSH2_STATUS_ERROR_UNKNOWN_KEY_ENCODING;
     }
     int result = libssh2_knownhost_checkp(
         handle->inner,
         host,
         port,
-        key,
+        (char*)key,
         key_len,
         type_mask,
         &knownhost->inner
