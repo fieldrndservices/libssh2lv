@@ -910,9 +910,16 @@ lv_libssh2_knownhosts_destroy(
 );
 
 LV_LIBSSH2_API lv_libssh2_status_t
-lv_libssh2_knownhosts_get(
+lv_libssh2_knownhosts_first(
     lv_libssh2_knownhosts_t* handle,
     lv_libssh2_knownhost_t* knownhost
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_knownhosts_next(
+    lv_libssh2_knownhosts_t* handle,
+    lv_libssh2_knownhost_t* previous,
+    lv_libssh2_knownhost_t* next
 );
 
 LV_LIBSSH2_API lv_libssh2_status_t

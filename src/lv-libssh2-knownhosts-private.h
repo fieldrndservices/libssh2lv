@@ -38,7 +38,6 @@
 
 struct _lv_libssh2_knownhosts {
     LIBSSH2_KNOWNHOSTS* inner;
-    lv_libssh2_knownhost_t* prev;
 };
 
 #endif

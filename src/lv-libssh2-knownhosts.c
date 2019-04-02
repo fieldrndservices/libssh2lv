@@ -61,7 +61,6 @@ lv_libssh2_knownhosts_create(
         return LV_LIBSSH2_STATUS_ERROR_MALLOC;
     }
     knownhosts->inner = inner;
-    knownhosts->prev = NULL;
     *handle = knownhosts;
     return LV_LIBSSH2_STATUS_OK;
 }
@@ -75,32 +74,8 @@ lv_libssh2_knownhosts_destroy(
     }
     libssh2_knownhost_free(handle->inner);
     handle->inner = NULL;
-    handle->prev = NULL;
     free(handle);
     return LV_LIBSSH2_STATUS_OK;
-}
-
-lv_libssh2_status_t
-lv_libssh2_knownhosts_get(
-    lv_libssh2_knownhosts_t* handle,
-    lv_libssh2_knownhost_t* knownhost
-) {
-    if (handle == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    if (knownhost == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    int result = libssh2_knownhost_get(
-        handle->inner,
-        &knownhost->inner,
-        handle->prev->inner
-    );
-    switch (result) {
-        case 0: return LV_LIBSSH2_STATUS_OK;
-        case 1: return LV_LIBSSH2_STATUS_END_OF_HOSTS;
-        default: return lv_libssh2_status_from_result(result);
-    }
 }
 
 lv_libssh2_status_t
