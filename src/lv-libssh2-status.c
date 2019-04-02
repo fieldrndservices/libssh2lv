@@ -56,9 +56,6 @@ lv_libssh2_status_string(
     lv_libssh2_status_t status
 ) {
     switch (status) {
-        case LV_LIBSSH2_STATUS_MISMATCH: return "Mismatch";
-        case LV_LIBSSH2_STATUS_MATCH: return "Match";
-        case LV_LIBSSH2_STATUS_NOT_FOUND: return "Not Found";
         case LV_LIBSSH2_STATUS_END_OF_HOSTS: return "End of Hosts";
         case LV_LIBSSH2_STATUS_OK: return "No Error";
         case LV_LIBSSH2_STATUS_ERROR_GENERIC: return "Generic Error";
@@ -130,9 +127,6 @@ lv_libssh2_status_message(
     lv_libssh2_status_t status
 ) {
     switch (status) {
-        case LV_LIBSSH2_STATUS_MISMATCH: return "A host was found, but the keys did not match.";
-        case LV_LIBSSH2_STATUS_MATCH: return "The hosts and keys match.";
-        case LV_LIBSSH2_STATUS_NOT_FOUND: return "No match for the host was found.";
         case LV_LIBSSH2_STATUS_END_OF_HOSTS: return "There are no more hosts.";
         case LV_LIBSSH2_STATUS_OK: return "The function completed successfully.";
         case LV_LIBSSH2_STATUS_ERROR_GENERIC: return "An unknown or generic error has occurred, good luck.";

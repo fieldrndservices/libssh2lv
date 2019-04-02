@@ -137,9 +137,9 @@ lv_libssh2_knownhosts_add(
 
 lv_libssh2_status_t
 lv_libssh2_knownhosts_type_mask(
-    lv_libssh2_knownhost_name_types_t type,
-    lv_libssh2_knownhost_key_encodings_t encoding,
-    lv_libssh2_knownhost_key_algorithms_t algorithm,
+    const lv_libssh2_knownhost_name_types_t type,
+    const lv_libssh2_knownhost_key_encodings_t encoding,
+    const lv_libssh2_knownhost_key_algorithms_t algorithm,
     int* type_mask
 ) {
     *type_mask = 0;
@@ -171,7 +171,8 @@ lv_libssh2_knownhosts_check(
     const uint8_t* key,
     const size_t key_len,
     const lv_libssh2_knownhost_name_types_t type,
-    const lv_libssh2_knownhost_key_encodings_t encoding
+    const lv_libssh2_knownhost_key_encodings_t encoding,
+    lv_libssh2_knownhosts_check_results_t* result
 ) {
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
@@ -194,7 +195,7 @@ lv_libssh2_knownhosts_check(
         case LV_LIBSSH2_KNOWNHOST_KEY_ENCODING_BASE64: type_mask = type_mask | LIBSSH2_KNOWNHOST_KEYENC_BASE64; break;
         default: return LV_LIBSSH2_STATUS_ERROR_UNKNOWN_KEY_ENCODING;
     }
-    int result = libssh2_knownhost_checkp(
+    int inner_result = libssh2_knownhost_checkp(
         handle->inner,
         host,
         port,
@@ -203,12 +204,14 @@ lv_libssh2_knownhosts_check(
         type_mask,
         NULL
     );
-    switch (result) {
-        case LIBSSH2_KNOWNHOST_CHECK_NOTFOUND: return LV_LIBSSH2_STATUS_NOT_FOUND;
-        case LIBSSH2_KNOWNHOST_CHECK_MATCH: return LV_LIBSSH2_STATUS_MATCH;
-        case LIBSSH2_KNOWNHOST_CHECK_MISMATCH: return LV_LIBSSH2_STATUS_MISMATCH;
-        default: return lv_libssh2_status_from_result(result);
+    switch (inner_result) {
+        case LIBSSH2_KNOWNHOST_CHECK_FAILURE: *result = LV_LIBSSH2_KNOWNHOSTS_CHECK_RESULT_FAILURE; break;
+        case LIBSSH2_KNOWNHOST_CHECK_NOTFOUND: *result = LV_LIBSSH2_KNOWNHOSTS_CHECK_RESULT_NOT_FOUND; break;
+        case LIBSSH2_KNOWNHOST_CHECK_MATCH: *result = LV_LIBSSH2_KNOWNHOSTS_CHECK_RESULT_MATCH; break;
+        case LIBSSH2_KNOWNHOST_CHECK_MISMATCH: *result = LV_LIBSSH2_KNOWNHOSTS_CHECK_RESULT_MISMATCH; break;
+        default: return lv_libssh2_status_from_result(inner_result);
     }
+    return LV_LIBSSH2_STATUS_OK;
 }
 
 lv_libssh2_status_t

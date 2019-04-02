@@ -53,6 +53,11 @@ lv_libssh2_knownhost_create(
         free(inner);
         return LV_LIBSSH2_STATUS_ERROR_MALLOC;
     }
+    inner->magic = 0;
+    inner->node = NULL;
+    inner->name = NULL;
+    inner->key = NULL;
+    inner->typemask = 0;
     knownhost->inner = inner;
     *handle = knownhost;
     return LV_LIBSSH2_STATUS_OK;
@@ -65,9 +70,20 @@ lv_libssh2_knownhost_destroy(
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
+    if (handle->inner != NULL) {
+        handle->inner->magic = 0;
+        free(handle->inner->node);
+        handle->inner->node = NULL;
+        free(handle->inner->name);
+        handle->inner->name = NULL;
+        free(handle->inner->key);
+        handle->inner->key = NULL;
+        handle->inner->typemask = 0;
+    }
     free(handle->inner);
     handle->inner = NULL;
     free(handle);
+    handle = NULL;
     return LV_LIBSSH2_STATUS_OK;
 }
 

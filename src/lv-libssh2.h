@@ -73,9 +73,6 @@ extern "C" {
  * Status
  */
 typedef enum _lv_libssh2_status {
-    LV_LIBSSH2_STATUS_MISMATCH = 4,
-    LV_LIBSSH2_STATUS_MATCH = 3,
-    LV_LIBSSH2_STATUS_NOT_FOUND = 2,
     LV_LIBSSH2_STATUS_END_OF_HOSTS = 1,
 
     LV_LIBSSH2_STATUS_OK = 0,
@@ -168,6 +165,13 @@ typedef enum _lv_libssh2_knownhost_key_encodings {
     LV_LIBSSH2_KNOWNHOST_KEY_ENCODING_RAW = 0,
     LV_LIBSSH2_KNOWNHOST_KEY_ENCODING_BASE64 = 1,
 } lv_libssh2_knownhost_key_encodings_t;
+
+typedef enum _lv_libssh2_knownhosts_check_results {
+    LV_LIBSSH2_KNOWNHOSTS_CHECK_RESULT_FAILURE = 0,
+    LV_LIBSSH2_KNOWNHOSTS_CHECK_RESULT_NOT_FOUND = 1,
+    LV_LIBSSH2_KNOWNHOSTS_CHECK_RESULT_MATCH = 2,
+    LV_LIBSSH2_KNOWNHOSTS_CHECK_RESULT_MISMATCH = 3,
+} lv_libssh2_knownhosts_check_results_t;
 
 typedef enum _lv_libssh2_knownhost_key_algorithms {
     LV_LIBSSH2_KNOWNHOST_KEY_ALGORITHM_RSA1 = 0,
@@ -940,7 +944,8 @@ lv_libssh2_knownhosts_check(
     const uint8_t* key,
     const size_t key_len,
     const lv_libssh2_knownhost_name_types_t type,
-    const lv_libssh2_knownhost_key_encodings_t encoding
+    const lv_libssh2_knownhost_key_encodings_t encoding,
+    lv_libssh2_knownhosts_check_results_t* result
 );
 
 LV_LIBSSH2_API lv_libssh2_status_t
