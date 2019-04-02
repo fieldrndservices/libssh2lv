@@ -171,8 +171,7 @@ lv_libssh2_knownhosts_check(
     const uint8_t* key,
     const size_t key_len,
     const lv_libssh2_knownhost_name_types_t type,
-    const lv_libssh2_knownhost_key_encodings_t encoding,
-    lv_libssh2_knownhost_t* knownhost
+    const lv_libssh2_knownhost_key_encodings_t encoding
 ) {
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
@@ -181,9 +180,6 @@ lv_libssh2_knownhosts_check(
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     if (key == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    if (knownhost == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     int type_mask = 0;
@@ -205,7 +201,7 @@ lv_libssh2_knownhosts_check(
         (char*)key,
         key_len,
         type_mask,
-        &knownhost->inner
+        NULL
     );
     switch (result) {
         case LIBSSH2_KNOWNHOST_CHECK_NOTFOUND: return LV_LIBSSH2_STATUS_NOT_FOUND;

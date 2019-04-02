@@ -175,13 +175,6 @@ typedef enum _lv_libssh2_knownhost_key_algorithms {
     LV_LIBSSH2_KNOWNHOST_KEY_ALGORITHM_SSHDSS = 2,
 } lv_libssh2_knownhost_key_algorithms_t;
 
-typedef enum _lv_libssh2_knownhosts_check_result {
-    LV_LIBSSH2_KNOWNHOSTS_CHECK_RESULT_FAILURE = 0,
-    LV_LIBSSH2_KNOWNHOSTS_CHECK_RESULT_NOT_FOUND = 1,
-    LV_LIBSSH2_KNOWNHOSTS_CHECK_RESULT_MATCH = 2,
-    LV_LIBSSH2_KNOWNHOSTS_CHECK_RESULT_MISMATCH = 3,
-} lv_libssh2_knownhosts_check_result_t;
-
 typedef enum _lv_libssh2_session_block_directions {
     LV_LIBSSH2_SESSION_BLOCK_DIRECTIONS_READ = 0,
     LV_LIBSSH2_SESSION_BLOCK_DIRECTIONS_WRITE = 1,
@@ -947,8 +940,7 @@ lv_libssh2_knownhosts_check(
     const uint8_t* key,
     const size_t key_len,
     const lv_libssh2_knownhost_name_types_t type,
-    const lv_libssh2_knownhost_key_encodings_t encoding,
-    lv_libssh2_knownhost_t* knownhost
+    const lv_libssh2_knownhost_key_encodings_t encoding
 );
 
 LV_LIBSSH2_API lv_libssh2_status_t

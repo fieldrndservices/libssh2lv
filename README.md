@@ -137,5 +137,5 @@ Or,
 
 ## License
 
-The LV-LIBSSH2 project is licensed under the [revised BSD 3-Clause](https://opensource.org/licenses/BSD-3-Clause) license. See the [LICENSE](https://github.com/fieldrndservices/lv-libssh2/blob/master/LICENSE) file for more information about licensing and copyright.
+The LV-LIBSSH2 project is licensed under the [revised BSD 3-Clause](https://opensource.org/licenses/BSD-3-Clause) license. The LV-LIBSSH2 project statically compiles code from the [libssh2](http://libssh2.org) and [OpenSSL](https://www.openssl.org) projects, which are licensed under the [MIT](https://github.com/libssh2/libssh2/blob/master/COPYING) license and [Apache-2.0](https://github.com/openssl/openssl/blob/master/LICENSE) license, respectively. See the [LICENSE](https://github.com/fieldrndservices/lv-libssh2/blob/master/LICENSE) file for more information about licensing and copyright.
 
