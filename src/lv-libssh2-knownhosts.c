@@ -158,6 +158,9 @@ lv_libssh2_knownhosts_check(
     if (key == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
+    if (result == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
     int type_mask = 0;
     switch (type) {
         case LV_LIBSSH2_KNOWNHOST_NAME_TYPE_PLAIN: type_mask = LIBSSH2_KNOWNHOST_TYPE_PLAIN; break;
@@ -178,6 +181,64 @@ lv_libssh2_knownhosts_check(
         key_len,
         type_mask,
         NULL
+    );
+    switch (inner_result) {
+        case LIBSSH2_KNOWNHOST_CHECK_FAILURE: *result = LV_LIBSSH2_KNOWNHOSTS_CHECK_RESULT_FAILURE; break;
+        case LIBSSH2_KNOWNHOST_CHECK_NOTFOUND: *result = LV_LIBSSH2_KNOWNHOSTS_CHECK_RESULT_NOT_FOUND; break;
+        case LIBSSH2_KNOWNHOST_CHECK_MATCH: *result = LV_LIBSSH2_KNOWNHOSTS_CHECK_RESULT_MATCH; break;
+        case LIBSSH2_KNOWNHOST_CHECK_MISMATCH: *result = LV_LIBSSH2_KNOWNHOSTS_CHECK_RESULT_MISMATCH; break;
+        default: return lv_libssh2_status_from_result(inner_result);
+    }
+    return LV_LIBSSH2_STATUS_OK;
+}
+
+lv_libssh2_status_t
+lv_libssh2_knownhosts_check_and_get(
+    lv_libssh2_knownhosts_t* handle,
+    const char* host,
+    const int port,
+    const uint8_t* key,
+    const size_t key_len,
+    const lv_libssh2_knownhost_name_types_t type,
+    const lv_libssh2_knownhost_key_encodings_t encoding,
+    lv_libssh2_knownhost_t* known_host,
+    lv_libssh2_knownhosts_check_results_t* result
+) {
+    if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (host == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (key == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (known_host == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (result == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int type_mask = 0;
+    switch (type) {
+        case LV_LIBSSH2_KNOWNHOST_NAME_TYPE_PLAIN: type_mask = LIBSSH2_KNOWNHOST_TYPE_PLAIN; break;
+        case LV_LIBSSH2_KNOWNHOST_NAME_TYPE_SHA1: type_mask = LIBSSH2_KNOWNHOST_TYPE_SHA1; break;
+        case LV_LIBSSH2_KNOWNHOST_NAME_TYPE_CUSTOM: type_mask = LIBSSH2_KNOWNHOST_TYPE_CUSTOM; break;
+        default: return LV_LIBSSH2_STATUS_ERROR_UNKNOWN_NAME_TYPE;
+    }
+    switch (encoding) {
+        case LV_LIBSSH2_KNOWNHOST_KEY_ENCODING_RAW: type_mask = type_mask | LIBSSH2_KNOWNHOST_KEYENC_RAW; break;
+        case LV_LIBSSH2_KNOWNHOST_KEY_ENCODING_BASE64: type_mask = type_mask | LIBSSH2_KNOWNHOST_KEYENC_BASE64; break;
+        default: return LV_LIBSSH2_STATUS_ERROR_UNKNOWN_KEY_ENCODING;
+    }
+    int inner_result = libssh2_knownhost_checkp(
+        handle->inner,
+        host,
+        port,
+        (char*)key,
+        key_len,
+        type_mask,
+        &known_host->inner
     );
     switch (inner_result) {
         case LIBSSH2_KNOWNHOST_CHECK_FAILURE: *result = LV_LIBSSH2_KNOWNHOSTS_CHECK_RESULT_FAILURE; break;
@@ -292,6 +353,48 @@ lv_libssh2_knownhosts_write_line(
         line_len,
         len,
         LIBSSH2_KNOWNHOST_FILE_OPENSSH
+    );
+    return lv_libssh2_status_from_result(result);
+}
+
+lv_libssh2_status_t
+lv_libssh2_knownhosts_first(
+    lv_libssh2_knownhosts_t* handle,
+    lv_libssh2_knownhost_t* host
+) {
+    if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (host == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_knownhost_get(
+        handle->inner,
+        &host->inner,
+        NULL
+    );
+    return lv_libssh2_status_from_result(result);
+}
+
+lv_libssh2_status_t
+lv_Libssh2_knownhosts_next(
+    lv_libssh2_knownhosts_t* handle,
+    lv_libssh2_knownhost_t* prev,
+    lv_libssh2_knownhost_t* next
+) {
+    if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (prev == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (next == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_knownhost_get(
+        handle->inner,
+        &next->inner,
+        prev->inner
     );
     return lv_libssh2_status_from_result(result);
 }

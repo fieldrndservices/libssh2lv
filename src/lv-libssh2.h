@@ -910,19 +910,6 @@ lv_libssh2_knownhosts_destroy(
 );
 
 LV_LIBSSH2_API lv_libssh2_status_t
-lv_libssh2_knownhosts_first(
-    lv_libssh2_knownhosts_t* handle,
-    lv_libssh2_knownhost_t* knownhost
-);
-
-LV_LIBSSH2_API lv_libssh2_status_t
-lv_libssh2_knownhosts_next(
-    lv_libssh2_knownhosts_t* handle,
-    lv_libssh2_knownhost_t* previous,
-    lv_libssh2_knownhost_t* next
-);
-
-LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_knownhosts_add(
     lv_libssh2_knownhosts_t* handle,
     const char* name,
@@ -952,6 +939,19 @@ lv_libssh2_knownhosts_check(
     const size_t key_len,
     const lv_libssh2_knownhost_name_types_t type,
     const lv_libssh2_knownhost_key_encodings_t encoding,
+    lv_libssh2_knownhosts_check_results_t* result
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_knownhosts_check_and_get(
+    lv_libssh2_knownhosts_t* handle,
+    const char* host,
+    const int port,
+    const uint8_t* key,
+    const size_t key_len,
+    const lv_libssh2_knownhost_name_types_t type,
+    const lv_libssh2_knownhost_key_encodings_t encoding,
+    lv_libssh2_knownhost_t* known_host,
     lv_libssh2_knownhosts_check_results_t* result
 );
 
@@ -988,6 +988,19 @@ lv_libssh2_knownhosts_write_line(
     char* line,
     const size_t line_len,
     size_t* len
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_knownhosts_first(
+    lv_libssh2_knownhosts_t* handle,
+    lv_libssh2_knownhost_t* host
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_Libssh2_knownhosts_next(
+    lv_libssh2_knownhosts_t* handle,
+    lv_libssh2_knownhost_t* host,
+    lv_libssh2_knownhost_t* prev
 );
 
 /**

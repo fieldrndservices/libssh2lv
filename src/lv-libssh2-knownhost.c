@@ -44,21 +44,14 @@ lv_libssh2_knownhost_create(
     lv_libssh2_knownhost_t** handle
 ) {
     *handle = NULL;
-    struct libssh2_knownhost* inner = malloc(sizeof(struct libssh2_knownhost));
-    if (inner == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_MALLOC;
-    }
+    /*
+      Do NOT allocate `inner` here. libssh2 will take care of this for us.
+    */
     lv_libssh2_knownhost_t* knownhost = malloc(sizeof(lv_libssh2_knownhost_t));
     if (knownhost == NULL) {
-        free(inner);
         return LV_LIBSSH2_STATUS_ERROR_MALLOC;
     }
-    inner->magic = 0;
-    inner->node = NULL;
-    inner->name = NULL;
-    inner->key = NULL;
-    inner->typemask = 0;
-    knownhost->inner = inner;
+    knownhost->inner = NULL;
     *handle = knownhost;
     return LV_LIBSSH2_STATUS_OK;
 }
@@ -70,18 +63,12 @@ lv_libssh2_knownhost_destroy(
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
-    if (handle->inner != NULL) {
-        handle->inner->magic = 0;
-        free(handle->inner->node);
-        handle->inner->node = NULL;
-        free(handle->inner->name);
-        handle->inner->name = NULL;
-        free(handle->inner->key);
-        handle->inner->key = NULL;
-        handle->inner->typemask = 0;
-    }
-    free(handle->inner);
-    handle->inner = NULL;
+    /*
+      Do NOT free the `inner` here. libssh2 will take care of this for us...I
+      think. When the `libssh2_knownhost_free`, the internal known host nodes
+      will be freed. Thus, this wrapper structure only needs to maintain a
+      "handle" that points to the known host in the internal libssh2 list.
+    */
     free(handle);
     handle = NULL;
     return LV_LIBSSH2_STATUS_OK;
@@ -95,6 +82,9 @@ lv_libssh2_knownhost_magic(
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
+    if (handle->inner == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
     *magic = handle->inner->magic;
     return LV_LIBSSH2_STATUS_OK;
 }
@@ -105,6 +95,9 @@ lv_libssh2_knownhost_name_len(
     size_t* len
 ) {
     if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (handle->inner == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     if (handle->inner->name == NULL) {
@@ -125,6 +118,9 @@ lv_libssh2_knownhost_name(
     if (name == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
+    if (handle->inner == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
     if (handle->inner->name == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
@@ -140,6 +136,9 @@ lv_libssh2_knownhost_key_len(
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
+    if (handle->inner == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
     if (handle->inner->key == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
@@ -153,6 +152,9 @@ lv_libssh2_knownhost_key(
     char* key
 ) {
     if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (handle->inner == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     if (handle->inner->key == NULL) {
@@ -173,7 +175,9 @@ lv_libssh2_knownhost_type_mask(
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
+    if (handle->inner == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
     *type_mask = handle->inner->typemask;
     return LV_LIBSSH2_STATUS_OK;
 }
-

@@ -560,7 +560,7 @@ lv_libssh2_sftp_resolve_real_link(
         handle->inner,
         link_path,
         (unsigned int)strlen(link_path),
-        source_path,
+        (char*)source_path,
         (unsigned int)source_path_max_length,
         LIBSSH2_SFTP_REALPATH
     );
