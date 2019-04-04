@@ -389,7 +389,7 @@ lv_libssh2_knownhosts_first(
 }
 
 lv_libssh2_status_t
-lv_Libssh2_knownhosts_next(
+lv_libssh2_knownhosts_next(
     lv_libssh2_knownhosts_t* handle,
     lv_libssh2_knownhost_t* prev,
     lv_libssh2_knownhost_t* next,
