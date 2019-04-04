@@ -149,7 +149,7 @@ lv_libssh2_knownhost_key_len(
 lv_libssh2_status_t
 lv_libssh2_knownhost_key(
     lv_libssh2_knownhost_t* handle,
-    char* key
+    uint8_t* buffer
 ) {
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
@@ -160,10 +160,10 @@ lv_libssh2_knownhost_key(
     if (handle->inner->key == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
-    if (key == NULL) {
+    if (buffer == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
-    memcpy(key, handle->inner->key, strlen(handle->inner->key));
+    memcpy(buffer, handle->inner->key, strlen(handle->inner->key));
     return LV_LIBSSH2_STATUS_OK;
 }
 
