@@ -56,7 +56,6 @@ lv_libssh2_status_string(
     lv_libssh2_status_t status
 ) {
     switch (status) {
-        case LV_LIBSSH2_STATUS_END_OF_HOSTS: return "End of Hosts";
         case LV_LIBSSH2_STATUS_OK: return "No Error";
         case LV_LIBSSH2_STATUS_ERROR_GENERIC: return "Generic Error";
         case LV_LIBSSH2_STATUS_ERROR_MALLOC: return "Memory Allocation Error";
@@ -127,7 +126,6 @@ lv_libssh2_status_message(
     lv_libssh2_status_t status
 ) {
     switch (status) {
-        case LV_LIBSSH2_STATUS_END_OF_HOSTS: return "There are no more hosts.";
         case LV_LIBSSH2_STATUS_OK: return "The function completed successfully.";
         case LV_LIBSSH2_STATUS_ERROR_GENERIC: return "An unknown or generic error has occurred, good luck.";
         case LV_LIBSSH2_STATUS_ERROR_MALLOC: return "Unable to allocate memory, most likely the system is out of memory.";

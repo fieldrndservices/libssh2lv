@@ -360,7 +360,8 @@ lv_libssh2_knownhosts_write_line(
 lv_libssh2_status_t
 lv_libssh2_knownhosts_first(
     lv_libssh2_knownhosts_t* handle,
-    lv_libssh2_knownhost_t* host
+    lv_libssh2_knownhost_t* host,
+    lv_libssh2_knownhosts_get_results_t* result
 ) {
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
@@ -368,19 +369,31 @@ lv_libssh2_knownhosts_first(
     if (host == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
-    int result = libssh2_knownhost_get(
+    if (result == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int inner_result = libssh2_knownhost_get(
         handle->inner,
         &host->inner,
         NULL
     );
-    return lv_libssh2_status_from_result(result);
+    if (inner_result == 0) {
+        *result = LV_LIBSSH2_KNOWNHOSTS_GET_RESULT_SUCCESS;
+        return LV_LIBSSH2_STATUS_OK;
+    } else if (inner_result == 1) {
+        *result = LV_LIBSSH2_KNOWNHOSTS_GET_RESULT_END_OF_HOSTS;
+        return LV_LIBSSH2_STATUS_OK;
+    } else {
+        return lv_libssh2_status_from_result(inner_result);
+    }
 }
 
 lv_libssh2_status_t
 lv_Libssh2_knownhosts_next(
     lv_libssh2_knownhosts_t* handle,
     lv_libssh2_knownhost_t* prev,
-    lv_libssh2_knownhost_t* next
+    lv_libssh2_knownhost_t* next,
+    lv_libssh2_knownhosts_get_results_t* result
 ) {
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
@@ -391,11 +404,22 @@ lv_Libssh2_knownhosts_next(
     if (next == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
-    int result = libssh2_knownhost_get(
+    if (result == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int inner_result = libssh2_knownhost_get(
         handle->inner,
         &next->inner,
         prev->inner
     );
-    return lv_libssh2_status_from_result(result);
+    if (inner_result == 0) {
+        *result = LV_LIBSSH2_KNOWNHOSTS_GET_RESULT_SUCCESS;
+        return LV_LIBSSH2_STATUS_OK;
+    } else if (inner_result == 1) {
+        *result = LV_LIBSSH2_KNOWNHOSTS_GET_RESULT_END_OF_HOSTS;
+        return LV_LIBSSH2_STATUS_OK;
+    } else {
+        return lv_libssh2_status_from_result(inner_result);
+    }
 }
 

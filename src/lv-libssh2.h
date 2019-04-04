@@ -73,8 +73,6 @@ extern "C" {
  * Status
  */
 typedef enum _lv_libssh2_status {
-    LV_LIBSSH2_STATUS_END_OF_HOSTS = 1,
-
     LV_LIBSSH2_STATUS_OK = 0,
 
     LV_LIBSSH2_STATUS_ERROR_GENERIC = -1,
@@ -172,6 +170,11 @@ typedef enum _lv_libssh2_knownhosts_check_results {
     LV_LIBSSH2_KNOWNHOSTS_CHECK_RESULT_MATCH = 2,
     LV_LIBSSH2_KNOWNHOSTS_CHECK_RESULT_MISMATCH = 3,
 } lv_libssh2_knownhosts_check_results_t;
+
+typedef enum _lv_libssh2_knownhosts_get_results {
+    LV_LIBSSH2_KNOWNHOSTS_GET_RESULT_SUCCESS = 0,
+    LV_LIBSSH2_KNOWNHOSTS_GET_RESULT_END_OF_HOSTS = 1,
+} lv_libssh2_knownhosts_get_results_t;
 
 typedef enum _lv_libssh2_knownhost_key_algorithms {
     LV_LIBSSH2_KNOWNHOST_KEY_ALGORITHM_RSA1 = 0,
@@ -993,14 +996,16 @@ lv_libssh2_knownhosts_write_line(
 LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_knownhosts_first(
     lv_libssh2_knownhosts_t* handle,
-    lv_libssh2_knownhost_t* host
+    lv_libssh2_knownhost_t* host,
+    lv_libssh2_knownhosts_get_results_t* result
 );
 
 LV_LIBSSH2_API lv_libssh2_status_t
 lv_Libssh2_knownhosts_next(
     lv_libssh2_knownhosts_t* handle,
-    lv_libssh2_knownhost_t* host,
-    lv_libssh2_knownhost_t* prev
+    lv_libssh2_knownhost_t* prev,
+    lv_libssh2_knownhost_t* next,
+    lv_libssh2_knownhosts_get_results_t* result
 );
 
 /**
