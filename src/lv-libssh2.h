@@ -1043,7 +1043,7 @@ lv_libssh2_knownhost_name_len(
 LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_knownhost_name(
     lv_libssh2_knownhost_t* handle,
-    char* buffer
+    uint8_t* buffer
 );
 
 LV_LIBSSH2_API lv_libssh2_status_t
