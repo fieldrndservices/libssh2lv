@@ -112,9 +112,9 @@ lv_libssh2_channel_read(
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
-    int result = libssh2_channel_read_ex(handle->inner, 0, buffer, buffer_len);
+    ssize_t result = libssh2_channel_read_ex(handle->inner, 0, buffer, buffer_len);
     if (result < 0) {
-        return lv_libssh2_status_from_result(result);
+        return lv_libssh2_status_from_result((int)result);
     }
     *byte_count = result;
     return LV_LIBSSH2_STATUS_OK;
@@ -130,9 +130,9 @@ lv_libssh2_channel_read_stderr(
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
-    int result = libssh2_channel_read_ex(handle->inner, SSH_EXTENDED_DATA_STDERR, buffer, buffer_len);
+    size_t result = libssh2_channel_read_ex(handle->inner, SSH_EXTENDED_DATA_STDERR, buffer, buffer_len);
     if (result < 0) {
-        return lv_libssh2_status_from_result(result);
+        return lv_libssh2_status_from_result((int)result);
     }
     *byte_count = result;
     return LV_LIBSSH2_STATUS_OK;
@@ -326,7 +326,7 @@ lv_libssh2_channel_exec(
         "exec",
         sizeof("exec") - 1,
         command,
-        command_len
+        (unsigned int)command_len
     );
     return lv_libssh2_status_from_result(result);
 }
@@ -345,7 +345,7 @@ lv_libssh2_channel_subsystem(
         "subsystem",
         sizeof("subsystem") - 1,
         subsystem,
-        subsystem_len
+        (unsigned int)subsystem_len
     );
     return lv_libssh2_status_from_result(result);
 }
