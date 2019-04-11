@@ -36,11 +36,11 @@
 
 #include "libssh2.h"
 
-#include "lv_libssh2.h"
-#include "lv_libssh2-status-private.h"
-#include "lv_libssh2-session-private.h"
-#include "lv_libssh2-listener-private.h"
-#include "lv_libssh2-channel-private.h"
+#include "lv-libssh2.h"
+#include "lv-libssh2-status-private.h"
+#include "lv-libssh2-session-private.h"
+#include "lv-libssh2-listener-private.h"
+#include "lv-libssh2-channel-private.h"
 
 lv_libssh2_status_t
 lv_libssh2_channel_create(
@@ -290,7 +290,7 @@ lv_libssh2_channel_set_ignore_mode(
         case LV_LIBSSH2_IGNORE_MODES_IGNORE:
             int result = libssh2_channel_handle_extended_data2(handle->inner, LIBSSH2_CHANNEL_EXTENDED_DATA_IGNORE);
             return lv_libssh2_status_from_result(result);
-        default: return LV_LIBSSH2_STATUS_ERROR_UNKOWN_IGNORE_MODE;
+        default: return LV_LIBSSH2_STATUS_ERROR_UNKNOWN_IGNORE_MODE;
     }
 }
 
