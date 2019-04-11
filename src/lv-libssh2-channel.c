@@ -160,7 +160,7 @@ lv_libssh2_channel_direct_tcpip(
     }
     LIBSSH2_CHANNEL* inner = libssh2_channel_direct_tcpip_ex(session->inner, host, port, server_host, server_port);
     if (inner == NULL) {
-        return lv_libssh2_status_from_result(libssh2_session_errno(session->inner));
+        return lv_libssh2_status_from_result(libssh2_session_last_errno(session->inner));
     }
     lv_libssh2_channel_t* channel = malloc(sizeof(lv_libssh2_channel_t));
     if (channel == NULL) {
@@ -277,18 +277,19 @@ lv_libssh2_channel_set_ignore_mode(
     lv_libssh2_channel_t* handle,
     lv_libssh2_ignore_modes_t mode
 ) {
+    int result = 0;
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     switch (mode) {
         case LV_LIBSSH2_IGNORE_MODES_NORMAL:
-            int result = libssh2_channel_handle_extended_data2(handle->inner, LIBSSH2_CHANNEL_EXTENDED_DATA_NORMAL);
+            result = libssh2_channel_handle_extended_data2(handle->inner, LIBSSH2_CHANNEL_EXTENDED_DATA_NORMAL);
             return lv_libssh2_status_from_result(result);
         case LV_LIBSSH2_IGNORE_MODES_MERGE:
-            int result = libssh2_channel_handle_extended_data2(handle->inner, LIBSSH2_CHANNEL_EXTENDED_DATA_MERGE);
+            result = libssh2_channel_handle_extended_data2(handle->inner, LIBSSH2_CHANNEL_EXTENDED_DATA_MERGE);
             return lv_libssh2_status_from_result(result);
         case LV_LIBSSH2_IGNORE_MODES_IGNORE:
-            int result = libssh2_channel_handle_extended_data2(handle->inner, LIBSSH2_CHANNEL_EXTENDED_DATA_IGNORE);
+            result = libssh2_channel_handle_extended_data2(handle->inner, LIBSSH2_CHANNEL_EXTENDED_DATA_IGNORE);
             return lv_libssh2_status_from_result(result);
         default: return LV_LIBSSH2_STATUS_ERROR_UNKNOWN_IGNORE_MODE;
     }
