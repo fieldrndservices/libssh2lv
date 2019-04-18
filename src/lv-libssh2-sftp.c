@@ -206,6 +206,9 @@ lv_libssh2_sftp_read_file(
     if (buffer == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
+    if (read_count == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
     ssize_t count = libssh2_sftp_read(handle->inner, (char*)buffer, buffer_max_length);
     if (count < 0) {
         return lv_libssh2_status_from_result((int)count);
@@ -226,6 +229,12 @@ lv_libssh2_sftp_read_directory(
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     if (buffer == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (attributes == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (read_count == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     ssize_t count = libssh2_sftp_readdir_ex(
