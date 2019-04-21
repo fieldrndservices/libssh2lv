@@ -92,15 +92,6 @@ NI provides a cross-compiler for their Real-Time (RT) Linux distribution. Before
 
 Note, steps 3-10 only need to be done once to setup the project. The `libssh2-lv-rt.so` will be located in the `x86_64` folder under the project's root folder inside the Eclipse workspace folder, and the `libssh2-lv-arm-rt.so` will be located in the `ARM` folder under the project's root folder inside the Eclipse workspace folder.
 
-### [Documentation](https://fieldrndservices.github.io/lv-libssh2/)
-
-[Doxygen](http://www.doxygen.org) is used to build the Application Programming Interface (API) documentation. Ensure the latest version is installed then enter the following command from the root directory of the project to build the API docs:
-
-    $ mkdir -p build/docs/html
-    $ doxygen docs/Doxyfile
-
-The output will be in the `build/docs/html` folder of the root directory of the project.
-
 ## Tests
 
 All of the tests are located in the `tests` folder. The tests are organized in "modules", where an executable is created that tests each source "module", i.e. writer, reader, etc. The tests are separated from the source, but the tests are built as part of build for the shared library. Each test executable is located in the `bin\tests` folder of the build directory and they can be run independently.
