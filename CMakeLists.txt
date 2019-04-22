@@ -8,8 +8,8 @@ include(ExternalProject)
 set(CMAKE_C_VISIBILITY_PRESET hidden)
 set(OPENSSL "openssl")
 set(LIBSSH2 "libssh2")
-set(UNIX_LIBRARY_NAME "ssh2-lv")
-set(WINDOWS_LIBRARY_NAME "lv-libssh2")
+set(UNIX_LIBRARY_NAME "ssh2lv")
+set(WINDOWS_LIBRARY_NAME "libssh2lv")
 
 # First for the generic no-config case (e.g. with mingw)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -42,18 +42,6 @@ else()
     set(OPENSSL_BUILD_COMMAND ${MAKE})
     set(OUTPUT_NAME ${UNIX_LIBRARY_NAME})
 endif()
-
-# ExternalProject_Add(${OPENSSL}
-#     PREFIX ${DEPS_DIR}/${OPENSSL}
-#     URL https://github.com/openssl/openssl/archive/OpenSSL_1_1_0g.zip
-#     UPDATE_DISCONNECTED YES
-#     UPDATE_COMMAND ""
-#     CONFIGURE_COMMAND ${OPENSSL_CONFIGURE_COMMAND}
-#     BUILD_IN_SOURCE YES
-#     BUILD_COMMAND ${OPENSSL_BUILD_COMMAND}
-#     TEST_COMMAND ""
-#     INSTALL_COMMAND ""
-# )
 
 ExternalProject_Add(${OPENSSL}
     PREFIX ${DEPS_DIR}/${OPENSSL}
