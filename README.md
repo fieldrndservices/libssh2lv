@@ -100,11 +100,15 @@ NI provides a cross-compiler for their Real-Time (RT) Linux distribution. Before
 19. Enter `libssh2` for the _Project name:_. Click the _Next >_ button. A new page will appear.
 20. Click the _Next >_ button. Do not change any of the defaults. A new page will appear.
 21. Click the _Finish_ button. All dialogs will disappear and the `libssh2` project should appear in the _Project Explorer_ along with the `lv-libssh2-c` project.
-22. Click on the `lv-libssh2-c` project in the _Project Explorer.
-23. Click the _Build_ toolbar button (icon is a small hammer) to build the NI Linux RT x86_64-based shared object (so).
-24. Click the drop-down menu next to the _Build_ toolbar button and select the `ARM` build configuration. This will build the NI Linux RT ARM-based shared object (so).
+22. Click on the `libssh2` project in the _Project Explorer.
+23. Right-click on the `libssh2` project and select `Team->Switch To->Other`. A new dialog will appear.
+24. Expand the `Tags` item in the tree that appears in the dialog.
+25. Highlight the `libssh2-1.8.2` item and click the _Checkout_ button. An information dialog will appear. Click the _OK_ button. This ensures the correct version of the libssh2 dependency is used to build the lv-libssh2-c project.
+26. Click on the `lv-libssh2-c` project in the _Project Explorer.
+27. Click the _Build_ toolbar button (icon is a small hammer) to build the NI Linux RT x86_64-based shared object (so).
+28. Click the drop-down menu next to the _Build_ toolbar button and select the `ARM` build configuration. This will build the NI Linux RT ARM-based shared object (so).
 
-Note, steps 3-21 only need to be done once to setup the project. A `libssh2lv.so` will be located in the `x86_64` folder under the project's root folder inside the Eclipse workspace folder, and a similar `libssh2lv.so` for the ARM architecture will be located in the `ARM` folder under the project's root folder inside the Eclipse workspace folder.
+Note, steps 3-25 only need to be done once to setup the project. A `libssh2lv.so` will be located in the `x86_64` folder under the project's root folder inside the Eclipse workspace folder, and a similar `libssh2lv.so` for the ARM architecture will be located in the `ARM` folder under the project's root folder inside the Eclipse workspace folder.
 
 ## Tests
 
