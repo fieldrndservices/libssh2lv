@@ -2,7 +2,7 @@
 
 The LV-LIBSSH2-C project is a [LabVIEW&trade;](http://www.ni.com/labview)-friendly C "wrapper" library for the [libssh2](http://libssh2.org) library. The library is intended to be used with the [Call Library Function](http://zone.ni.com/reference/en-XX/help/371361P-01/glang/call_library_function/) node. This provides SSH client functionality to LabVIEW as a <abbr title="Dynamic Link Library">DLL</abbr> (Windows), <abbr title="Dynamic Library">Dylib</abbr> (macOS), and/or <abbr title="Shared Object">SO</abbr> (Linux).
 
-[Installation](#installation) | [Build](#build) | [API](https://fieldrndservices.github.io/lv-libssh2/) | [Tests](#tests) | [License](#license)
+[Installation](#installation) | [Build](#build) | [API](https://fieldrndservices.github.io/lv-libssh2-c/) | [Tests](#tests) | [License](#license)
 
 ## Installation
 
@@ -84,15 +84,27 @@ NI provides a cross-compiler for their Real-Time (RT) Linux distribution. Before
 3. Right-click in the _Project Explorer_ on the left and select _Import_ from the context menu that appears. A new dialog will appear.
 4. Select `Git->Projects from Git` from the dialog that appears. Click the _Next >_ button. A new page will appear.
 5. Select the `Clone URI` from the list that appears in the new page of the dialog. Click the _Next >_ button. A new page will appear.
-6. Enter the URI for the git repository in the _URI:_ field, i.e. `https://github.com/fieldrndservices/lv-libssh2-c.git`. The _Host:_ and _Repository path:_ fields will populate automatically. Click the _Next >_ button. A new page will appear.
+6. Enter the URI for the lv-libssh2-c git repository in the _URI:_ field, i.e. `https://github.com/fieldrndservices/lv-libssh2-c.git`. The _Host:_ and _Repository path:_ fields will populate automatically. Click the _Next >_ button. A new page will appear.
 7. Ensure only the `master` checkbox is checked in the _Branch Selection_ page of the _Import Projects from Git_ dialog. Click the _Next >_ button. A new page will appear.
 8. Browse to the workspace directory for NI Eclipse to populate the _Directory:_ field. Leave all other fields as the defaults. Click the _Next >_ button. A new page will appear.
 9. Select the `Import existing projects` radio button from the options under the _Wizard for project import_ section. Click the _Next >_ button. A new page will appear.
 10. Click the _Finish_ button. No changes are needed on the _Import Projects_ page. A new `lv-libssh2-c` project should appear in the _Project Explorer_.
-11. Click the _Build_ toolbar button (icon is a small hammer) to build the NI Linux RT x86_64-based shared object (so).
-12. Click the drop-down menu next to the _Build_ toolbar button and select the `ARM` build configuration. This will build the NI Linux RT ARM-based shared object (so).
+11. Right-click in the _Project Explorer_ on the left and select _Import_ from the context menu that appears. A new dialog will appear.
+12. Select `Git->Projects from Git` from the dialog that appears. Click the _Next >_ button. A new page will appear.
+13. Select the `Clone URI` from the list that appears in the new page of the dialog. Click the _Next >_ button. A new page will appear.
+14. Enter the URI for the libssh2 git repository in the _URI:_ field, i.e. `https://github.com/libssh2/libssh2.git`. The _Host:_ and _Repository path:_ fields will populate automatically. Click the _Next >_ button. A new page will appear.
+15. Ensure only the `master` checkbox is checked in the _Branch Selection_ page of the _Import Projects from Git_ dialog. Click the _Next >_ button. A new page will appear.
+16. Browse to the workspace directory for NI Eclipse to populate the _Directory:_ field. Leave all other fields as the default. Click the _Next >_ button. A new page will appear.
+17. Select the `Use the New Project wizard` radio button from the options under the _Wizard for project import_ section. Click the _Next >_ button. A new dialog will appear.
+18. Select `C Project` from the _Wizards_ section in the dialog. Click the _Next >_ button. A new page will appear.
+19. Enter `libssh2` for the _Project name:_. Click the _Next >_ button. A new page will appear.
+20. Click the _Next >_ button. Do not change any of the defaults. A new page will appear.
+21. Click the _Finish_ button. All dialogs will disappear and the `libssh2` project should appear in the _Project Explorer_ along with the `lv-libssh2-c` project.
+22. Click on the `lv-libssh2-c` project in the _Project Explorer.
+23. Click the _Build_ toolbar button (icon is a small hammer) to build the NI Linux RT x86_64-based shared object (so).
+24. Click the drop-down menu next to the _Build_ toolbar button and select the `ARM` build configuration. This will build the NI Linux RT ARM-based shared object (so).
 
-Note, steps 3-10 only need to be done once to setup the project. The `libssh2lv.so` will be located in the `x86_64` folder under the project's root folder inside the Eclipse workspace folder, and the `libssh2lv.so` will be located in the `ARM` folder under the project's root folder inside the Eclipse workspace folder.
+Note, steps 3-21 only need to be done once to setup the project. A `libssh2lv.so` will be located in the `x86_64` folder under the project's root folder inside the Eclipse workspace folder, and a similar `libssh2lv.so` for the ARM architecture will be located in the `ARM` folder under the project's root folder inside the Eclipse workspace folder.
 
 ## Tests
 
