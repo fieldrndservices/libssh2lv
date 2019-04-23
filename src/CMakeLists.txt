@@ -29,9 +29,11 @@ if(WIN32)
         ws2_32
     )
 else()
+  if(BUILD_DEPS)
     target_link_libraries(shared
         ${LIBSSH2_ARCHIVE_DIR}/${LIBSSH2}${CMAKE_STATIC_LIBRARY_SUFFIX}
         ${OPENSSL_BINARY_DIR}/libcrypto${CMAKE_STATIC_LIBRARY_SUFFIX}
-    )
+        )
+  endif()
 endif()
 
