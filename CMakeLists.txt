@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.4)
-project(LV-LIBSSH2 VERSION 0.1.0 LANGUAGES C)
+project(LV-LIBSSH2-C VERSION 0.1.0 LANGUAGES C)
 set(PROJECT_URL "https://github.com/fieldrndservices/lv-libssh2")
 set(PROJECT_DESCRIPTION "A LabVIEW-Friendly C library for LIBSSH2")
 
