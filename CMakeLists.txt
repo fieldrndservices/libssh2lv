@@ -11,6 +11,11 @@ set(LIBSSH2 "libssh2")
 set(UNIX_LIBRARY_NAME "ssh2lv")
 set(WINDOWS_LIBRARY_NAME "libssh2lv")
 
+set(ABI_MAJOR_VERSION "1")
+set(ABI_MINOR_VERSION "0")
+set(ABI_PATCH_VERSION "0")
+set(ABI_VERSION "${ABI_MAJOR_VERSION}.${ABI_MINOR_VERSION}.${ABI_PATCH_VERSION}")
+
 set(OPENSSL_BINARY_DIR "/usr/lib" CACHE PATH "The path to the folder containing the OpenSSL static library")
 set(LIBSSH2_ARCHIVE_DIR "/usr/lib" CACHE PATH "The path to the folder containing the libssh2 static library")
 set(LIBSSH2_INCLUDE_DIR "/usr/include" CACHE PATH "The path to the folder containing the libssh2 header files")

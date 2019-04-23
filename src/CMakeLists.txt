@@ -14,7 +14,7 @@ set(SOURCE
 )
 
 add_library(shared SHARED ${SOURCE})
-set_target_properties(shared PROPERTIES OUTPUT_NAME ${OUTPUT_NAME})
+set_target_properties(shared PROPERTIES OUTPUT_NAME ${OUTPUT_NAME} SOVERSION ${ABI_MAJOR_VERSION} VERSION ${ABI_VERSION})
 add_dependencies(shared ${LIBSSH2})
 target_compile_definitions(shared PRIVATE LV_LIBSSH2_BUILD_SHARED)
 target_include_directories(shared PRIVATE ${LIBSSH2_INCLUDE_DIR})
