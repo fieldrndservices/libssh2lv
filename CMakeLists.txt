@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.4)
 project(LV-LIBSSH2-C VERSION 0.1.0 LANGUAGES C)
-set(PROJECT_URL "https://github.com/fieldrndservices/lv-libssh2")
+set(PROJECT_URL "https://github.com/fieldrndservices/lv-libssh2-c")
 set(PROJECT_DESCRIPTION "A LabVIEW-Friendly C library for LIBSSH2")
 
 include(ExternalProject)
@@ -10,6 +10,13 @@ set(OPENSSL "openssl")
 set(LIBSSH2 "libssh2")
 set(UNIX_LIBRARY_NAME "ssh2lv")
 set(WINDOWS_LIBRARY_NAME "libssh2lv")
+
+set(OPENSSL_BINARY_DIR "/usr/lib" CACHE PATH "The path to the folder containing the OpenSSL static library")
+set(LIBSSH2_ARCHIVE_DIR "/usr/lib" CACHE PATH "The path to the folder containing the libssh2 static library")
+set(LIBSSH2_INCLUDE_DIR "/usr/include" CACHE PATH "The path to the folder containing the libssh2 header files")
+
+option(BUILD_TESTS "Build test programs" OFF)
+option(BUILD_DEPS "Automatically download and manage the dependencies for this project" ON)
 
 # First for the generic no-config case (e.g. with mingw)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -45,43 +52,47 @@ else()
     set(OUTPUT_NAME ${UNIX_LIBRARY_NAME})
 endif()
 
-ExternalProject_Add(${OPENSSL}
-    PREFIX ${DEPS_DIR}/${OPENSSL}
-    GIT_REPOSITORY https://github.com/openssl/openssl.git
-    GIT_TAG OpenSSL_1_1_0j
-    UPDATE_DISCONNECTED YES
-    UPDATE_COMMAND ""
-    CONFIGURE_COMMAND ${OPENSSL_CONFIGURE_COMMAND}
-    BUILD_IN_SOURCE YES
-    BUILD_COMMAND ${OPENSSL_BUILD_COMMAND}
-    TEST_COMMAND ""
-    INSTALL_COMMAND ""
-)
+if(BUILD_DEPS)
+  ExternalProject_Add(${OPENSSL}
+      PREFIX ${DEPS_DIR}/${OPENSSL}
+      GIT_REPOSITORY https://github.com/openssl/openssl.git
+      GIT_TAG OpenSSL_1_1_0j
+      UPDATE_DISCONNECTED YES
+      UPDATE_COMMAND ""
+      CONFIGURE_COMMAND ${OPENSSL_CONFIGURE_COMMAND}
+      BUILD_IN_SOURCE YES
+      BUILD_COMMAND ${OPENSSL_BUILD_COMMAND}
+      TEST_COMMAND ""
+      INSTALL_COMMAND ""
+  )
 
-ExternalProject_Get_Property(${OPENSSL} BINARY_DIR)
-set(OPENSSL_BINARY_DIR ${BINARY_DIR})
+  ExternalProject_Get_Property(${OPENSSL} BINARY_DIR)
+  set(OPENSSL_BINARY_DIR ${BINARY_DIR})
 
-ExternalProject_Add(${LIBSSH2}
-    PREFIX ${DEPS_DIR}/${LIBSSH2}
-    DEPENDS ${OPENSSL}
-    GIT_REPOSITORY https://github.com/libssh2/libssh2.git
-    GIT_TAG libssh2-1.8.2
-    UPDATE_DISCONNECTED YES
-    UPDATE_COMMAND ""
-    CMAKE_GENERATOR ${LIBSSH2_CMAKE_GENERATOR}
-    CMAKE_GENERATOR_PLATFORM ${LIBSSH2_CMAKE_GENERATOR_PLATFORM}
-    CMAKE_ARGS -DBUILD_SHARED_LIBS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DCRYPTO_BACKEND=OpenSSL -DOPENSSL_ROOT_DIR=${OPENSSL_BINARY_DIR}
-    BUILD_IN_SOURCE NO
-    TEST_COMMAND ""
-    INSTALL_COMMAND ""
-)
+  ExternalProject_Add(${LIBSSH2}
+      PREFIX ${DEPS_DIR}/${LIBSSH2}
+      DEPENDS ${OPENSSL}
+      GIT_REPOSITORY https://github.com/libssh2/libssh2.git
+      GIT_TAG libssh2-1.8.2
+      UPDATE_DISCONNECTED YES
+      UPDATE_COMMAND ""
+      CMAKE_GENERATOR ${LIBSSH2_CMAKE_GENERATOR}
+      CMAKE_GENERATOR_PLATFORM ${LIBSSH2_CMAKE_GENERATOR_PLATFORM}
+      CMAKE_ARGS -DBUILD_SHARED_LIBS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DCRYPTO_BACKEND=OpenSSL -DOPENSSL_ROOT_DIR=${OPENSSL_BINARY_DIR}
+      BUILD_IN_SOURCE NO
+      TEST_COMMAND ""
+      INSTALL_COMMAND ""
+  )
 
-ExternalProject_Get_Property(${LIBSSH2} BINARY_DIR)
-set(LIBSSH2_BINARY_DIR ${BINARY_DIR})
-ExternalProject_Get_Property(${LIBSSH2} SOURCE_DIR)
-set(LIBSSH2_SOURCE_DIR ${SOURCE_DIR})
-set(LIBSSH2_INCLUDE_DIR ${LIBSSH2_SOURCE_DIR}/include)
-set(LIBSSH2_ARCHIVE_DIR ${LIBSSH2_BINARY_DIR}/src/$<CONFIGURATION>)
+  ExternalProject_Get_Property(${LIBSSH2} BINARY_DIR)
+  set(LIBSSH2_BINARY_DIR ${BINARY_DIR})
+  ExternalProject_Get_Property(${LIBSSH2} SOURCE_DIR)
+  set(LIBSSH2_SOURCE_DIR ${SOURCE_DIR})
+  set(LIBSSH2_INCLUDE_DIR ${LIBSSH2_SOURCE_DIR}/include)
+  set(LIBSSH2_ARCHIVE_DIR ${LIBSSH2_BINARY_DIR}/src/$<CONFIGURATION>)
+else()
+  add_custom_target(${LIBSSH2})
+endif()
 
 add_definitions(
     -DVERSION="${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}"
@@ -91,6 +102,9 @@ add_definitions(
 )
 
 add_subdirectory(src)
-enable_testing()
-#add_subdirectory(tests)
+
+if(BUILD_TESTS)
+  enable_testing()
+  add_subdirectory(tests)
+endif()
 
