@@ -437,7 +437,7 @@ lv_libssh2_status_t
 lv_libssh2_sftp_create_directory(
     lv_libssh2_sftp_t* handle,
     const char* directory_path,
-    const int32_t mode
+    const int32_t permissions
 ) {
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
@@ -449,7 +449,7 @@ lv_libssh2_sftp_create_directory(
         handle->inner,
         directory_path,
         (unsigned int)strlen(directory_path),
-        mode
+        permissions
     );
     if (result != 0) {
         return lv_libssh2_status_from_result(result);

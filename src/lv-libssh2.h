@@ -709,7 +709,7 @@ LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_sftp_create_directory(
     lv_libssh2_sftp_t* handle,
     const char* directory_path,
-    const int32_t mode
+    const int32_t permissions
 );
 
 LV_LIBSSH2_API lv_libssh2_status_t
