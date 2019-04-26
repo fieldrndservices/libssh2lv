@@ -87,3 +87,47 @@ lv_libssh2_fileinfo_size(
     return LV_LIBSSH2_STATUS_OK;
 }
 
+lv_libssh2_status_t
+lv_libssh2_fileinfo_atime(
+    lv_libssh2_fileinfo_t* handle,
+    uint32_t* atime
+    ) {
+    if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (atime == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    *atime = handle->inner->st_atime;
+    return LV_LIBSSH2_STATUS_OK;
+}
+
+lv_libssh2_status_t
+lv_libssh2_fileinfo_mtime(
+    lv_libssh2_fileinfo_t* handle,
+    uint32_t* mtime
+    ) {
+    if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (mtime == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    *mtime = handle->inner->st_mtime;
+    return LV_LIBSSH2_STATUS_OK;
+}
+
+lv_libssh2_status_t
+lv_libssh2_fileinfo_permissions(
+    lv_libssh2_fileinfo_t* handle,
+    int32_t* permissions
+    ) {
+    if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (permissions == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    *permissions = handle->inner->st_mode;
+    return LV_LIBSSH2_STATUS_OK;
+}

@@ -849,6 +849,24 @@ lv_libssh2_fileinfo_size(
     uint64_t* size
 );
 
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_fileinfo_atime(
+    lv_libssh2_fileinfo_t* handle,
+    uint32_t* atime
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_fileinfo_mtime(
+    lv_libssh2_fileinfo_t* handle,
+    uint32_t* mtime
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_fileinfo_permissions(
+    lv_libssh2_fileinfo_t* handle,
+    int32_t* permissions
+);
+
 /**
  * @}
  */
