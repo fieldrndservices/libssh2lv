@@ -560,7 +560,7 @@ LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_scp_send(
     lv_libssh2_session_t* session,
     const char* path,
-    const int mode,
+    const int permissions,
     const size_t file_size,
     lv_libssh2_channel_t** handle
 );
@@ -743,6 +743,16 @@ lv_libssh2_sftp_resolve_real_link(
     size_t* read_count
 );
 
+/**
+ * @}
+ */
+
+/**
+ * @defgroup SFTP Attribute API
+ *
+ * @{
+ */
+
 LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_sftp_attributes_create(
     lv_libssh2_sftp_attributes_t** handle
@@ -751,6 +761,66 @@ lv_libssh2_sftp_attributes_create(
 LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_sftp_attributes_destroy(
     lv_libssh2_sftp_attributes_t* handle
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_sftp_attributes_flags(
+    lv_libssh2_sftp_attributes_t* handle,
+    uint32_t* flags
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_sftp_attributes_file_size(
+    lv_libssh2_sftp_attributes_t* handle,
+    uint64_t* file_size
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_sftp_attributes_uid(
+    lv_libssh2_sftp_attributes_t* handle,
+    uint32_t* uid
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_sftp_attributes_gid(
+    lv_libssh2_sftp_attributes_t* handle,
+    uint32_t* gid
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_sftp_attributes_permissions(
+    lv_libssh2_sftp_attributes_t* handle,
+    uint32_t* permissions
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_sftp_attributes_atime(
+    lv_libssh2_sftp_attributes_t* handle,
+    uint32_t* atime
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_sftp_attributes_mtime(
+    lv_libssh2_sftp_attributes_t* handle,
+    uint32_t* mtime
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_sftp_attributes_set_permissions(
+    lv_libssh2_sftp_attributes_t* handle,
+    const uint32_t permissions
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_sftp_attributes_set_uid(
+    lv_libssh2_sftp_attributes_t* handle,
+    const uint32_t uid
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_sftp_attributes_set_gid(
+    lv_libssh2_sftp_attributes_t* handle,
+    const uint32_t gid
 );
 
 /**
