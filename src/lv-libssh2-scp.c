@@ -4,7 +4,7 @@
  * Copyright (c) 2018 Field R&D Services, LLC. All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or
- * withoutmodification, are permitted provided that the following conditions
+ * without modification, are permitted provided that the following conditions
  * are met:
  *
  * 1. Redistributions of source code must retain the above copyright notice,
@@ -46,7 +46,7 @@ lv_libssh2_status_t
 lv_libssh2_scp_send(
     lv_libssh2_session_t* session,
     const char* path,
-    const int mode,
+    const int permissions,
     const size_t file_size,
     lv_libssh2_channel_t** handle
 ) {
@@ -57,7 +57,7 @@ lv_libssh2_scp_send(
     if (path == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
-    LIBSSH2_CHANNEL* inner = libssh2_scp_send64(session->inner, path, mode, file_size, 0, 0);
+    LIBSSH2_CHANNEL* inner = libssh2_scp_send64(session->inner, path, permissions, file_size, 0, 0);
     if (inner == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_MALLOC;
     }
