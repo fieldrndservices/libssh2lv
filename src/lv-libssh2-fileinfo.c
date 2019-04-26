@@ -90,7 +90,7 @@ lv_libssh2_fileinfo_size(
 lv_libssh2_status_t
 lv_libssh2_fileinfo_atime(
     lv_libssh2_fileinfo_t* handle,
-    uint32_t* atime
+    uint64_t* atime
     ) {
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
@@ -105,7 +105,7 @@ lv_libssh2_fileinfo_atime(
 lv_libssh2_status_t
 lv_libssh2_fileinfo_mtime(
     lv_libssh2_fileinfo_t* handle,
-    uint32_t* mtime
+    uint64_t* mtime
     ) {
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
