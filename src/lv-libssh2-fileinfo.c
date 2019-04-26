@@ -80,6 +80,9 @@ lv_libssh2_fileinfo_size(
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
+    if (size == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
     *size = handle->inner->st_size;
     return LV_LIBSSH2_STATUS_OK;
 }
