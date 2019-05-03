@@ -6,8 +6,8 @@
 				<externalSettings>
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/lv-libssh2-c"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/lv-libssh2-c/Debug"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="lv-libssh2-rt" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/lv-libssh2-c/x86_64"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="ssh2lv" srcPrefixMapping="" srcRootPath=""/>
 					</externalSetting>
 				</externalSettings>
 				<extensions>
@@ -18,13 +18,18 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="so" artifactName="lv-libssh2-rt" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.sharedLib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.sharedLib,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="The build configuration for x86_64 architecture target" id="cdt.managedbuild.config.gnu.cross.so.debug.2023001541" name="x86_64" parent="cdt.managedbuild.config.gnu.cross.so.debug">
+				<configuration artifactExtension="so" artifactName="ssh2lv" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.sharedLib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.sharedLib,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="The build configuration for x86_64 architecture target" id="cdt.managedbuild.config.gnu.cross.so.debug.2023001541" name="x86_64" parent="cdt.managedbuild.config.gnu.cross.so.debug">
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.so.debug.2023001541." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.cross.so.debug.1308148281" name="Cross GCC" nonInternalBuilderId="cdt.managedbuild.builder.gnu.cross" superClass="cdt.managedbuild.toolchain.gnu.cross.so.debug">
 							<option id="cdt.managedbuild.option.gnu.cross.prefix.775193066" name="Prefix" superClass="cdt.managedbuild.option.gnu.cross.prefix" value="x86_64-nilrt-linux-" valueType="string"/>
 							<option id="cdt.managedbuild.option.gnu.cross.path.911056074" name="Path" superClass="cdt.managedbuild.option.gnu.cross.path" value="c:\build\17.0\x64\sysroots\i686-nilrtsdk-mingw32\usr\bin\x86_64-nilrt-linux" valueType="string"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="cdt.managedbuild.targetPlatform.gnu.cross.372890290" isAbstract="false" osList="all" superClass="cdt.managedbuild.targetPlatform.gnu.cross"/>
-							<builder autoBuildTarget="all" buildPath="${workspace_loc:/lv-libssh2-c}/Debug" cleanBuildTarget="clean" id="org.eclipse.cdt.build.core.internal.builder.309134784" incrementalBuildTarget="all" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CDT Internal Builder" stopOnErr="false" superClass="org.eclipse.cdt.build.core.internal.builder"/>
+							<builder autoBuildTarget="all" buildPath="${workspace_loc:/lv-libssh2-c}/Debug" cleanBuildTarget="clean" id="org.eclipse.cdt.build.core.internal.builder.309134784" incrementalBuildTarget="all" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CDT Internal Builder" stopOnErr="false" superClass="org.eclipse.cdt.build.core.internal.builder">
+								<outputEntries>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="x86_64"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="ARM"/>
+								</outputEntries>
+							</builder>
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.compiler.761414997" name="Cross GCC Compiler" superClass="cdt.managedbuild.tool.gnu.cross.c.compiler">
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.option.optimization.level.899140653" name="Optimization Level" superClass="gnu.c.compiler.option.optimization.level" useByScannerDiscovery="false" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.debugging.level.171070783" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated"/>
@@ -39,6 +44,9 @@
 								</option>
 								<option id="gnu.c.compiler.option.misc.other.1299392180" name="Other flags" superClass="gnu.c.compiler.option.misc.other" useByScannerDiscovery="false" value="-c -fmessage-length=0 -std=c99 --sysroot=C:\build\17.0\x64\sysroots\core2-64-nilrt-linux" valueType="string"/>
 								<option id="gnu.c.compiler.option.misc.pic.357035109" name="Position Independent Code (-fPIC)" superClass="gnu.c.compiler.option.misc.pic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.include.paths.884397942" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/libssh2/include}&quot;"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.279987103" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.compiler.735152585" name="Cross G++ Compiler" superClass="cdt.managedbuild.tool.gnu.cross.cpp.compiler">
@@ -59,10 +67,16 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.cross.archiver.617824000" name="Cross GCC Archiver" superClass="cdt.managedbuild.tool.gnu.cross.archiver"/>
 							<tool id="cdt.managedbuild.tool.gnu.cross.assembler.452555658" name="Cross GCC Assembler" superClass="cdt.managedbuild.tool.gnu.cross.assembler">
+								<option id="gnu.both.asm.option.include.paths.1404820" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="../lv-libssh2-c/libssh2/include"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.359848022" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<sourceEntries>
+						<entry excluding=".deps|libssh2" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
@@ -73,7 +87,7 @@
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/lv-libssh2-c"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/lv-libssh2-c/ARM"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="lv-libssh2-arm-rt" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="RESOLVED" kind="libraryFile" name="ssh2lv" srcPrefixMapping="" srcRootPath=""/>
 					</externalSetting>
 				</externalSettings>
 				<extensions>
@@ -84,11 +98,11 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="so" artifactName="lv-libssh2-arm-rt" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.sharedLib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.sharedLib,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="The build configuration for ARM-based targets" id="cdt.managedbuild.config.gnu.cross.so.debug.2023001541.1302500897" name="ARM" parent="cdt.managedbuild.config.gnu.cross.so.debug">
+				<configuration artifactExtension="so" artifactName="ssh2lv" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.sharedLib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.sharedLib,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="The build configuration for ARM-based targets" id="cdt.managedbuild.config.gnu.cross.so.debug.2023001541.1302500897" name="ARM" parent="cdt.managedbuild.config.gnu.cross.so.debug">
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.so.debug.2023001541.1302500897." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.cross.so.debug.1210531556" name="Cross GCC" nonInternalBuilderId="cdt.managedbuild.builder.gnu.cross" superClass="cdt.managedbuild.toolchain.gnu.cross.so.debug">
 							<option id="cdt.managedbuild.option.gnu.cross.prefix.967592126" name="Prefix" superClass="cdt.managedbuild.option.gnu.cross.prefix" value="arm-nilrt-linux-gnueabi-" valueType="string"/>
-							<option id="cdt.managedbuild.option.gnu.cross.path.744414025" name="Path" superClass="cdt.managedbuild.option.gnu.cross.path" value="c:\build\17.0\arm\sysroots\i686-nilrtsdk-mingw32\usr\bin\arm-nilrt-linux-gnueabi" valueType="string"/>
+							<option id="cdt.managedbuild.option.gnu.cross.path.744414025" name="Path" superClass="cdt.managedbuild.option.gnu.cross.path" value="C:\build\17.0\arm\sysroots\i686-nilrtsdk-mingw32\usr\bin\arm-nilrt-linux-gnueabi" valueType="string"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="cdt.managedbuild.targetPlatform.gnu.cross.1280604667" isAbstract="false" osList="all" superClass="cdt.managedbuild.targetPlatform.gnu.cross"/>
 							<builder autoBuildTarget="all" buildPath="${workspace_loc:/lv-libssh2-c}/Debug" cleanBuildTarget="clean" id="org.eclipse.cdt.build.core.internal.builder.1484232026" incrementalBuildTarget="all" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CDT Internal Builder" stopOnErr="false" superClass="org.eclipse.cdt.build.core.internal.builder"/>
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.compiler.973075579" name="Cross GCC Compiler" superClass="cdt.managedbuild.tool.gnu.cross.c.compiler">
@@ -96,15 +110,17 @@
 								<option id="gnu.c.compiler.option.debugging.level.718911210" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.dialect.std.1200625601" name="Language standard" superClass="gnu.c.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.c.compiler.dialect.default" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1241363749" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="LV_LIBSSH2_BUILD_SHARED"/>
 									<listOptionValue builtIn="false" value="VERSION_MAJOR=0"/>
 									<listOptionValue builtIn="false" value="VERSION_MINOR=1"/>
 									<listOptionValue builtIn="false" value="VERSION_PATCH=0"/>
 									<listOptionValue builtIn="false" value="VERSION='&quot;0.1.0&quot;'"/>
-									<listOptionValue builtIn="false" value="LABPACK_BUILD_SHARED"/>
-									<listOptionValue builtIn="false" value="MPACK_DEBUG=0"/>
 								</option>
 								<option id="gnu.c.compiler.option.misc.other.849839854" name="Other flags" superClass="gnu.c.compiler.option.misc.other" useByScannerDiscovery="false" value="-c -fmessage-length=0 -mfpu=vfpv3 -mfloat-abi=softfp -std=c99 --sysroot=C:\build\17.0\arm\sysroots\cortexa9-vfpv3-nilrt-linux-gnueabi" valueType="string"/>
 								<option id="gnu.c.compiler.option.misc.pic.420322151" name="Position Independent Code (-fPIC)" superClass="gnu.c.compiler.option.misc.pic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.include.paths.1670132545" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/libssh2/include}&quot;"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1705883519" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.compiler.478238278" name="Cross G++ Compiler" superClass="cdt.managedbuild.tool.gnu.cross.cpp.compiler">
@@ -115,6 +131,8 @@
 								<option defaultValue="true" id="gnu.c.link.option.shared.840132204" name="Shared (-shared)" superClass="gnu.c.link.option.shared" valueType="boolean"/>
 								<option id="gnu.c.link.option.ldflags.697810259" name="Linker flags" superClass="gnu.c.link.option.ldflags" value=" --sysroot=C:\build\17.0\arm\sysroots\cortexa9-vfpv3-nilrt-linux-gnueabi" valueType="string"/>
 								<option id="gnu.c.link.option.noshared.1017092775" name="No shared libraries (-static)" superClass="gnu.c.link.option.noshared" value="false" valueType="boolean"/>
+								<option id="gnu.c.link.option.libs.1158470534" name="Libraries (-l)" superClass="gnu.c.link.option.libs"/>
+								<option id="gnu.c.link.option.paths.500175391" name="Library search path (-L)" superClass="gnu.c.link.option.paths"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.626686856" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -129,6 +147,9 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<sourceEntries>
+						<entry excluding=".deps|libssh2" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
@@ -148,6 +169,7 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="x86_64"/>
 		<configuration configurationName="ARM">
 			<resource resourceType="PROJECT" workspacePath="/lv-libssh2-c"/>
 		</configuration>
