@@ -97,7 +97,7 @@ NI provides a cross-compiler for their Real-Time (RT) Linux distribution. Before
 16. Browse to the workspace directory for NI Eclipse to populate the _Directory:_ field. Leave all other fields as the default. Click the _Next >_ button. A new page will appear.
 17. Select the `Use the New Project wizard` radio button from the options under the _Wizard for project import_ section. Click the _Finish_ button. A new dialog will appear.
 18. Select `C Project` from the _Wizards_ section in the dialog. Click the _Next >_ button. A new page will appear.
-19. Enter `libssh2` for the _Project name:_. Uncheck the _Use default Location_ checkbox and select the path to the workspace for the _Location_ field. Click the _Next >_ button. A new page will appear.
+19. Enter `libssh2` for the _Project name:_. Uncheck the _Use default location_ checkbox and select the path to the workspace for the _Location_ field. Click the _Next >_ button. A new page will appear.
 20. Click the _Next >_ button. Do not change any of the defaults. A new page will appear.
 21. Click the _Finish_ button. All dialogs will disappear and the `libssh2` project should appear in the _Project Explorer_ along with the `lv-libssh2-c` project.
 22. Click on the `libssh2` project in the _Project Explorer_.
