@@ -100,7 +100,7 @@ NI provides a cross-compiler for their Real-Time (RT) Linux distribution. Before
 19. Enter `libssh2` for the _Project name:_. Uncheck the _Use default Location_ checkbox and select the path to the workspace for the _Location_ field. Click the _Next >_ button. A new page will appear.
 20. Click the _Next >_ button. Do not change any of the defaults. A new page will appear.
 21. Click the _Finish_ button. All dialogs will disappear and the `libssh2` project should appear in the _Project Explorer_ along with the `lv-libssh2-c` project.
-22. Click on the `libssh2` project in the _Project Explorer.
+22. Click on the `libssh2` project in the _Project Explorer_.
 23. Right-click on the `libssh2` project and select `Team->Switch To->Other`. A new dialog will appear.
 24. Expand the `Tags` item in the tree that appears in the dialog.
 25. Highlight the `libssh2-1.8.2` item and click the _Checkout_ button. An information dialog will appear. Click the _OK_ button. This ensures the correct version of the libssh2 dependency is used to build the lv-libssh2-c project.
