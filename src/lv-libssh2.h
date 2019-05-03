@@ -881,7 +881,7 @@ LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_channel_create(
     lv_libssh2_session_t* session,
     lv_libssh2_channel_t** handle
-)
+);
 
 LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_channel_destroy(
