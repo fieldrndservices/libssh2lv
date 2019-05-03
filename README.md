@@ -95,7 +95,7 @@ NI provides a cross-compiler for their Real-Time (RT) Linux distribution. Before
 14. Enter the URI for the libssh2 git repository in the _URI:_ field, i.e. `https://github.com/libssh2/libssh2.git`. The _Host:_ and _Repository path:_ fields will populate automatically. Click the _Next >_ button. A new page will appear.
 15. Ensure only the `master` checkbox is checked in the _Branch Selection_ page of the _Import Projects from Git_ dialog. Click the _Next >_ button. A new page will appear.
 16. Browse to the workspace directory for NI Eclipse to populate the _Directory:_ field. Leave all other fields as the default. Click the _Next >_ button. A new page will appear.
-17. Select the `Use the New Project wizard` radio button from the options under the _Wizard for project import_ section. Click the _Next >_ button. A new dialog will appear.
+17. Select the `Use the New Project wizard` radio button from the options under the _Wizard for project import_ section. Click the _Finish_ button. A new dialog will appear.
 18. Select `C Project` from the _Wizards_ section in the dialog. Click the _Next >_ button. A new page will appear.
 19. Enter `libssh2` for the _Project name:_. Click the _Next >_ button. A new page will appear.
 20. Click the _Next >_ button. Do not change any of the defaults. A new page will appear.
