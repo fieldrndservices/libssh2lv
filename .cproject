@@ -35,12 +35,11 @@
 								<option id="gnu.c.compiler.option.debugging.level.171070783" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.dialect.std.1332662865" name="Language standard" superClass="gnu.c.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.c.compiler.dialect.default" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1699919971" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="LV_LIBSSH2_BUILD_SHARED"/>
 									<listOptionValue builtIn="false" value="VERSION_MAJOR=0"/>
 									<listOptionValue builtIn="false" value="VERSION_MINOR=1"/>
 									<listOptionValue builtIn="false" value="VERSION_PATCH=0"/>
 									<listOptionValue builtIn="false" value="VERSION='&quot;0.1.0&quot;'"/>
-									<listOptionValue builtIn="false" value="LABPACK_BUILD_SHARED"/>
-									<listOptionValue builtIn="false" value="MPACK_DEBUG=0"/>
 								</option>
 								<option id="gnu.c.compiler.option.misc.other.1299392180" name="Other flags" superClass="gnu.c.compiler.option.misc.other" useByScannerDiscovery="false" value="-c -fmessage-length=0 -std=c99 --sysroot=C:\build\17.0\x64\sysroots\core2-64-nilrt-linux" valueType="string"/>
 								<option id="gnu.c.compiler.option.misc.pic.357035109" name="Position Independent Code (-fPIC)" superClass="gnu.c.compiler.option.misc.pic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
