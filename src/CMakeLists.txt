@@ -1,6 +1,7 @@
 set(SOURCE
     lv-libssh2.c
     lv-libssh2.h
+    lv-libssh2-agent.c
     lv-libssh2-channel.c
     lv-libssh2-fileinfo.c
     lv-libssh2-knownhost.c

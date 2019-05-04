@@ -218,6 +218,11 @@ typedef enum _lv_libssh2_channel_modes {
     LV_LIBSSH2_CHANNEL_MODE_BLOCKING = 1,
 } lv_libssh2_channel_modes_t;
 
+typedef enum _lv_libssh2_agent_identity_results {
+    LV_LIBSSH2_AGENT_IDENTITY_RESULT_SUCCESS = 0,
+    LV_LIBSSH2_AGENT_IDENTITY_RESULT_END_OF_IDENTITIES = 1,
+} lv_libssh2_agent_identity_results_t;
+
 /**
  * The session
  */
@@ -244,7 +249,7 @@ typedef struct _lv_libssh2_channel lv_libssh2_channel_t;
 typedef struct _lv_libssh2_fileinfo lv_libssh2_fileinfo_t;
 
 /**
- * The listener.
+ * The listener
  */
 typedef struct _lv_libssh2_listener lv_libssh2_listener_t;
 
@@ -267,6 +272,11 @@ typedef struct _lv_libssh2_sftp_directory lv_libssh2_sftp_directory_t;
  * The SFTP file/directory attributes
  */
 typedef struct _lv_libssh2_sftp_attributes lv_libssh2_sftp_attributes_t;
+
+/**
+ * The SSH Agent
+ */
+typedef struct _lv_libssh2_agent lv_libssh2_agent_t;
 
 /**
  * @defgroup global Global API
@@ -1199,6 +1209,27 @@ LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_knownhost_type_mask(
     lv_libssh2_knownhost_t* handle,
     int* type_mask
+);
+
+/**
+ * @}
+ */
+
+/**
+ * @defgroup global Agent API
+ *
+ * @{
+ */
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_agent_create(
+    lv_libssh2_session_t* session,
+    lv_libssh2_agent_t** handle
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_agent_destroy(
+    lv_libssh2_agent_t* handle
 );
 
 /**
