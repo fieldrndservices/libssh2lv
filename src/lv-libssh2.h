@@ -279,6 +279,11 @@ typedef struct _lv_libssh2_sftp_attributes lv_libssh2_sftp_attributes_t;
 typedef struct _lv_libssh2_agent lv_libssh2_agent_t;
 
 /**
+ * The Public Key or Identity
+ */
+typedef struct _lv_libssh2_publickey lv_libssh2_publickey_t;
+
+/**
  * @defgroup global Global API
  *
  * Initialize and shutdown the library.
@@ -1230,6 +1235,43 @@ lv_libssh2_agent_create(
 LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_agent_destroy(
     lv_libssh2_agent_t* handle
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_agent_connect(
+    lv_libssh2_agent_t* handle
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_agent_disconnect(
+    lv_libssh2_agent_t* handle
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_agent_request_identities(
+    lv_libssh2_agent_t* handle
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_agent_authenticate(
+    lv_libssh2_agent_t* handle,
+    const char* username,
+    lv_libssh2_publickey_t* public_key
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_agent_first_identity(
+    lv_libssh2_agent_t* handle,
+    lv_libssh2_publickey_t* identity,
+    lv_libssh2_agent_identity_results_t* result
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_agent_next_identity(
+    lv_libssh2_agent_t* handle,
+    lv_libssh2_publickey_t* prev,
+    lv_libssh2_publickey_t* next,
+    lv_libssh2_agent_identity_results_t* result
 );
 
 /**

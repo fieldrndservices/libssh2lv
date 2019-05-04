@@ -100,6 +100,40 @@ lv_libssh2_agent_disconnect(
 }
 
 lv_libssh2_status_t
+lv_libssh2_agent_request_identities(
+    lv_libssh2_agent_t* handle
+) {
+    if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_agent_list_identities(handle->inner);
+    return lv_libssh2_status_from_result(result);
+}
+
+lv_libssh2_status_t
+lv_libssh2_agent_authenticate(
+    lv_libssh2_agent_t* handle,
+    const char* username,
+    lv_libssh2_publickey_t* public_key
+) {
+    if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (username == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (public_key == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_agent_userauth(
+        handle->inner,
+        username,
+        public_key
+    );
+    return lv_libssh2_status_from_result(result);
+}
+
+lv_libssh2_status_t
 lv_libssh2_agent_first_identity(
     lv_libssh2_agent_t* handle,
     lv_libssh2_publickey_t* identity,
