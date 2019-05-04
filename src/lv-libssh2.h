@@ -979,6 +979,14 @@ lv_libssh2_channel_subsystem(
     const size_t subsystem_len
 );
 
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_channel_receive_window_adjust(
+    lv_libssh2_channel_t* handle,
+    const uint32_t adjustment,
+    const uint8_t force,
+    uint32_t* window
+);
+
 /**
  * @}
  */

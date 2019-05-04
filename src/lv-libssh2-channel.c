@@ -349,3 +349,25 @@ lv_libssh2_channel_subsystem(
     );
     return lv_libssh2_status_from_result(result);
 }
+
+lv_libssh2_status_t
+lv_libssh2_channel_receive_window_adjust(
+    lv_libssh2_channel_t* handle,
+    const uint32_t adjustment,
+    const uint8_t force,
+    uint32_t* window
+) {
+    if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (window == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_channel_receive_window_adjust2(
+        handle->inner,
+        (unsigned long)adjustment,
+        (unsigned char)force,
+        window
+    );
+    return lv_libssh2_status_from_result(result);
+}
