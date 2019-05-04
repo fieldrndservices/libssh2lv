@@ -39,6 +39,7 @@
 #include "lv-libssh2.h"
 #include "lv-libssh2-status-private.h"
 #include "lv-libssh2-session-private.h"
+#include "lv-libssh2-agent-identity-private.h"
 #include "lv-libssh2-agent-private.h"
 
 lv_libssh2_status_t
@@ -114,7 +115,7 @@ lv_libssh2_status_t
 lv_libssh2_agent_authenticate(
     lv_libssh2_agent_t* handle,
     const char* username,
-    lv_libssh2_publickey_t* public_key
+    lv_libssh2_agent_identity_t* identity
 ) {
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
@@ -122,13 +123,13 @@ lv_libssh2_agent_authenticate(
     if (username == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
-    if (public_key == NULL) {
+    if (identity == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     int result = libssh2_agent_userauth(
         handle->inner,
         username,
-        public_key->inner
+        identity->inner
     );
     return lv_libssh2_status_from_result(result);
 }
@@ -136,7 +137,7 @@ lv_libssh2_agent_authenticate(
 lv_libssh2_status_t
 lv_libssh2_agent_first_identity(
     lv_libssh2_agent_t* handle,
-    lv_libssh2_publickey_t* identity,
+    lv_libssh2_agent_identity_t* identity,
     lv_libssh2_agent_identity_results_t* result
 ) {
     if (handle == NULL) {
@@ -167,8 +168,8 @@ lv_libssh2_agent_first_identity(
 lv_libssh2_status_t
 lv_libssh2_agent_next_identity(
     lv_libssh2_agent_t* handle,
-    lv_libssh2_publickey_t* prev,
-    lv_libssh2_publickey_t* next,
+    lv_libssh2_agent_identity_t* prev,
+    lv_libssh2_agent_identity_t* next,
     lv_libssh2_agent_identity_results_t* result
 ) {
     if (handle == NULL) {
@@ -192,7 +193,7 @@ lv_libssh2_agent_next_identity(
         *result = LV_LIBSSH2_AGENT_IDENTITY_RESULT_SUCCESS;
         return LV_LIBSSH2_STATUS_OK;
     } else if (inner_result == 1) {
-        *result = LV_LIBSSH2_AGENT_IDENTITY_RESULT_END_OF_INDENTITIES;
+        *result = LV_LIBSSH2_AGENT_IDENTITY_RESULT_END_OF_IDENTITIES;
         return LV_LIBSSH2_STATUS_OK;
     } else {
         return lv_libssh2_status_from_result(inner_result);
