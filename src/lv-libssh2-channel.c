@@ -433,3 +433,153 @@ lv_libssh2_channel_set_mode(
     }
     return LV_LIBSSH2_STATUS_OK;
 }
+
+lv_libssh2_status_t
+lv_libssh2_channel_set_environment_variable(
+    lv_libssh2_channel_t* handle,
+    const char* name,
+    const char* value
+) {
+    if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (name == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (value == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_channel_setenv(
+        handle->inner,
+        name,
+        value
+    );
+    return lv_libssh2_status_from_result(result);
+}
+
+lv_libssh2_status_t
+lv_libssh2_channel_wait_closed(
+    lv_libssh2_channel_t* handle
+) {
+    if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_channel_wait_closed(handle->inner);
+    return lv_libssh2_status_from_result(result);
+}
+
+lv_libssh2_status_t
+lv_libssh2_channel_wait_eof(
+    lv_libssh2_channel_t* handle
+) {
+    if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_channel_wait_eof(handle->inner);
+    return lv_libssh2_status_from_result(result);
+}
+
+lv_libssh2_status_t
+lv_libssh2_channel_window_read_size(
+    lv_libssh2_channel_t* handle,
+    uint32_t* size
+) {
+    if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (size == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    unsigned int result = libssh2_channel_window_read(handle->inner);
+    *size = result;
+    return LV_LIBSSH2_STATUS_OK;
+}
+
+lv_libssh2_status_t
+lv_libssh2_channel_window_write_size(
+    lv_libssh2_channel_t* handle,
+    uint32_t* size
+) {
+    if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (size == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    unsigned int result = libssh2_channel_window_write(handle->inner);
+    *size = result;
+    return LV_LIBSSH2_STATUS_OK;
+}
+
+lv_libssh2_status_t
+lv_libssh2_channel_write(
+    lv_libssh2_channel_t* handle,
+    const char* buffer,
+    const size_t buffer_len,
+    size_t* byte_count
+) {
+    if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (buffer == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (byte_count == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    ssize_t result = libssh2_channel_write_ex(
+        handle->inner,
+        0,
+        buffer,
+        buffer_len
+    );
+    if (result < 0) {
+        return lv_libssh2_status_from_result((int)result);
+    }
+    *byte_count = result;
+    return LV_LIBSSH2_STATUS_OK;
+}
+
+lv_libssh2_status_t
+lv_libssh2_channel_write_stderr(
+    lv_libssh2_channel_t* handle,
+    const char* buffer,
+    const size_t buffer_len,
+    size_t* byte_count
+) {
+    if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (buffer == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (byte_count == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    ssize_t result = libssh2_channel_write_ex(
+        handle->inner,
+        SSH_EXTENDED_DATA_STDERR,
+        buffer,
+        buffer_len
+    );
+    if (result < 0) {
+        return lv_libssh2_status_from_result((int)result);
+    }
+    *byte_count = result;
+    return LV_LIBSSH2_STATUS_OK;
+}
+
+lv_libssh2_status_t
+lv_libssh2_channel_request_x11(
+    lv_libssh2_channel_t* handle,
+    const int32_t screen_number
+) {
+    if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    int result = libssh2_channel_x11_req(
+        handle->inner,
+        screen_number
+    );
+    return lv_libssh2_status_from_result(result);
+}

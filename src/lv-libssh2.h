@@ -1017,6 +1017,57 @@ lv_libssh2_channel_set_mode(
     const lv_libssh2_channel_modes_t mode
 );
 
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_channel_set_environment_variable(
+    lv_libssh2_channel_t* handle,
+    const char* name,
+    const char* value
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_channel_wait_closed(
+    lv_libssh2_channel_t* handle
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_channel_wait_eof(
+    lv_libssh2_channel_t* handle
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_channel_window_read_size(
+    lv_libssh2_channel_t* handle,
+    uint32_t* size
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_channel_window_write_size(
+    lv_libssh2_channel_t* handle,
+    uint32_t* size
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_channel_write(
+    lv_libssh2_channel_t* handle,
+    const char* buffer,
+    const size_t buffer_len,
+    size_t* byte_count
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_channel_write_stderr(
+    lv_libssh2_channel_t* handle,
+    const char* buffer,
+    const size_t buffer_len,
+    size_t* byte_count
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_channel_request_x11(
+    lv_libssh2_channel_t* handle,
+    const int32_t screen_number
+);
+
 /**
  * @}
  */
