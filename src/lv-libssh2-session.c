@@ -190,7 +190,7 @@ lv_libssh2_session_mode(
     switch (result) {
         case 0: *mode = LV_LIBSSH2_SESSION_MODE_NONBLOCKING; break;
         case 1: *mode = LV_LIBSSH2_SESSION_MODE_BLOCKING; break;
-        default: return LV_LIBSSH2_STATUS_ERROR_UNKNOWN_MODE;
+        default: return LV_LIBSSH2_STATUS_ERROR_UNKNOWN_SESSION_MODE;
     }
     return LV_LIBSSH2_STATUS_OK;
 }
@@ -206,7 +206,7 @@ lv_libssh2_session_set_mode(
     switch (mode) {
         case LV_LIBSSH2_SESSION_MODE_NONBLOCKING: libssh2_session_set_blocking(handle->inner, 0); break;
         case LV_LIBSSH2_SESSION_MODE_BLOCKING: libssh2_session_set_blocking(handle->inner, 1); break;
-        default: return LV_LIBSSH2_STATUS_ERROR_UNKNOWN_MODE;
+        default: return LV_LIBSSH2_STATUS_ERROR_UNKNOWN_SESSION_MODE;
     }
     return LV_LIBSSH2_STATUS_OK;
 }

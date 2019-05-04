@@ -111,12 +111,13 @@ lv_libssh2_status_string(
         case LV_LIBSSH2_STATUS_ERROR_UNKNOWN_NAME_TYPE: return "Unknown Host Name Type Error";
         case LV_LIBSSH2_STATUS_ERROR_UNKNOWN_KEY_ENCODING: return "Unknown Key Encoding Error";
         case LV_LIBSSH2_STATUS_ERROR_UNKNOWN_KEY_ALGORITHM: return "Unknown Key Algorithm Error";
-        case LV_LIBSSH2_STATUS_ERROR_UNKNOWN_MODE: return "Unknown Mode Error";
+        case LV_LIBSSH2_STATUS_ERROR_UNKNOWN_SESSION_MODE: return "Unknown Session Mode Error";
         case LV_LIBSSH2_STATUS_ERROR_UNKNOWN_BLOCK_DIRECTION: return "Unknown Block Direction Error";
         case LV_LIBSSH2_STATUS_ERROR_UNKNOWN_SESSION_OPTION: return "Unknown Session Option Error";
         case LV_LIBSSH2_STATUS_ERROR_SESSION_NOT_STARTED: return "Session Not Started Error";
         case LV_LIBSSH2_STATUS_ERROR_VERSION_TOO_OLD: return "Version Too Old Error";
         case LV_LIBSSH2_STATUS_ERROR_UNKNOWN_IGNORE_MODE: return "Unknown Ignore Mode Error";
+        case LV_LIBSSH2_STATUS_ERROR_UNKNOWN_CHANNEL_MODE: return "Unknown Channel Mode Error";
         default: return UNKNOWN_STATUS;
     }
 }
@@ -181,12 +182,13 @@ case LV_LIBSSH2_STATUS_ERROR_UNKNOWN_HASH_ALGORITHM: return "Only the MD5 and SH
         case LV_LIBSSH2_STATUS_ERROR_UNKNOWN_NAME_TYPE: return "The host name type is unknown.";
         case LV_LIBSSH2_STATUS_ERROR_UNKNOWN_KEY_ENCODING: return "The key encoding is unknown.";
         case LV_LIBSSH2_STATUS_ERROR_UNKNOWN_KEY_ALGORITHM: return "The key algorithm is unknown.";
-        case LV_LIBSSH2_STATUS_ERROR_UNKNOWN_MODE: return "The session mode is unknown.";
+        case LV_LIBSSH2_STATUS_ERROR_UNKNOWN_SESSION_MODE: return "The session mode is unknown.";
         case LV_LIBSSH2_STATUS_ERROR_UNKNOWN_BLOCK_DIRECTION: return "The block direction is unknown";
         case LV_LIBSSH2_STATUS_ERROR_UNKNOWN_SESSION_OPTION: return "The session option is unknown";
         case LV_LIBSSH2_STATUS_ERROR_SESSION_NOT_STARTED: return "The session has not yet been started";
         case LV_LIBSSH2_STATUS_ERROR_VERSION_TOO_OLD: return "The libssh2 version is too old";
         case LV_LIBSSH2_STATUS_ERROR_UNKNOWN_IGNORE_MODE: return "The ignore mode is unknown";
+        case LV_LIBSSH2_STATUS_ERROR_UNKNOWN_CHANNEL_MODE: return "The channel mode is unknown.";
         default: return UNKNOWN_STATUS;
     }
 }

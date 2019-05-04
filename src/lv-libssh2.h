@@ -129,12 +129,13 @@ typedef enum _lv_libssh2_status {
     LV_LIBSSH2_STATUS_ERROR_UNKNOWN_NAME_TYPE = -52,
     LV_LIBSSH2_STATUS_ERROR_UNKNOWN_KEY_ENCODING = -53,
     LV_LIBSSH2_STATUS_ERROR_UNKNOWN_KEY_ALGORITHM = -54,
-    LV_LIBSSH2_STATUS_ERROR_UNKNOWN_MODE = -55,
+    LV_LIBSSH2_STATUS_ERROR_UNKNOWN_SESSION_MODE = -55,
     LV_LIBSSH2_STATUS_ERROR_UNKNOWN_BLOCK_DIRECTION = -56,
     LV_LIBSSH2_STATUS_ERROR_UNKNOWN_SESSION_OPTION = -57,
     LV_LIBSSH2_STATUS_ERROR_SESSION_NOT_STARTED = -58,
     LV_LIBSSH2_STATUS_ERROR_VERSION_TOO_OLD = -59,
-    LV_LIBSSH2_STATUS_ERROR_UNKNOWN_IGNORE_MODE = -60
+    LV_LIBSSH2_STATUS_ERROR_UNKNOWN_IGNORE_MODE = -60,
+    LV_LIBSSH2_STATUS_ERROR_UNKNOWN_CHANNEL_MODE = -61
 } lv_libssh2_status_t;
 
 typedef enum _lv_libssh2_session_modes {
@@ -211,6 +212,11 @@ typedef enum _lv_libssh2_ignore_modes {
     LV_LIBSSH2_IGNORE_MODES_MERGE = 1,
     LV_LIBSSH2_IGNORE_MODES_IGNORE = 3,
 } lv_libssh2_ignore_modes_t;
+
+typedef enum _lv_libssh2_channel_modes {
+    LV_LIBSSH2_CHANNEL_MODE_NONBLOCKING = 0,
+    LV_LIBSSH2_CHANNEL_MODE_BLOCKING = 1,
+} lv_libssh2_channel_modes_t;
 
 typedef enum _lv_libssh2_sftp_file_types {
     LV_LIBSSH2_SFTP_FILE_TYPES_MASK = 0170000,
@@ -985,6 +991,30 @@ lv_libssh2_channel_receive_window_adjust(
     const uint32_t adjustment,
     const uint8_t force,
     uint32_t* window
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_channel_request_pty(
+    lv_libssh2_channel_t* handle,
+    const char* terminal
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_channel_request_pty_size(
+    lv_libssh2_channel_t* handle,
+    const int32_t width,
+    const int32_t height
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_channel_send_eof(
+    lv_libssh2_channel_t* handle
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_channel_set_mode(
+    lv_libssh2_channel_t* handle,
+    const lv_libssh2_channel_modes_t mode
 );
 
 /**
