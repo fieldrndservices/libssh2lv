@@ -128,7 +128,7 @@ lv_libssh2_agent_authenticate(
     int result = libssh2_agent_userauth(
         handle->inner,
         username,
-        public_key
+        public_key->inner
     );
     return lv_libssh2_status_from_result(result);
 }
