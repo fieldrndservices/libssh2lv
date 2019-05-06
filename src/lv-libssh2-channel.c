@@ -130,6 +130,12 @@ lv_libssh2_channel_read_stderr(
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
+    if (buffer == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (byte_count == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
     size_t result = libssh2_channel_read_ex(handle->inner, SSH_EXTENDED_DATA_STDERR, buffer, buffer_len);
     if (result < 0) {
         return lv_libssh2_status_from_result((int)result);
