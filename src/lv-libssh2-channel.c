@@ -235,7 +235,12 @@ lv_libssh2_channel_forward_cancel(
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     int result = libssh2_channel_forward_cancel(handle->inner);
-    return lv_libssh2_status_from_result(result);
+    if (result < 0) {
+        return lv_libssh2_status_from_result(result);
+    }
+    handle->inner = NULL;
+    free(handle);
+    return LV_LIBSSH2_STATUS_OK;
 }
 
 lv_libssh2_status_t
