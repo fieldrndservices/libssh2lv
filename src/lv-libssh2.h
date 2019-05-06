@@ -877,7 +877,7 @@ lv_libssh2_channel_read(
     size_t* byte_count
 );
 
-lv_libssh2_status_t
+LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_channel_read_stderr(
     lv_libssh2_channel_t* handle,
     char* buffer,
