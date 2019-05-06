@@ -210,7 +210,7 @@ typedef enum _lv_libssh2_methods {
 typedef enum _lv_libssh2_ignore_modes {
     LV_LIBSSH2_IGNORE_MODES_NORMAL = 0,
     LV_LIBSSH2_IGNORE_MODES_MERGE = 1,
-    LV_LIBSSH2_IGNORE_MODES_IGNORE = 3,
+    LV_LIBSSH2_IGNORE_MODES_IGNORE = 2,
 } lv_libssh2_ignore_modes_t;
 
 typedef enum _lv_libssh2_channel_modes {
