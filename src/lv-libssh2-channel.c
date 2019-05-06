@@ -94,12 +94,7 @@ lv_libssh2_channel_close(
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
     int result = libssh2_channel_close(handle->inner);
-    if (result != 0) {
-        return lv_libssh2_status_from_result(result);
-    }
-    handle->inner = NULL;
-    free(handle);
-    return LV_LIBSSH2_STATUS_OK;
+    return lv_libssh2_status_from_result(result);
 }
 
 lv_libssh2_status_t
