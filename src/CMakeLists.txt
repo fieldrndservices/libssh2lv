@@ -12,8 +12,7 @@ set(SOURCE
     lv-libssh2-sftp.c
     lv-libssh2-sftp-attributes.c
     lv-libssh2-status.c
-    lv-libssh2-userauth.c
-)
+    lv-libssh2-userauth.c)
 
 add_library(shared SHARED ${SOURCE})
 set_target_properties(shared PROPERTIES OUTPUT_NAME ${OUTPUT_NAME} SOVERSION ${ABI_MAJOR_VERSION} VERSION ${ABI_VERSION})
@@ -28,14 +27,14 @@ if(WIN32)
     target_link_libraries(shared
         ${LIBSSH2_ARCHIVE_DIR}/${LIBSSH2}${CMAKE_STATIC_LIBRARY_SUFFIX}
         ${OPENSSL_BINARY_DIR}/libcrypto${CMAKE_STATIC_LIBRARY_SUFFIX}
-        ws2_32
-    )
+        ws2_32)
 else()
   if(BUILD_DEPS)
     target_link_libraries(shared
         ${LIBSSH2_ARCHIVE_DIR}/${LIBSSH2}${CMAKE_STATIC_LIBRARY_SUFFIX}
-        ${OPENSSL_BINARY_DIR}/libcrypto${CMAKE_STATIC_LIBRARY_SUFFIX}
-        )
+        ${OPENSSL_BINARY_DIR}/libcrypto${CMAKE_STATIC_LIBRARY_SUFFIX})
+  else()
+    target_link_libraries(shared ssh2 crypto)
   endif()
 endif()
 
