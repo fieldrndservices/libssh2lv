@@ -2,11 +2,11 @@
 
 The libssh2lv project is a [LabVIEW&trade;](http://www.ni.com/labview)-friendly C "wrapper" library for the [libssh2](http://libssh2.org) library. The library is intended to be used with the [Call Library Function](http://zone.ni.com/reference/en-XX/help/371361P-01/glang/call_library_function/) node. This provides SSH client functionality to LabVIEW as a <abbr title="Dynamic Link Library">DLL</abbr> (Windows), <abbr title="Dynamic Library">Dylib</abbr> (macOS), and/or <abbr title="Shared Object">SO</abbr> (Linux).
 
-[Installation](#installation) | [Build](#build) | [API](https://fieldrndservices.github.io/libssh2lv/) | [Tests](#tests) | [License](#license)
+[Installation](#installation) | [Build](#build) | [Tests](#tests) | [License](#license)
 
 ## Installation
 
-A single ZIP archive containing the pre-compiled/built shared libraries for all of the platforms listed in the [Build](#build) section is provided with each [release](https://github.com/fieldrndservices/libssh2lv/releases). These pre-compiled/built shared libraries include software developed by the OpenSSL Project for use in the OpenSSL Toolkit (http://www.openssl.org).
+A single ZIP archive containing the pre-compiled/built shared libraries for all of the desktop platforms listed in the [Build](#build) section is provided with each [release](https://github.com/fieldrndservices/libssh2lv/releases). These pre-compiled/built shared libraries include software developed by the OpenSSL Project for use in the OpenSSL Toolkit (http://www.openssl.org).
 
 1. Download the ZIP archive for the latest release. Note, this is _not_ the source code ZIP file. The ZIP archive containing the pre-compiled/built shared libraries will be labeled: `libssh2lv_#.#.#.zip`, where `#.#.#` is the version number for the release.
 2. Extract, or unzip, the ZIP archive.
@@ -17,7 +17,6 @@ A single ZIP archive containing the pre-compiled/built shared libraries for all 
 | Windows     | `C:\Windows\System32` |
 | macOS       | `/usr/local/lib`      |
 | Linux       | `/usr/local/lib`      |
-| NI Linux RT | `/usr/local/lib`      |
 
 ## Build
 
@@ -134,4 +133,4 @@ Or,
 
 ## License
 
-The libssh2lv project is licensed under the [revised BSD 3-Clause](https://opensource.org/licenses/BSD-3-Clause) license. The libssh2lv project statically compiles code from the [libssh2](https://www.libssh2.org) and [OpenSSL](https://www.openssl.org) projects, which are licensed under the [MIT](https://github.com/libssh2/libssh2/blob/master/COPYING) license and [Apache-2.0](https://github.com/openssl/openssl/blob/master/LICENSE) license, respectively. See the [LICENSE](https://github.com/fieldrndservices/lv-libssh2/blob/master/LICENSE) file for more information about licensing and copyright.
+The libssh2lv project is licensed under the [BSD-3-Clause](https://opensource.org/licenses/BSD-3-Clause) license. The libssh2lv project statically compiles code from the [libssh2](https://www.libssh2.org) and [OpenSSL](https://www.openssl.org) projects, which are licensed under the [MIT](https://github.com/libssh2/libssh2/blob/master/COPYING) license and [Apache-2.0](https://github.com/openssl/openssl/blob/master/LICENSE) license, respectively. See the [LICENSE](https://github.com/fieldrndservices/lv-libssh2/blob/master/LICENSE) file for more information about licensing and copyright.
