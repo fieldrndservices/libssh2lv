@@ -23,7 +23,7 @@ A single ZIP archive containing the pre-compiled/built shared libraries for all 
 
 Ensure all of the following dependencies are installed and up-to-date before proceeding:
 
-- [CMake 3.10.x](https://cmake.org/), or newer
+- [CMake 3.4.x](https://cmake.org/), or newer
 - [Microsoft Visual C++ Build Tools 2017](https://www.visualstudio.com/downloads/#build-tools-for-visual-studio-2017), Windows Only
 - [XCode Command Line Tools](https://developer.apple.com/xcode/features/), macOS Only
 - [Git](https://git-scm.com/)
