@@ -96,7 +96,7 @@ Additionally, while [NI](http://www.ni.com) provides a [cross-compiler](http://w
    $ cmake --build .
    ```
    
-   The shared object (libssh2lv.so) will be available in the `bin` folder.
+The shared object (libssh2lv.so) will be available in the `bin` folder.
 
 ## Tests
 
