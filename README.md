@@ -97,6 +97,20 @@ Additionally, while [NI](http://www.ni.com) provides a [cross-compiler](http://w
    
 The shared object (libssh2lv.so) will be available in the `bin` folder.
 
+### [Documentation](https://fieldrndservices.github.io/libssh2lv/)
+
+[Doxygen](http://www.doxygen.org) is used to build the Application Programming Interface (API) documentation. Ensure the latest version is installed then enter the following command from the root directory of the project to build the API docs:
+
+    $ mkdir -p build/doc
+    $ doxygen doc/Doxyfile
+
+The output will be in the `build/doc/html` folder of the root directory of the project. If on Windows, the following commands can be used:
+
+    C:\> mkdir build\doc
+    C:\> doxygen doc\Doxyfile
+
+The output can be viewed by opening the `build/doc/html/index.html` file in a web browser.
+
 ## Tests
 
 All of the tests are located in the `tests` folder. The tests are organized in "modules", where an executable is created that tests each source "module". By default, the test are _not_ built. To build the tests, the `-DBUILD_TESTS=ON` flag must be added to the `cmake ..` build step. Each test executable is located in the `bin\tests` folder of the build directory and they can be run independently.
