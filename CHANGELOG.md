@@ -4,16 +4,22 @@ All notable changes to this project will be documented in this file, which is wr
 
 ## [Unreleased]
 
+## [0.1.1] - 2019-05-26
+
+### Added
+
+- Getter function to SFTP attributes for the file type
+
 ## [0.1.0] - 2019-05-08
 
 ### Added
 
-- CMake-based build procedure.
+- CMake-based build procedure
 - Dependency management via CMake ExternalProject module
-- Build instructions for Windows, macOS, Linux, and NI Linux RT.
-- Initial public Application Programming Interface (API).
-- Tests and [minunit](https://github.com/siu/minunit) testing framework.
-- The LICENSE file.
-- The README file.
-- The ignore list.
+- Build instructions for Windows, macOS, Linux, and NI Linux RT
+- Initial public Application Programming Interface (API)
+- Tests and [minunit](https://github.com/siu/minunit) testing framework
+- The LICENSE file
+- The README file
+- The ignore list
 
