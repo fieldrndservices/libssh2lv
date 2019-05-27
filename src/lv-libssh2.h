@@ -223,6 +223,18 @@ typedef enum _lv_libssh2_agent_identity_results {
     LV_LIBSSH2_AGENT_IDENTITY_RESULT_END_OF_IDENTITIES = 1,
 } lv_libssh2_agent_identity_results_t;
 
+typedef enum _lv_libssh2_file_types {
+    LV_LIBSSH2_FILE_TYPE_REGULAR = 1,
+    LV_LIBSSH2_FILE_TYPE_DIRECTORY = 2,
+    LV_LIBSSH2_FILE_TYPE_SYMLINK = 3,
+    LV_LIBSSH2_FILE_TYPE_SPECIAL = 4,
+    LV_LIBSSH2_FILE_TYPE_UNKNOWN = 5,
+    LV_LIBSSH2_FILE_TYPE_SOCKET = 6,
+    LV_LIBSSH2_FILE_TYPE_CHAR_DEVICE = 7,
+    LV_LIBSSH2_FILE_TYPE_BLOCK_DEVICE = 8,
+    LV_LIBSSH2_FILE_TYPE_FIFO = 9,
+} lv_libssh2_file_types_t;
+
 /**
  * The session
  */
@@ -1314,6 +1326,12 @@ LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_sftp_attributes_set_gid(
     lv_libssh2_sftp_attributes_t* handle,
     const uint32_t gid
+);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_sftp_attributes_file_type(
+    lv_libssh2_sftp_attributes_t* handle,
+    lv_libssh2_file_types_t* type
 );
 
 /**

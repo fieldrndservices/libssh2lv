@@ -211,3 +211,35 @@ lv_libssh2_sftp_attributes_set_gid(
     handle->inner->gid = gid;
     return LV_LIBSSH2_STATUS_OK;
 }
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_sftp_attributes_file_type(
+    lv_libssh2_sftp_attributes_t* handle,
+    lv_libssh2_file_types_t* type
+) {
+    if (handle == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (type == NULL) {
+        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+    }
+    if (LIBSSH2_SFTP_S_ISLNK(handle->inner->permissions)) {
+        *type = LV_LIBSSH2_FILE_TYPE_SYMLINK;
+    } else if (LIBSSH2_SFTP_S_ISREG(handle->inner->permissions)) {
+        *type = LV_LIBSSH2_FILE_TYPE_REGULAR;
+    } else if (LIBSSH2_SFTP_S_ISDIR(handle->inner->permissions)) {
+        *type = LV_LIBSSH2_FILE_TYPE_DIRECTORY;
+    } else if (LIBSSH2_SFTP_S_ISCHR(handle->inner->permissions)) {
+        *type = LV_LIBSSH2_FILE_TYPE_CHAR_DEVICE;
+    } else if (LIBSSH2_SFTP_S_ISBLK(handle->inner->permissions)) {
+        *type = LV_LIBSSH2_FILE_TYPE_BLOCK_DEVICE;
+    } else if (LIBSSH2_SFTP_S_ISFIFO(handle->inner->permissions)) {
+        *type = LV_LIBSSH2_FILE_TYPE_FIFO;
+    } else if (LIBSSH2_SFTP_S_ISSOCK(handle->inner->permissions)) {
+        *type = LV_LIBSSH2_FILE_TYPE_SOCKET;
+    } else {
+        *type = LV_LIBSSH2_FILE_TYPE_UNKNOWN;
+    }
+    return LV_LIBSSH2_STATUS_OK;
+}
+
