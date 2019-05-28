@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file, which is wr
 
 ## [Unreleased]
 
+## [0.1.2] - 2019-05-28
+
+### Added
+
+- The `overwrite` paramater to the `lv_libssh2_sftp_file_rename` function
+
+### Fixed
+
+- Error handling for SFTP API
+
 ## [0.1.1] - 2019-05-26
 
 ### Added
