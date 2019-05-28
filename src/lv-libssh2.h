@@ -1222,7 +1222,8 @@ LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_sftp_file_rename(
     lv_libssh2_sftp_t* handle,
     const char* source_path,
-    const char* destination_path
+    const char* destination_path,
+    const int overwrite
 );
 
 LV_LIBSSH2_API lv_libssh2_status_t

@@ -400,7 +400,8 @@ lv_libssh2_status_t
 lv_libssh2_sftp_file_rename(
     lv_libssh2_sftp_t* handle,
     const char* source_path,
-    const char* destination_path
+    const char* destination_path,
+    const int overwrite
 ) {
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
@@ -411,13 +412,17 @@ lv_libssh2_sftp_file_rename(
     if (destination_path == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
+    long flags = LIBSSH2_SFTP_RENAME_ATOMIC | LIBSSH2_SFTP_RENAME_NATIVE;
+    if (overwrite) {
+        flags = flags | LIBSSH2_SFTP_RENAME_OVERWRITE;
+    }
     int result = libssh2_sftp_rename_ex(
         handle->inner,
         source_path,
         (unsigned int)strlen(source_path),
         destination_path,
         (unsigned int)strlen(destination_path),
-        LIBSSH2_SFTP_RENAME_OVERWRITE | LIBSSH2_SFTP_RENAME_ATOMIC | LIBSSH2_SFTP_RENAME_NATIVE
+        flags
     );
     if (result != 0) {
         return lv_libssh2_sftp_status_from_result(handle->inner, result);
