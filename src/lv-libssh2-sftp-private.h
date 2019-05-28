@@ -38,14 +38,17 @@
 
 struct _lv_libssh2_sftp {
     LIBSSH2_SFTP* inner;
+    LIBSSH2_SESSION* session;
 };
 
 struct _lv_libssh2_sftp_file {
     LIBSSH2_SFTP_HANDLE* inner;
+    LIBSSH2_SFTP* sftp;
 };
 
 struct _lv_libssh2_sftp_directory {
     LIBSSH2_SFTP_HANDLE* inner;
+    LIBSSH2_SFTP* sftp;
 };
 
 #endif
