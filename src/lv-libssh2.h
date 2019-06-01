@@ -256,6 +256,12 @@ typedef enum _lv_libssh2_file_types {
     LV_LIBSSH2_FILE_TYPE_FIFO = 9,
 } lv_libssh2_file_types_t;
 
+typedef enum _lv_libssh2_sftp_rename_options {
+    LV_LIBSSH2_SFTP_RENAME_OPTION_OVERWRITE = 0x00000001,
+    LV_LIBSSH2_SFTP_RENAME_OPTION_ATOMIC = 0x00000002,
+    LV_LIBSSH2_SFTP_RENAME_OPTION_NATIVE = 0x00000004,
+} lv_libssh2_sftp_rename_options_t;
+
 /**
  * The session
  */
@@ -1223,7 +1229,7 @@ lv_libssh2_sftp_file_rename(
     lv_libssh2_sftp_t* handle,
     const char* source_path,
     const char* destination_path,
-    const int32_t overwrite
+    const int32_t options
 );
 
 LV_LIBSSH2_API lv_libssh2_status_t
