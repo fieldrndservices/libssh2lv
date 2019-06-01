@@ -1131,7 +1131,7 @@ lv_libssh2_sftp_open_file(
     lv_libssh2_sftp_t* sftp,
     const char* path,
     const uint32_t flags,
-    const int32_t permissions,
+    const uint32_t permissions,
     lv_libssh2_sftp_file_t** handle
 );
 
@@ -1223,7 +1223,7 @@ lv_libssh2_sftp_file_rename(
     lv_libssh2_sftp_t* handle,
     const char* source_path,
     const char* destination_path,
-    const int overwrite
+    const int32_t overwrite
 );
 
 LV_LIBSSH2_API lv_libssh2_status_t
