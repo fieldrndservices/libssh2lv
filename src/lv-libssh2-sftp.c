@@ -418,7 +418,7 @@ lv_libssh2_sftp_file_rename(
         (unsigned int)strlen(source_path),
         destination_path,
         (unsigned int)strlen(destination_path),
-        options
+        (long)options
     );
     if (result != 0) {
         return lv_libssh2_sftp_status_from_result(handle->inner, result);
