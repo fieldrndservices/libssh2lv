@@ -165,8 +165,8 @@ typedef enum _lv_libssh2_session_modes {
 } lv_libssh2_session_modes_t;
 
 typedef enum _lv_libssh2_hostkey_hash_types {
-    LV_LIBSSH2_HOSTKEY_HASH_TYPE_MD5 = 0,
-    LV_LIBSSH2_HOSTKEY_HASH_TYPE_SHA1 = 1
+    LV_LIBSSH2_HOSTKEY_HASH_TYPE_MD5 = LIBSSH2_HOSTKEY_HASH_MD5,
+    LV_LIBSSH2_HOSTKEY_HASH_TYPE_SHA1 = LIBSSH2_HOSTKEY_HASH_SHA1,
 } lv_libssh2_hostkey_hash_types_t;
 
 typedef enum _lv_libssh2_hostkey_types {
@@ -194,7 +194,7 @@ typedef enum _lv_libssh2_knownhosts_check_results {
 } lv_libssh2_knownhosts_check_results_t;
 
 typedef enum _lv_libssh2_knownhosts_get_results {
-    LV_LIBSSH2_KNOWNHOSTS_GET_RESULT_SUCCESS = 0,
+   LV_LIBSSH2_KNOWNHOSTS_GET_RESULT_SUCCESS = 0,
     LV_LIBSSH2_KNOWNHOSTS_GET_RESULT_END_OF_HOSTS = 1,
 } lv_libssh2_knownhosts_get_results_t;
 
