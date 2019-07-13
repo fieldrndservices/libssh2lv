@@ -291,10 +291,11 @@ lv_libssh2_session_enable_option(
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
+    int result = 0;
     switch (option) {
         case LV_LIBSSH2_SESSION_OPTIONS_SIGPIPE:
         case LV_LIBSSH2_SESSION_OPTIONS_COMPRESS:
-            int result = libssh2_session_flag(handle->inner, option, 1);
+            result = libssh2_session_flag(handle->inner, option, 1);
             return lv_libssh2_status_from_result(result);
         default:
             return LV_LIBSSH2_STATUS_ERROR_UNKNOWN_SESSION_OPTION;
@@ -309,10 +310,11 @@ lv_libssh2_session_disable_option(
     if (handle == NULL) {
         return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
     }
+    int result = 0;
     switch (option) {
         case LV_LIBSSH2_SESSION_OPTIONS_SIGPIPE:
         case LV_LIBSSH2_SESSION_OPTIONS_COMPRESS:
-            int result = libssh2_session_flag(handle->inner, option, 0);
+            result = libssh2_session_flag(handle->inner, option, 0);
             return lv_libssh2_status_from_result(result);
         default:
             return LV_LIBSSH2_STATUS_ERROR_UNKNOWN_SESSION_OPTION;
