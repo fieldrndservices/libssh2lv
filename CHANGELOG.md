@@ -4,11 +4,21 @@ All notable changes to this project will be documented in this file, which is wr
 
 ## [Unreleased]
 
+## [0.2.0] - 2019-07-13
+
+### Added
+
+- All libssh2 library macro definitions as enum values where appropriate
+
+### Changed
+
+- Enum variant values to match values from the libssh2 library macro definitions
+
 ## [0.1.2] - 2019-05-28
 
 ### Added
 
-- The `overwrite` paramater to the `lv_libssh2_sftp_file_rename` function
+- The `overwrite` parameter to the `lv_libssh2_sftp_file_rename` function
 
 ### Fixed
 
