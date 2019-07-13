@@ -341,6 +341,10 @@ typedef struct _lv_libssh2_channel lv_libssh2_channel_t;
 
 /**
  * The File Information structure, or stat info.
+ *
+ * While this is very similar to the SFTP Attributes type, it is used for the
+ * SCP send/receive functionality, which is not part of the SFTP API or
+ * functionality.
  */
 typedef struct _lv_libssh2_fileinfo lv_libssh2_fileinfo_t;
 
@@ -366,6 +370,8 @@ typedef struct _lv_libssh2_sftp_directory lv_libssh2_sftp_directory_t;
 
 /**
  * The SFTP file/directory attributes
+ *
+ * While similar to the SCP file info type, this is specific to the SFTP API.
  */
 typedef struct _lv_libssh2_sftp_attributes lv_libssh2_sftp_attributes_t;
 
