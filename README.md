@@ -2,7 +2,12 @@
 
 The libssh2lv project is a [LabVIEW&trade;](http://www.ni.com/labview)-friendly C "wrapper" library for the [libssh2](http://libssh2.org) library. The library is intended to be used with the [Call Library Function](http://zone.ni.com/reference/en-XX/help/371361P-01/glang/call_library_function/) node. This provides SSH client functionality to LabVIEW as a <abbr title="Dynamic Link Library">DLL</abbr> (Windows), <abbr title="Dynamic Library">Dylib</abbr> (macOS), and/or <abbr title="Shared Object">SO</abbr> (Linux).
 
-[Installation](#installation) | [Build](#build) | [Tests](#tests) | [License](#license)
+## Table of Contents
+
+- [Installation](#installation) 
+- [Build](#build)
+- [Tests](#tests) 
+- [License](#license)
 
 ## Installation
 
