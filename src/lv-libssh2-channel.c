@@ -289,13 +289,9 @@ lv_libssh2_channel_set_ignore_mode(
     }
     switch (mode) {
         case LV_LIBSSH2_IGNORE_MODES_NORMAL:
-            result = libssh2_channel_handle_extended_data2(handle->inner, LIBSSH2_CHANNEL_EXTENDED_DATA_NORMAL);
-            return lv_libssh2_status_from_result(result);
         case LV_LIBSSH2_IGNORE_MODES_MERGE:
-            result = libssh2_channel_handle_extended_data2(handle->inner, LIBSSH2_CHANNEL_EXTENDED_DATA_MERGE);
-            return lv_libssh2_status_from_result(result);
         case LV_LIBSSH2_IGNORE_MODES_IGNORE:
-            result = libssh2_channel_handle_extended_data2(handle->inner, LIBSSH2_CHANNEL_EXTENDED_DATA_IGNORE);
+            result = libssh2_channel_handle_extended_data2(handle->inner, mode);
             return lv_libssh2_status_from_result(result);
         default: return LV_LIBSSH2_STATUS_ERROR_UNKNOWN_IGNORE_MODE;
     }
