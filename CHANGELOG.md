@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file, which is wr
 
 ## [Unreleased]
 
+## [0.2.1] - 2020-03-31
+
+### Changed
+
+- The libssh2 dependency from v1.8.2 to v1.9.0
+- The OpenSSL dependency from v1.1.0j to v1.1.1f
+
 ## [0.2.0] - 2019-07-13
 
 ### Added
