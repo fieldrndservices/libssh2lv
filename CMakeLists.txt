@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.4)
-project(libssh2lv VERSION 0.1.2 LANGUAGES C)
+project(libssh2lv VERSION 0.2.0 LANGUAGES C)
 set(PROJECT_URL "https://github.com/fieldrndservices/libssh2lv")
 set(PROJECT_DESCRIPTION "A LabVIEW-Friendly C library for LIBSSH2")
 
@@ -61,7 +61,7 @@ if(BUILD_DEPS)
   ExternalProject_Add(${OPENSSL}
       PREFIX ${DEPS_DIR}/${OPENSSL}
       GIT_REPOSITORY https://github.com/openssl/openssl.git
-      GIT_TAG OpenSSL_1_1_0j
+      GIT_TAG OpenSSL_1_1_1f
       UPDATE_DISCONNECTED YES
       UPDATE_COMMAND ""
       CONFIGURE_COMMAND ${OPENSSL_CONFIGURE_COMMAND}
@@ -78,7 +78,7 @@ if(BUILD_DEPS)
       PREFIX ${DEPS_DIR}/${LIBSSH2}
       DEPENDS ${OPENSSL}
       GIT_REPOSITORY https://github.com/libssh2/libssh2.git
-      GIT_TAG libssh2-1.8.2
+      GIT_TAG libssh2-1.9.0
       UPDATE_DISCONNECTED YES
       UPDATE_COMMAND ""
       CMAKE_GENERATOR ${LIBSSH2_CMAKE_GENERATOR}
