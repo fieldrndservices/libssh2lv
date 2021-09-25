@@ -36,69 +36,64 @@
 
 #include "libssh2.h"
 
-#include "lv-libssh2.h"
-#include "lv-libssh2-status-private.h"
-#include "lv-libssh2-session-private.h"
 #include "lv-libssh2-channel-private.h"
 #include "lv-libssh2-fileinfo-private.h"
+#include "lv-libssh2-session-private.h"
+#include "lv-libssh2-status-private.h"
+#include "lv-libssh2.h"
 
-lv_libssh2_status_t
-lv_libssh2_scp_send(
-    lv_libssh2_session_t* session,
-    const char* path,
-    const int permissions,
-    const size_t file_size,
-    lv_libssh2_channel_t** handle
-) {
-    *handle = NULL;
-    if (session == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    if (path == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    LIBSSH2_CHANNEL* inner = libssh2_scp_send64(session->inner, path, permissions, file_size, 0, 0);
-    if (inner == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_MALLOC;
-    }
-    lv_libssh2_channel_t* channel = malloc(sizeof(lv_libssh2_channel_t));
-    if (channel == NULL) {
-        libssh2_channel_free(inner);
-        return LV_LIBSSH2_STATUS_ERROR_MALLOC;
-    }
-    channel->inner = inner;
-    *handle = channel;
-    return LV_LIBSSH2_STATUS_OK;
+lv_libssh2_status_t lv_libssh2_scp_send(lv_libssh2_session_t *session,
+                                        const char *path, const int permissions,
+                                        const size_t file_size,
+                                        lv_libssh2_channel_t **handle) {
+  *handle = NULL;
+  if (session == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  if (path == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  LIBSSH2_CHANNEL *inner =
+      libssh2_scp_send64(session->inner, path, permissions, file_size, 0, 0);
+  if (inner == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_MALLOC;
+  }
+  lv_libssh2_channel_t *channel = malloc(sizeof(lv_libssh2_channel_t));
+  if (channel == NULL) {
+    libssh2_channel_free(inner);
+    return LV_LIBSSH2_STATUS_ERROR_MALLOC;
+  }
+  channel->inner = inner;
+  *handle = channel;
+  return LV_LIBSSH2_STATUS_OK;
 }
 
-lv_libssh2_status_t
-lv_libssh2_scp_receive(
-    lv_libssh2_session_t* session,
-    const char* path,
-    lv_libssh2_fileinfo_t* file_info,
-    lv_libssh2_channel_t** handle
-) {
-    *handle = NULL;
-    if (session == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    if (path == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    if (file_info == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    LIBSSH2_CHANNEL* inner = libssh2_scp_recv2(session->inner, path, file_info->inner);
-    if (inner == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_MALLOC;
-    }
-    lv_libssh2_channel_t* channel = malloc(sizeof(lv_libssh2_channel_t));
-    if (channel == NULL) {
-        libssh2_channel_free(inner);
-        return LV_LIBSSH2_STATUS_ERROR_MALLOC;
-    }
-    channel->inner = inner;
-    *handle = channel;
-    return LV_LIBSSH2_STATUS_OK;
+lv_libssh2_status_t lv_libssh2_scp_receive(lv_libssh2_session_t *session,
+                                           const char *path,
+                                           lv_libssh2_fileinfo_t *file_info,
+                                           lv_libssh2_channel_t **handle) {
+  *handle = NULL;
+  if (session == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  if (path == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  if (file_info == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  LIBSSH2_CHANNEL *inner =
+      libssh2_scp_recv2(session->inner, path, file_info->inner);
+  if (inner == NULL) {
+    return lv_libssh2_status_from_result(
+        libssh2_session_last_errno(session->inner));
+  }
+  lv_libssh2_channel_t *channel = malloc(sizeof(lv_libssh2_channel_t));
+  if (channel == NULL) {
+    libssh2_channel_free(inner);
+    return LV_LIBSSH2_STATUS_ERROR_MALLOC;
+  }
+  channel->inner = inner;
+  *handle = channel;
+  return LV_LIBSSH2_STATUS_OK;
 }
-
