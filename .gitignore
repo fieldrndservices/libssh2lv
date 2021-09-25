@@ -8,3 +8,4 @@ bin*
 .settings
 .deps
 .DS_Store
+.ccls-cache
