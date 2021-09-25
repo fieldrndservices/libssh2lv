@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file, which is wr
 
 ## [Unreleased]
 
+## [0.2.2] - 2021-09-25
+
+### Added
+
+- Strawberry Perl as an option for Windows builds
+
 ### Changed
 
 - Code formatting style to ccls (clang-based LSP) default format
