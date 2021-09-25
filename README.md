@@ -32,7 +32,7 @@ Ensure all of the following dependencies are installed and up-to-date before pro
 - [XCode Command Line Tools](https://developer.apple.com/xcode/features/), macOS Only
 - [Git](https://git-scm.com/)
 - [Doxygen](http://www.doxygen.org), Documentation only
-- [ActivePerl](https://www.perl.org/), Windows Only 
+- [Strawbery Perl](https://strawberryperl.com/) or [ActivePerl](https://www.perl.org/), Windows Only 
 
 The [OpenSSL](https://www.openssl.org/) and [libssh2](https://www.libssh2.org/) dependencies will automatically be downloaded and built as part of the build process. This is to ensure the correct version is used and that these dependencies are statically linked to the eventual libssh2lv shared library. Statically linking the dependencies avoids having to distribute separate shared libraries for OpenSSL and libssh2 on each of the supported desktop platforms (Windows, macOS, and Linux). 
 
