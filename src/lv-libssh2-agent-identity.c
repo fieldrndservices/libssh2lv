@@ -36,38 +36,35 @@
 
 #include "libssh2.h"
 
-#include "lv-libssh2.h"
 #include "lv-libssh2-agent-identity-private.h"
+#include "lv-libssh2.h"
 
 lv_libssh2_status_t
-lv_libssh2_agent_identity_create(
-    lv_libssh2_agent_identity_t** handle
-) {
-    *handle = NULL;
-    /*
-      Do NOT allocate `inner` here. libssh2 will take care of this for us.
-    */
-    lv_libssh2_agent_identity_t* identity = malloc(sizeof(lv_libssh2_agent_identity_t));
-    if (identity == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_MALLOC;
-    }
-    identity->inner = NULL;
-    *handle = identity;
-    return LV_LIBSSH2_STATUS_OK;
+lv_libssh2_agent_identity_create(lv_libssh2_agent_identity_t **handle) {
+  *handle = NULL;
+  /*
+    Do NOT allocate `inner` here. libssh2 will take care of this for us.
+  */
+  lv_libssh2_agent_identity_t *identity =
+      malloc(sizeof(lv_libssh2_agent_identity_t));
+  if (identity == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_MALLOC;
+  }
+  identity->inner = NULL;
+  *handle = identity;
+  return LV_LIBSSH2_STATUS_OK;
 }
 
 lv_libssh2_status_t
-lv_libssh2_agent_identity_destroy(
-    lv_libssh2_agent_identity_t* handle
-) {
-    if (handle == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    /*
-      Do NOT free the `inner` here. libssh2 will take care of this for us...I
-      think.
-    */
-    free(handle);
-    handle = NULL;
-    return LV_LIBSSH2_STATUS_OK;
+lv_libssh2_agent_identity_destroy(lv_libssh2_agent_identity_t *handle) {
+  if (handle == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  /*
+    Do NOT free the `inner` here. libssh2 will take care of this for us...I
+    think.
+  */
+  free(handle);
+  handle = NULL;
+  return LV_LIBSSH2_STATUS_OK;
 }

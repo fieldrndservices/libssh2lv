@@ -35,65 +35,38 @@
 
 #include "lv-libssh2.h"
 
-lv_libssh2_status_t
-lv_libssh2_initialize()
-{
-    libssh2_init(0);
-    return LV_LIBSSH2_STATUS_OK;
+lv_libssh2_status_t lv_libssh2_initialize() {
+  libssh2_init(0);
+  return LV_LIBSSH2_STATUS_OK;
 }
 
-lv_libssh2_status_t
-lv_libssh2_shutdown()
-{
-    libssh2_exit();
-    return LV_LIBSSH2_STATUS_OK;
+lv_libssh2_status_t lv_libssh2_shutdown() {
+  libssh2_exit();
+  return LV_LIBSSH2_STATUS_OK;
 }
 
-const char*
-lv_libssh2_version()
-{
-    return VERSION;
+const char *lv_libssh2_version() { return VERSION; }
+
+unsigned int lv_libssh2_version_major() { return VERSION_MAJOR; }
+
+unsigned int lv_libssh2_version_minor() { return VERSION_MINOR; }
+
+unsigned int lv_libssh2_version_patch() { return VERSION_PATCH; }
+
+lv_libssh2_status_t lv_libssh2_internal_version_len(size_t *len) {
+  const char *version = libssh2_version(0);
+  if (version == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_VERSION_TOO_OLD;
+  }
+  *len = strlen(version);
+  return LV_LIBSSH2_STATUS_OK;
 }
 
-unsigned int
-lv_libssh2_version_major()
-{
-    return VERSION_MAJOR;
+lv_libssh2_status_t lv_libssh2_internal_version(uint8_t *buffer) {
+  const char *version = libssh2_version(0);
+  if (version == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_VERSION_TOO_OLD;
+  }
+  memcpy(buffer, version, strlen(version));
+  return LV_LIBSSH2_STATUS_OK;
 }
-
-unsigned int
-lv_libssh2_version_minor()
-{
-    return VERSION_MINOR;
-}
-
-unsigned int
-lv_libssh2_version_patch()
-{
-    return VERSION_PATCH;
-}
-
-lv_libssh2_status_t
-lv_libssh2_internal_version_len(
-    size_t* len
-) {
-    const char* version = libssh2_version(0);
-    if (version == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_VERSION_TOO_OLD;
-    }
-    *len = strlen(version);
-    return LV_LIBSSH2_STATUS_OK;
-}
-
-lv_libssh2_status_t
-lv_libssh2_internal_version(
-    uint8_t* buffer
-) {
-    const char* version = libssh2_version(0);
-    if (version == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_VERSION_TOO_OLD;
-    }
-    memcpy(buffer, version, strlen(version));
-    return LV_LIBSSH2_STATUS_OK;
-}
-

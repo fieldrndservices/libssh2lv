@@ -37,8 +37,7 @@
 #include "lv-libssh2.h"
 
 struct _lv_libssh2_sftp_attributes {
-    LIBSSH2_SFTP_ATTRIBUTES* inner;
+  LIBSSH2_SFTP_ATTRIBUTES *inner;
 };
 
 #endif
-

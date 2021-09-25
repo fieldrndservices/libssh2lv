@@ -37,8 +37,7 @@
 #include "lv-libssh2.h"
 
 struct _lv_libssh2_channel {
-    LIBSSH2_CHANNEL* inner;
+  LIBSSH2_CHANNEL *inner;
 };
 
 #endif
-

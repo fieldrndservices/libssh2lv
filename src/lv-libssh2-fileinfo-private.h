@@ -37,8 +37,7 @@
 #include "lv-libssh2.h"
 
 struct _lv_libssh2_fileinfo {
-    libssh2_struct_stat* inner;
+  libssh2_struct_stat *inner;
 };
 
 #endif
-

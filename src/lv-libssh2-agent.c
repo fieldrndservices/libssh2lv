@@ -36,167 +36,136 @@
 
 #include "libssh2.h"
 
-#include "lv-libssh2.h"
-#include "lv-libssh2-status-private.h"
-#include "lv-libssh2-session-private.h"
 #include "lv-libssh2-agent-identity-private.h"
 #include "lv-libssh2-agent-private.h"
+#include "lv-libssh2-session-private.h"
+#include "lv-libssh2-status-private.h"
+#include "lv-libssh2.h"
+
+lv_libssh2_status_t lv_libssh2_agent_create(lv_libssh2_session_t *session,
+                                            lv_libssh2_agent_t **handle) {
+  *handle = NULL;
+  if (session == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  LIBSSH2_AGENT *inner = libssh2_agent_init(session->inner);
+  if (inner == NULL) {
+    return lv_libssh2_status_from_result(
+        libssh2_session_last_errno(session->inner));
+  }
+  lv_libssh2_agent_t *agent = malloc(sizeof(lv_libssh2_agent_t));
+  if (agent == NULL) {
+    libssh2_agent_free(inner);
+    return LV_LIBSSH2_STATUS_ERROR_MALLOC;
+  }
+  agent->inner = inner;
+  *handle = agent;
+  return LV_LIBSSH2_STATUS_OK;
+}
+
+lv_libssh2_status_t lv_libssh2_agent_destroy(lv_libssh2_agent_t *handle) {
+  if (handle == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  libssh2_agent_free(handle->inner);
+  handle->inner = NULL;
+  free(handle);
+  return LV_LIBSSH2_STATUS_OK;
+}
+
+lv_libssh2_status_t lv_libssh2_agent_connect(lv_libssh2_agent_t *handle) {
+  if (handle == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  int result = libssh2_agent_connect(handle->inner);
+  return lv_libssh2_status_from_result(result);
+}
+
+lv_libssh2_status_t lv_libssh2_agent_disconnect(lv_libssh2_agent_t *handle) {
+  if (handle == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  int result = libssh2_agent_disconnect(handle->inner);
+  return lv_libssh2_status_from_result(result);
+}
 
 lv_libssh2_status_t
-lv_libssh2_agent_create(
-    lv_libssh2_session_t* session,
-    lv_libssh2_agent_t** handle
-) {
-    *handle = NULL;
-    if (session == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    LIBSSH2_AGENT* inner = libssh2_agent_init(session->inner);
-    if (inner == NULL) {
-        return lv_libssh2_status_from_result(libssh2_session_last_errno(session->inner));
-    }
-    lv_libssh2_agent_t* agent = malloc(sizeof(lv_libssh2_agent_t));
-    if (agent == NULL) {
-        libssh2_agent_free(inner);
-        return LV_LIBSSH2_STATUS_ERROR_MALLOC;
-    }
-    agent->inner = inner;
-    *handle = agent;
+lv_libssh2_agent_request_identities(lv_libssh2_agent_t *handle) {
+  if (handle == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  int result = libssh2_agent_list_identities(handle->inner);
+  return lv_libssh2_status_from_result(result);
+}
+
+lv_libssh2_status_t
+lv_libssh2_agent_authenticate(lv_libssh2_agent_t *handle, const char *username,
+                              lv_libssh2_agent_identity_t *identity) {
+  if (handle == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  if (username == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  if (identity == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  int result = libssh2_agent_userauth(handle->inner, username, identity->inner);
+  return lv_libssh2_status_from_result(result);
+}
+
+lv_libssh2_status_t
+lv_libssh2_agent_first_identity(lv_libssh2_agent_t *handle,
+                                lv_libssh2_agent_identity_t *identity,
+                                lv_libssh2_agent_identity_results_t *result) {
+  if (handle == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  if (identity == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  if (result == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  int inner_result =
+      libssh2_agent_get_identity(handle->inner, &identity->inner, NULL);
+  if (inner_result == 0) {
+    *result = LV_LIBSSH2_AGENT_IDENTITY_RESULT_SUCCESS;
     return LV_LIBSSH2_STATUS_OK;
-}
-
-lv_libssh2_status_t
-lv_libssh2_agent_destroy(
-    lv_libssh2_agent_t* handle
-) {
-    if (handle == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    libssh2_agent_free(handle->inner);
-    handle->inner = NULL;
-    free(handle);
+  } else if (inner_result == 1) {
+    *result = LV_LIBSSH2_AGENT_IDENTITY_RESULT_END_OF_IDENTITIES;
     return LV_LIBSSH2_STATUS_OK;
+  } else {
+    return lv_libssh2_status_from_result(inner_result);
+  }
 }
 
 lv_libssh2_status_t
-lv_libssh2_agent_connect(
-    lv_libssh2_agent_t* handle
-) {
-    if (handle == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    int result = libssh2_agent_connect(handle->inner);
-    return lv_libssh2_status_from_result(result);
+lv_libssh2_agent_next_identity(lv_libssh2_agent_t *handle,
+                               lv_libssh2_agent_identity_t *prev,
+                               lv_libssh2_agent_identity_t *next,
+                               lv_libssh2_agent_identity_results_t *result) {
+  if (handle == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  if (prev == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  if (next == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  if (result == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  int inner_result =
+      libssh2_agent_get_identity(handle->inner, &next->inner, prev->inner);
+  if (inner_result == 0) {
+    *result = LV_LIBSSH2_AGENT_IDENTITY_RESULT_SUCCESS;
+    return LV_LIBSSH2_STATUS_OK;
+  } else if (inner_result == 1) {
+    *result = LV_LIBSSH2_AGENT_IDENTITY_RESULT_END_OF_IDENTITIES;
+    return LV_LIBSSH2_STATUS_OK;
+  } else {
+    return lv_libssh2_status_from_result(inner_result);
+  }
 }
-
-lv_libssh2_status_t
-lv_libssh2_agent_disconnect(
-    lv_libssh2_agent_t* handle
-) {
-    if (handle == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    int result = libssh2_agent_disconnect(handle->inner);
-    return lv_libssh2_status_from_result(result);
-}
-
-lv_libssh2_status_t
-lv_libssh2_agent_request_identities(
-    lv_libssh2_agent_t* handle
-) {
-    if (handle == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    int result = libssh2_agent_list_identities(handle->inner);
-    return lv_libssh2_status_from_result(result);
-}
-
-lv_libssh2_status_t
-lv_libssh2_agent_authenticate(
-    lv_libssh2_agent_t* handle,
-    const char* username,
-    lv_libssh2_agent_identity_t* identity
-) {
-    if (handle == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    if (username == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    if (identity == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    int result = libssh2_agent_userauth(
-        handle->inner,
-        username,
-        identity->inner
-    );
-    return lv_libssh2_status_from_result(result);
-}
-
-lv_libssh2_status_t
-lv_libssh2_agent_first_identity(
-    lv_libssh2_agent_t* handle,
-    lv_libssh2_agent_identity_t* identity,
-    lv_libssh2_agent_identity_results_t* result
-) {
-    if (handle == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    if (identity == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    if (result == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    int inner_result = libssh2_agent_get_identity(
-        handle->inner,
-        &identity->inner,
-        NULL
-    );
-    if (inner_result == 0) {
-        *result = LV_LIBSSH2_AGENT_IDENTITY_RESULT_SUCCESS;
-        return LV_LIBSSH2_STATUS_OK;
-    } else if (inner_result == 1) {
-        *result = LV_LIBSSH2_AGENT_IDENTITY_RESULT_END_OF_IDENTITIES;
-        return LV_LIBSSH2_STATUS_OK;
-    } else {
-        return lv_libssh2_status_from_result(inner_result);
-    }
-}
-
-lv_libssh2_status_t
-lv_libssh2_agent_next_identity(
-    lv_libssh2_agent_t* handle,
-    lv_libssh2_agent_identity_t* prev,
-    lv_libssh2_agent_identity_t* next,
-    lv_libssh2_agent_identity_results_t* result
-) {
-    if (handle == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    if (prev == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    if (next == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    if (result == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    int inner_result = libssh2_agent_get_identity(
-        handle->inner,
-        &next->inner,
-        prev->inner
-    );
-    if (inner_result == 0) {
-        *result = LV_LIBSSH2_AGENT_IDENTITY_RESULT_SUCCESS;
-        return LV_LIBSSH2_STATUS_OK;
-    } else if (inner_result == 1) {
-        *result = LV_LIBSSH2_AGENT_IDENTITY_RESULT_END_OF_IDENTITIES;
-        return LV_LIBSSH2_STATUS_OK;
-    } else {
-        return lv_libssh2_status_from_result(inner_result);
-    }
-}
-

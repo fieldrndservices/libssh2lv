@@ -37,8 +37,7 @@
 #include "lv-libssh2.h"
 
 struct _lv_libssh2_agent {
-    LIBSSH2_AGENT* inner;
+  LIBSSH2_AGENT *inner;
 };
 
 #endif
-

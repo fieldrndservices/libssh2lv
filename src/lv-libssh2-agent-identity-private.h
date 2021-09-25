@@ -37,8 +37,7 @@
 #include "lv-libssh2.h"
 
 struct _lv_libssh2_agent_identity {
-    struct libssh2_agent_publickey* inner;
+  struct libssh2_agent_publickey *inner;
 };
 
 #endif
-

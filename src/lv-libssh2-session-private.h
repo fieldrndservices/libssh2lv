@@ -37,8 +37,7 @@
 #include "lv-libssh2.h"
 
 struct _lv_libssh2_session {
-    LIBSSH2_SESSION* inner;
+  LIBSSH2_SESSION *inner;
 };
 
 #endif
-

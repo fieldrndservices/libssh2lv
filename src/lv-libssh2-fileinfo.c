@@ -36,98 +36,81 @@
 
 #include "libssh2.h"
 
-#include "lv-libssh2.h"
-#include "lv-libssh2-status-private.h"
 #include "lv-libssh2-fileinfo-private.h"
+#include "lv-libssh2-status-private.h"
+#include "lv-libssh2.h"
 
-lv_libssh2_status_t
-lv_libssh2_fileinfo_create(
-    lv_libssh2_fileinfo_t** handle
-) {
-    *handle = NULL;
-    lv_libssh2_fileinfo_t* file_info = malloc(sizeof(lv_libssh2_fileinfo_t));
-    if (file_info == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_MALLOC;
-    }
-    libssh2_struct_stat* inner = malloc(sizeof(libssh2_struct_stat));
-    if (inner == NULL) {
-        free(file_info);
-        return LV_LIBSSH2_STATUS_ERROR_MALLOC;
-    }
-    file_info->inner = inner;
-    *handle = file_info;
-    return LV_LIBSSH2_STATUS_OK;
+lv_libssh2_status_t lv_libssh2_fileinfo_create(lv_libssh2_fileinfo_t **handle) {
+  *handle = NULL;
+  lv_libssh2_fileinfo_t *file_info = malloc(sizeof(lv_libssh2_fileinfo_t));
+  if (file_info == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_MALLOC;
+  }
+  libssh2_struct_stat *inner = malloc(sizeof(libssh2_struct_stat));
+  if (inner == NULL) {
+    free(file_info);
+    return LV_LIBSSH2_STATUS_ERROR_MALLOC;
+  }
+  file_info->inner = inner;
+  *handle = file_info;
+  return LV_LIBSSH2_STATUS_OK;
+}
+
+lv_libssh2_status_t lv_libssh2_fileinfo_destroy(lv_libssh2_fileinfo_t *handle) {
+  if (handle == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  free(handle->inner);
+  handle->inner = NULL;
+  free(handle);
+  return LV_LIBSSH2_STATUS_OK;
+}
+
+lv_libssh2_status_t lv_libssh2_fileinfo_size(lv_libssh2_fileinfo_t *handle,
+                                             uint64_t *size) {
+  if (handle == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  if (size == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  *size = handle->inner->st_size;
+  return LV_LIBSSH2_STATUS_OK;
+}
+
+lv_libssh2_status_t lv_libssh2_fileinfo_atime(lv_libssh2_fileinfo_t *handle,
+                                              uint64_t *atime) {
+  if (handle == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  if (atime == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  *atime = handle->inner->st_atime;
+  return LV_LIBSSH2_STATUS_OK;
+}
+
+lv_libssh2_status_t lv_libssh2_fileinfo_mtime(lv_libssh2_fileinfo_t *handle,
+                                              uint64_t *mtime) {
+  if (handle == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  if (mtime == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  *mtime = handle->inner->st_mtime;
+  return LV_LIBSSH2_STATUS_OK;
 }
 
 lv_libssh2_status_t
-lv_libssh2_fileinfo_destroy(
-    lv_libssh2_fileinfo_t* handle
-) {
-    if (handle == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    free(handle->inner);
-    handle->inner = NULL;
-    free(handle);
-    return LV_LIBSSH2_STATUS_OK;
-}
-
-lv_libssh2_status_t
-lv_libssh2_fileinfo_size(
-    lv_libssh2_fileinfo_t* handle,
-    uint64_t* size
-) {
-    if (handle == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    if (size == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    *size = handle->inner->st_size;
-    return LV_LIBSSH2_STATUS_OK;
-}
-
-lv_libssh2_status_t
-lv_libssh2_fileinfo_atime(
-    lv_libssh2_fileinfo_t* handle,
-    uint64_t* atime
-    ) {
-    if (handle == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    if (atime == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    *atime = handle->inner->st_atime;
-    return LV_LIBSSH2_STATUS_OK;
-}
-
-lv_libssh2_status_t
-lv_libssh2_fileinfo_mtime(
-    lv_libssh2_fileinfo_t* handle,
-    uint64_t* mtime
-    ) {
-    if (handle == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    if (mtime == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    *mtime = handle->inner->st_mtime;
-    return LV_LIBSSH2_STATUS_OK;
-}
-
-lv_libssh2_status_t
-lv_libssh2_fileinfo_permissions(
-    lv_libssh2_fileinfo_t* handle,
-    int32_t* permissions
-    ) {
-    if (handle == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    if (permissions == NULL) {
-        return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-    }
-    *permissions = handle->inner->st_mode;
-    return LV_LIBSSH2_STATUS_OK;
+lv_libssh2_fileinfo_permissions(lv_libssh2_fileinfo_t *handle,
+                                int32_t *permissions) {
+  if (handle == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  if (permissions == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  *permissions = handle->inner->st_mode;
+  return LV_LIBSSH2_STATUS_OK;
 }

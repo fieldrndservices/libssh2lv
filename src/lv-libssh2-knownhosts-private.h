@@ -37,8 +37,7 @@
 #include "lv-libssh2.h"
 
 struct _lv_libssh2_knownhosts {
-    LIBSSH2_KNOWNHOSTS* inner;
+  LIBSSH2_KNOWNHOSTS *inner;
 };
 
 #endif
-
