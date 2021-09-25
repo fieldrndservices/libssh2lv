@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file, which is wr
 
 ## [Unreleased]
 
+### Changed
+
+- Code formatting style to ccls (clang-based LSP) default format
+
+### Fixed
+
+- Error handling for the `lv_libssh2_scp_receive` function
+- Error handling for the `lv_libssh2_scp_send` function
+
 ## [0.2.1] - 2020-03-31
 
 ### Changed
