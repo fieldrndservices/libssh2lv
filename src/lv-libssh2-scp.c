@@ -56,7 +56,8 @@ lv_libssh2_status_t lv_libssh2_scp_send(lv_libssh2_session_t *session,
   LIBSSH2_CHANNEL *inner =
       libssh2_scp_send64(session->inner, path, permissions, file_size, 0, 0);
   if (inner == NULL) {
-    return LV_LIBSSH2_STATUS_ERROR_MALLOC;
+    return lv_libssh2_status_from_result(
+        libssh2_session_last_errno(session->inner));
   }
   lv_libssh2_channel_t *channel = malloc(sizeof(lv_libssh2_channel_t));
   if (channel == NULL) {
