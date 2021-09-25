@@ -34,10 +34,8 @@
 #ifndef LV_LIBSSH2_STATUS_PRIVATE_H
 #define LV_LIBSSH2_STATUS_PRIVATE_H
 
-lv_libssh2_status_t
-lv_libssh2_status_from_result(
-    int libssh2_result
-);
+#include "lv-libssh2.h"
+
+lv_libssh2_status_t lv_libssh2_status_from_result(int libssh2_result);
 
 #endif
-
