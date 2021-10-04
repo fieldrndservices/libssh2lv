@@ -1070,6 +1070,12 @@ LV_LIBSSH2_API const char *
 lv_libssh2_status_message(lv_libssh2_status_t status);
 
 /**
+ * Toggles the debugging and tracing statements
+ */
+LV_LIBSSH2_API lv_libssh2_status_t lv_libssh2_trace(
+    lv_libssh2_session_t *session, lv_libssh2_trace_options_t bitmask);
+
+/**
  * @}
  */
 

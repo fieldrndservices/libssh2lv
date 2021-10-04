@@ -33,6 +33,7 @@
 
 #include "libssh2.h"
 
+#include "lv-libssh2-session-private.h"
 #include "lv-libssh2.h"
 
 lv_libssh2_status_t lv_libssh2_trace(lv_libssh2_session_t *session,
