@@ -37,10 +37,14 @@
 #include "lv-libssh2.h"
 
 lv_libssh2_status_t lv_libssh2_trace(lv_libssh2_session_t *session,
-                                     lv_libssh2_trace_options_t bitmask) {
+                                     int bitmask) {
   if (session == NULL) {
     return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
   }
   libssh2_trace(session->inner, bitmask);
   return LV_LIBSSH2_STATUS_OK;
+}
+
+int lv_libssh2_trace_option_value(lv_libssh2_trace_options_t option) {
+  return option;
 }

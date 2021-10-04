@@ -334,15 +334,15 @@ typedef enum _lv_libssh2_sftp_file_modes {
 } lv_libssh2_sftp_file_modes_t;
 
 typedef enum _lv_libssh2_trace_options {
-  LV_LIBSSH2_TRACE_AUTH = LIBSSH2_TRACE_AUTH,
-  LV_LIBSSH2_TRACE_CONN = LIBSSH2_TRACE_CONN,
-  LV_LIBSSH2_TRACE_ERROR = LIBSSH2_TRACE_ERROR,
-  LV_LIBSSH2_TRACE_KEX = LIBSSH2_TRACE_KEX,
-  LV_LIBSSH2_TRACE_PUBLICKEY = LIBSSH2_TRACE_PUBLICKEY,
-  LV_LIBSSH2_TRACE_SCP = LIBSSH2_TRACE_SCP,
-  LV_LIBSSH2_TRACE_SFTP = LIBSSH2_TRACE_SFTP,
-  LV_LIBSSH2_TRACE_SOCKET = LIBSSH2_TRACE_SOCKET,
-  LV_LIBSSH2_TRACE_TRANS = LIBSSH2_TRACE_TRANS,
+  LV_LIBSSH2_TRACE_OPTION_AUTH = LIBSSH2_TRACE_AUTH,
+  LV_LIBSSH2_TRACE_OPTION_CONN = LIBSSH2_TRACE_CONN,
+  LV_LIBSSH2_TRACE_OPTION_ERROR = LIBSSH2_TRACE_ERROR,
+  LV_LIBSSH2_TRACE_OPTION_KEX = LIBSSH2_TRACE_KEX,
+  LV_LIBSSH2_TRACE_OPTION_PUBLICKEY = LIBSSH2_TRACE_PUBLICKEY,
+  LV_LIBSSH2_TRACE_OPTION_SCP = LIBSSH2_TRACE_SCP,
+  LV_LIBSSH2_TRACE_OPTION_SFTP = LIBSSH2_TRACE_SFTP,
+  LV_LIBSSH2_TRACE_OPTION_SOCKET = LIBSSH2_TRACE_SOCKET,
+  LV_LIBSSH2_TRACE_OPTION_TRANS = LIBSSH2_TRACE_TRANS,
 } lv_libssh2_trace_options_t;
 
 /**
@@ -1072,8 +1072,11 @@ lv_libssh2_status_message(lv_libssh2_status_t status);
 /**
  * Toggles the debugging and tracing statements
  */
-LV_LIBSSH2_API lv_libssh2_status_t lv_libssh2_trace(
-    lv_libssh2_session_t *session, lv_libssh2_trace_options_t bitmask);
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_trace(lv_libssh2_session_t *session, int bitmask);
+
+LV_LIBSSH2_API int
+lv_libssh2_trace_option_value(lv_libssh2_trace_options_t option);
 
 /**
  * @}
