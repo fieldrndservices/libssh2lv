@@ -13,6 +13,7 @@ set(
   lv-libssh2-sftp.c
   lv-libssh2-sftp-attributes.c
   lv-libssh2-status.c
+  lv-libssh2-trace.c
   lv-libssh2-userauth.c
 )
 
