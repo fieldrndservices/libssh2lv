@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file, which is wr
 
 ## [Unreleased]
 
+## [0.2.3] - 2021-10-18
+
+### Added
+
+- The `lv_libssh2_trace` function
+- The `lv_libssh2_trace_options_t` enum type definition
+
+### Changed
+
+- The libssh2 dependency from v1.9.0 to v1.10.0
+- The OpenSSL dependency from v1.1.1f to v1.1.1l
+
 ## [0.2.2] - 2021-09-25
 
 ### Added
@@ -64,4 +76,3 @@ All notable changes to this project will be documented in this file, which is wr
 - The LICENSE file
 - The README file
 - The ignore list
-
