@@ -137,8 +137,8 @@ lv_libssh2_status_t lv_libssh2_trace_has_messages(lv_libssh2_session_t *handle,
   return LV_LIBSSH2_STATUS_OK;
 }
 
-lv_libssh2_status_t
-lv_libssh2_trace_read_message_len(lv_libssh2_session_t *handle, size_t *len) {
+lv_libssh2_status_t lv_libssh2_trace_message_len(lv_libssh2_session_t *handle,
+                                                 size_t *len) {
   if (handle == NULL) {
     return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
   }
@@ -146,8 +146,8 @@ lv_libssh2_trace_read_message_len(lv_libssh2_session_t *handle, size_t *len) {
   return LV_LIBSSH2_STATUS_OK;
 }
 
-lv_libssh2_status_t lv_libssh2_trace_read_message(lv_libssh2_session_t *handle,
-                                                  uint8_t *buffer) {
+lv_libssh2_status_t lv_libssh2_trace_message(lv_libssh2_session_t *handle,
+                                             uint8_t *buffer) {
   if (handle == NULL) {
     return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
   }
@@ -162,7 +162,7 @@ lv_libssh2_status_t lv_libssh2_trace_read_message(lv_libssh2_session_t *handle,
 }
 
 lv_libssh2_status_t
-lv_libssh2_trace_read_last_handler_result(lv_libssh2_session_t *handle) {
+lv_libssh2_trace_last_handler_result(lv_libssh2_session_t *handle) {
   return handle->trace_context->last_handler_result;
 }
 

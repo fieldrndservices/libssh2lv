@@ -1089,10 +1089,13 @@ LV_LIBSSH2_API lv_libssh2_status_t
 lv_libssh2_trace_has_messages(lv_libssh2_session_t *handle, bool *result);
 
 LV_LIBSSH2_API lv_libssh2_status_t
-lv_libssh2_trace_read_message_len(lv_libssh2_session_t *handle, size_t *len);
+lv_libssh2_trace_message_len(lv_libssh2_session_t *handle, size_t *len);
 
 LV_LIBSSH2_API lv_libssh2_status_t
-lv_libssh2_trace_read_message(lv_libssh2_session_t *handle, uint8_t *buffer);
+lv_libssh2_trace_message(lv_libssh2_session_t *handle, uint8_t *buffer);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_trace_last_handler_result(lv_libssh2_session_t *handle);
 
 /**
  * @}
