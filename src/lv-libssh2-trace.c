@@ -156,8 +156,8 @@ lv_libssh2_status_t lv_libssh2_trace_read_message(lv_libssh2_session_t *handle,
   }
   memcpy(buffer, handle->trace_context->head->message,
          handle->trace_context->head->message_length);
-  lv_libssh2_trace_node_t *read_node = handle->head;
-  handle->head = read_node->next;
+  lv_libssh2_trace_node_t *read_node = handle->trace_context->head;
+  handle->trace_context->head = read_node->next;
   return lv_libssh2_trace_node_destroy(read_node);
 }
 
