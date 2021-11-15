@@ -412,6 +412,16 @@ typedef struct _lv_libssh2_agent lv_libssh2_agent_t;
 typedef struct _lv_libssh2_agent_identity lv_libssh2_agent_identity_t;
 
 /**
+ * The trace context
+ */
+typedef struct _lv_libssh2_trace_context lv_libssh2_trace_context_t;
+
+/**
+ * The trace node
+ */
+typedef struct _lv_libssh2_trace_node lv_libssh2_trace_node_t;
+
+/**
  * @defgroup agent Agent
  *
  * @{

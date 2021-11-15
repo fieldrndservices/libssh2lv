@@ -31,14 +31,21 @@
  *   Christopher R. Field <chris@fieldrndservices.com>
  */
 
-#ifndef LV_LIBSSH2_SESSION_PRIVATE_H
-#define LV_LIBSSH2_SESSION_PRIVATE_H
+#ifndef LV_LIBSSH2_TRACE_PRIVATE_H
+#define LV_LIBSSH2_TRACE_PRIVATE_H
 
 #include "lv-libssh2.h"
 
-struct _lv_libssh2_session {
-  LIBSSH2_SESSION *inner;
-  lv_libssh2_trace_context_t *trace_context;
+struct _lv_libssh2_trace_context {
+  size_t node_count;
+  lv_libssh2_trace_node_t *head;
+  lv_libssh2_status_t last_handler_result;
+};
+
+struct _lv_libssh2_trace_node {
+  char *message;
+  size_t message_length;
+  lv_libssh2_trace_node_t *next;
 };
 
 #endif

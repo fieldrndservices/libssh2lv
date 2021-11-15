@@ -31,16 +31,181 @@
  *   Christopher R. Field <chris@fieldrndservices.com>
  */
 
+#include <stdbool.h>
+#include <stdlib.h>
+
 #include "libssh2.h"
 
 #include "lv-libssh2-session-private.h"
+#include "lv-libssh2-status-private.h"
+#include "lv-libssh2-trace-private.h"
 #include "lv-libssh2.h"
 
-lv_libssh2_status_t lv_libssh2_trace(lv_libssh2_session_t *session,
-                                     int bitmask) {
+lv_libssh2_status_t
+lv_libssh2_trace_node_create(lv_libssh2_trace_node_t **handle, const char *msg,
+                             const size_t len) {
+  *handle = NULL;
+  lv_libssh2_trace_node_t *node = malloc(sizeof(lv_libssh2_trace_node_t));
+  if (node == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_MALLOC;
+  }
+  node->message = malloc(sizeof(char) * len);
+  if (node->message == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_MALLOC;
+  }
+  node->message_length = len;
+  strncpy(node->message, msg, len);
+  node->next = NULL;
+  *handle = node;
+  return LV_LIBSSH2_STATUS_OK;
+}
+
+lv_libssh2_status_t
+lv_libssh2_trace_node_destroy(lv_libssh2_trace_node_t *handle) {
+  if (handle == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  free(handle->message);
+  handle->message_length = 0;
+  handle->next = NULL;
+  free(handle);
+  return LV_LIBSSH2_STATUS_OK;
+}
+
+lv_libssh2_status_t
+lv_libssh2_trace_context_create(lv_libssh2_trace_context_t **handle) {
+  *handle = NULL;
+  lv_libssh2_trace_context_t *context =
+      malloc(sizeof(lv_libssh2_trace_context_t));
+  if (context == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_MALLOC;
+  }
+  context->node_count = 0;
+  context->head = NULL;
+  context->last_handler_result = LV_LIBSSH2_STATUS_OK;
+  *handle = context;
+  return LV_LIBSSH2_STATUS_OK;
+}
+
+lv_libssh2_status_t
+lv_libssh2_trace_context_destroy(lv_libssh2_trace_context_t *handle) {
+  if (handle == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  lv_libssh2_trace_node_t *current = handle->head;
+  lv_libssh2_trace_node_t *previous = NULL;
+  while (current != NULL) {
+    previous = current;
+    current = previous->next;
+    lv_libssh2_trace_node_destroy(previous);
+    handle->node_count = handle->node_count - 1;
+  }
+  handle->head = NULL;
+  free(handle);
+  return LV_LIBSSH2_STATUS_OK;
+}
+
+lv_libssh2_status_t
+lv_libssh2_trace_has_messages(lv_libssh2_trace_context_t *handle,
+                              bool *result) {
+  if (handle == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  *result = handle->head == NULL;
+  return LV_LIBSSH2_STATUS_OK;
+}
+
+lv_libssh2_status_t lv_libssh2_trace_write(lv_libssh2_trace_context_t *handle,
+                                           const char *msg, size_t length) {
+  if (handle == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  lv_libssh2_trace_node_t *node = NULL;
+  lv_libssh2_status_t status = lv_libssh2_trace_node_create(&node, msg, length);
+  if (lv_libssh2_status_is_err(status)) {
+    return status;
+  }
+  if (handle->head == NULL) {
+    handle->head = node;
+  } else {
+    lv_libssh2_trace_node_t *current = handle->head;
+    while (current->next != NULL) {
+      current = current->next;
+    }
+    current->next = node;
+  }
+  handle->node_count = handle->node_count + 1;
+  return LV_LIBSSH2_STATUS_OK;
+}
+
+lv_libssh2_status_t
+lv_libssh2_trace_read_message_len(lv_libssh2_trace_context_t *handle,
+                                  size_t *len) {
+  if (handle == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  *len = handle->head->message_length;
+  return LV_LIBSSH2_STATUS_OK;
+}
+
+lv_libssh2_status_t
+lv_libssh2_trace_read_message(lv_libssh2_trace_context_t *handle,
+                              uint8_t *buffer) {
+  if (handle == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  if (buffer == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  memcpy(buffer, handle->head->message, handle->head->message_length);
+  lv_libssh2_trace_node_t *read_node = handle->head;
+  handle->head = read_node->next;
+  return lv_libssh2_trace_node_destroy(read_node);
+}
+
+lv_libssh2_status_t
+lv_libssh2_trace_read_last_handler_result(lv_libssh2_trace_context_t *handle) {
+  return handle->last_handler_result;
+}
+
+void lv_libssh2_trace_handler(LIBSSH2_SESSION *session, void *context,
+                              const char *msg, size_t length) {
+  lv_libssh2_trace_context_t *handle = (lv_libssh2_trace_context_t *)context;
+  lv_libssh2_trace_node_t *node = NULL;
+  handle->last_handler_result =
+      lv_libssh2_trace_node_create(&node, msg, length);
+  if (handle->head == NULL) {
+    handle->head = node;
+  } else {
+    lv_libssh2_trace_node_t *current = handle->head;
+    while (current->next != NULL) {
+      current = current->next;
+    }
+    current->next = node;
+  }
+  handle->node_count = handle->node_count + 1;
+}
+
+lv_libssh2_status_t lv_libssh2_trace_begin(lv_libssh2_session_t *session,
+                                           int bitmask) {
   if (session == NULL) {
     return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
   }
   libssh2_trace(session->inner, bitmask);
+  lv_libssh2_status_t status =
+      lv_libssh2_trace_context_create(&session->trace_context);
+  if (lv_libssh2_status_is_err(status)) {
+    return status;
+  }
+  int result = libssh2_trace_sethandler(session->inner, session->trace_context,
+                                        lv_libssh2_trace_handler);
+  if (result != 0) {
+    lv_libssh2_trace_context_destroy(session->trace_context);
+    return lv_libssh2_status_from_result(result);
+  }
   return LV_LIBSSH2_STATUS_OK;
+}
+
+lv_libssh2_status_t lv_libssh2_trace_end(lv_libssh2_session_t *session) {
+  return lv_libssh2_trace_context_destroy(session->trace_context);
 }
