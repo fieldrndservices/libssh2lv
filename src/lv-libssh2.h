@@ -1079,14 +1079,20 @@ LV_LIBSSH2_API bool lv_libssh2_status_is_err(lv_libssh2_status_t status);
 LV_LIBSSH2_API const char *
 lv_libssh2_status_message(lv_libssh2_status_t status);
 
-/**
- * Toggles the debugging and tracing statements
- */
 LV_LIBSSH2_API lv_libssh2_status_t
-lv_libssh2_trace(lv_libssh2_session_t *session, int bitmask);
+lv_libssh2_trace_begin(lv_libssh2_session_t *session, int bitmask);
 
-LV_LIBSSH2_API int
-lv_libssh2_trace_option_value(lv_libssh2_trace_options_t option);
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_trace_end(lv_libssh2_session_t *session);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_trace_has_messages(lv_libssh2_session_t *handle, bool *result);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_trace_read_message_len(lv_libssh2_session_t *handle, size_t *len);
+
+LV_LIBSSH2_API lv_libssh2_status_t
+lv_libssh2_trace_read_message(lv_libssh2_session_t *handle, uint8_t *buffer);
 
 /**
  * @}

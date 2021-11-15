@@ -105,16 +105,6 @@ lv_libssh2_trace_context_destroy(lv_libssh2_trace_context_t *handle) {
   return LV_LIBSSH2_STATUS_OK;
 }
 
-lv_libssh2_status_t
-lv_libssh2_trace_has_messages(lv_libssh2_trace_context_t *handle,
-                              bool *result) {
-  if (handle == NULL) {
-    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
-  }
-  *result = handle->head == NULL;
-  return LV_LIBSSH2_STATUS_OK;
-}
-
 lv_libssh2_status_t lv_libssh2_trace_write(lv_libssh2_trace_context_t *handle,
                                            const char *msg, size_t length) {
   if (handle == NULL) {
@@ -138,34 +128,42 @@ lv_libssh2_status_t lv_libssh2_trace_write(lv_libssh2_trace_context_t *handle,
   return LV_LIBSSH2_STATUS_OK;
 }
 
-lv_libssh2_status_t
-lv_libssh2_trace_read_message_len(lv_libssh2_trace_context_t *handle,
-                                  size_t *len) {
+lv_libssh2_status_t lv_libssh2_trace_has_messages(lv_libssh2_session_t *handle,
+                                                  bool *result) {
   if (handle == NULL) {
     return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
   }
-  *len = handle->head->message_length;
+  *result = handle->trace_context->head == NULL;
   return LV_LIBSSH2_STATUS_OK;
 }
 
 lv_libssh2_status_t
-lv_libssh2_trace_read_message(lv_libssh2_trace_context_t *handle,
-                              uint8_t *buffer) {
+lv_libssh2_trace_read_message_len(lv_libssh2_session_t *handle, size_t *len) {
+  if (handle == NULL) {
+    return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
+  }
+  *len = handle->trace_context->head->message_length;
+  return LV_LIBSSH2_STATUS_OK;
+}
+
+lv_libssh2_status_t lv_libssh2_trace_read_message(lv_libssh2_session_t *handle,
+                                                  uint8_t *buffer) {
   if (handle == NULL) {
     return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
   }
   if (buffer == NULL) {
     return LV_LIBSSH2_STATUS_ERROR_NULL_VALUE;
   }
-  memcpy(buffer, handle->head->message, handle->head->message_length);
+  memcpy(buffer, handle->trace_context->head->message,
+         handle->trace_context->head->message_length);
   lv_libssh2_trace_node_t *read_node = handle->head;
   handle->head = read_node->next;
   return lv_libssh2_trace_node_destroy(read_node);
 }
 
 lv_libssh2_status_t
-lv_libssh2_trace_read_last_handler_result(lv_libssh2_trace_context_t *handle) {
-  return handle->last_handler_result;
+lv_libssh2_trace_read_last_handler_result(lv_libssh2_session_t *handle) {
+  return handle->trace_context->last_handler_result;
 }
 
 void lv_libssh2_trace_handler(LIBSSH2_SESSION *session, void *context,
