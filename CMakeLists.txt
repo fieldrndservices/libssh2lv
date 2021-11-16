@@ -4,6 +4,7 @@ set(PROJECT_URL "https://github.com/fieldrndservices/libssh2lv")
 set(PROJECT_DESCRIPTION "A LabVIEW-Friendly C library for LIBSSH2")
 
 include(ExternalProject)
+include(CTest)
 
 set(CMAKE_C_VISIBILITY_PRESET hidden)
 set(OPENSSL "openssl")
@@ -111,7 +112,6 @@ add_definitions(
 
 add_subdirectory(src)
 
-if(BUILD_TESTS)
-  enable_testing()
+if(BUILD_TESTING)
   add_subdirectory(tests)
 endif()
