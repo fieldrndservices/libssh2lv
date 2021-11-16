@@ -1,5 +1,5 @@
 /*
- * LabSSH2 - A LabVIEW-Friendly C library for libssh2
+ * LV-LIBSSH2 - A LabVIEW-Friendly C library for libssh2
  *
  * Copyright (c) 2018 Field R&D Services, LLC. All Rights Reserved.
  *
