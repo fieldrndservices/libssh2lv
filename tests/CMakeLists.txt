@@ -4,14 +4,14 @@ set(
   version.c
 )
 
-include_directories(${LIBSSH2_INCLUDE_DIR} ${PROJECT_SOURCE_DIR}/src)
+include_directories(${PROJECT_SOURCE_DIR}/src)
 link_directories(${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
 foreach(SOURCE ${SOURCES})
   get_filename_component(NAME ${SOURCE} NAME_WE)
   add_executable(${NAME} ${SOURCE})
   set_target_properties(${NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/tests)
-  target_link_libraries(${NAME} ${OUTPUT_NAME})
+  target_link_libraries(${NAME} ${OUTPUT_NAME} ${CMAKE_DL_LIBS} pthread)
   add_dependencies(${NAME} shared)
   add_test(NAME ${NAME} COMMAND ${NAME})
 endforeach(SOURCE)
