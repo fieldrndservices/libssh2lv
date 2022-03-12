@@ -69,11 +69,11 @@ This ensures the appropriate C compiler is available to CMake to build the
 library. Run the following commands to obtain a copy of the source code and
 build both the 32-bit and 64-bit DLLs with a `Release` configuration:
 
-    ```dos
-    C:\> git clone https://github.com/fieldrndservices/libssh2lv.git
-    C:\> cd libssh2lv
-    C:\> build.bat
-    ```
+```dos
+C:\> git clone https://github.com/fieldrndservices/libssh2lv.git
+C:\> cd libssh2lv
+C:\> build.bat
+```
 
 The DLLs (libssh2lv.dll and libssh2lv-x64.dll) will be available in the `build32\bin` and `build64\bin` folders.
 
@@ -82,13 +82,13 @@ The DLLs (libssh2lv.dll and libssh2lv-x64.dll) will be available in the `build32
 Ensure the command-line tools for [XCode] have been installed along with
 [git-scm] before proceeding.
 
-    ```bash
-    git clone https://github.com/fieldrndservices/libssh2lv.git
-    cd libssh2lv
-    mkdir build && cd build
-    cmake ..
-    cmake --build .
-    ```
+```bash
+git clone https://github.com/fieldrndservices/libssh2lv.git
+cd libssh2lv
+mkdir build && cd build
+cmake ..
+cmake --build .
+```
 
 The dynamic library (libssh2lv.dylib) will be available in the `bin` folder within the `build` folder.
 
@@ -98,20 +98,20 @@ If running on [Ubuntu] or similar [Debian])-based distribution, ensure the
 [build-essential], [cmake], and [git] packages are installed before proceeding.
 These can be installed with the following command from a terminal:
 
-    ```bash
-    sudo apt-get install build-essential cmake git
-    ```
+```bash
+sudo apt-get install build-essential cmake git
+```
 
 Start a terminal, and run the following commands to obtain a copy of the source
 code from the repository and build the shared object (so):
 
-    ```bash
-    git clone https://github.com/fieldrndservices/libssh2lv.git
-    cd libssh2lv
-    mkdir build && cd build
-    cmake ..
-    cmake --build .
-    ```
+```bash
+git clone https://github.com/fieldrndservices/libssh2lv.git
+cd libssh2lv
+mkdir build && cd build
+cmake ..
+cmake --build .
+```
 
 The shared object (libssh2lv.so) will be available in the `bin` folder.
 
@@ -158,14 +158,18 @@ The shared object (libssh2lv.so) will be available in the `bin` folder.
 documentation. Ensure the latest version is installed then enter the following
 command from the root directory of the project to build the API docs:
 
-    $ mkdir -p build/doc
-    $ doxygen doc/Doxyfile
+```bash
+mkdir -p build/doc
+doxygen doc/Doxyfile
+```
 
 The output will be in the `build/doc/html` folder of the root directory of the
 project. If on Windows, the following commands can be used:
 
-    C:\> mkdir build\doc
-    C:\> doxygen doc\Doxyfile
+```pwsh
+C:\> mkdir build\doc
+C:\> doxygen doc\Doxyfile
+```
 
 The output can be viewed by opening the `build/doc/html/index.html` file in a
 web browser.
@@ -194,9 +198,9 @@ Note, if following from the [Build](#build) instructions, a command prompt
 should already be available at the root folder of the project. Enter the
 following commands to run the tests:
 
-    ```pwsh
-    > ctest -C "Debug"
-    ```
+```pwsh
+C:\> ctest -C "Debug"
+```
 
 ### macOS
 
@@ -205,15 +209,15 @@ instructions, the Terminal.app has already been started and the present working
 directory (pwd) should already be the root folder of the project. Enter the
 following commands to run the tests:
 
-    ```bash
-    ctest
-    ```
+```bash
+ctest
+```
 
 Or,
 
-    ```bash
-    make test
-    ```
+```bash
+make test
+```
 
 ### Linux
 
@@ -222,15 +226,15 @@ terminal has already been started and the present working directory (pwd) should
 already be the root folder of the project. Enter the following commands to run
 the tests:
 
-    ```sh
-    ctest
-    ```
+```bash
+ctest
+```
 
 Or,
 
-    ```bash
-    make test
-    ```
+```bash
+make test
+```
 
 ## License
 
