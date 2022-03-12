@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file, which is wr
 
 ## [Unreleased]
 
+### Changed
+
+- The OpenSSL dependency from v1.1.1l to v3.0.1
+
 ## [0.2.3] - 2021-10-18
 
 ### Added
