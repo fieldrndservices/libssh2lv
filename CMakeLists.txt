@@ -62,7 +62,7 @@ if(BUILD_DEPS)
     ${OPENSSL}
     PREFIX ${DEPS_DIR}/${OPENSSL}
     GIT_REPOSITORY https://github.com/openssl/openssl.git
-    GIT_TAG OpenSSL_1_1_1l
+    GIT_TAG openssl-3.0.1
     UPDATE_DISCONNECTED YES
     UPDATE_COMMAND ""
     CONFIGURE_COMMAND ${OPENSSL_CONFIGURE_COMMAND}
